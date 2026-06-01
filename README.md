@@ -5,8 +5,6 @@
 
 Axiom is an experimental language concept for building software with AI agents without treating generated application code as the real source of truth.
 
-Open the local landing page at [index.html](index.html).
-
 In ordinary development, a human or agent writes framework code first: React components, API routes, database models, middleware, tests, deployment config. Security and intent are scattered across comments, docs, auth checks, policy files, test suites, and memory.
 
 Axiom reverses that order.
@@ -124,7 +122,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 
 ## Initial Documentation Map
 
-- [index.html](index.html): initial landing page
+- [index.html](index.html): project landing page
 - [docs/language-overview.md](docs/language-overview.md): core concepts and syntax
 - [docs/runtime-model.md](docs/runtime-model.md): build-time, runtime, frontend, backend, deployment
 - [docs/security-model.md](docs/security-model.md): security posture, threats, capability isolation
