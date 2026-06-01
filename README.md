@@ -122,7 +122,6 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 
 ## Initial Documentation Map
 
-- [index.html](index.html): project landing page
 - [docs/language-overview.md](docs/language-overview.md): core concepts and syntax
 - [docs/runtime-model.md](docs/runtime-model.md): build-time, runtime, frontend, backend, deployment
 - [docs/security-model.md](docs/security-model.md): security posture, threats, capability isolation
