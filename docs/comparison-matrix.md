@@ -108,7 +108,7 @@ That is Axiom's intended gap.
 | False confidence risk | A formal-looking graph can make people overtrust the system. | Keep threat model explicit and require normal security reviews. |
 | Policy design can become organizational politics | The language surfaces who is allowed to do what. | Treat policy choices as product/security decisions, not just engineering details. |
 | Runtime overhead if done poorly | Provenance and policy checks can bloat frontend and server work. | Compile aggressively; keep frontend runtime thin. |
-| Hard to standardize early | The model may evolve while building the first real product. | Let Vault drive the first useful subset. |
+| Hard to standardize early | The model may evolve while building the first real product. | Let real agent-facing use cases drive the first useful subset. |
 
 ## What Axiom Provides That Existing Languages Do Not
 
@@ -164,7 +164,7 @@ It is:
 ```text
 approval:
   one_time_default
-  binds request_hash, vault_id, agent_id, capability_key, destination_identity, expiry
+  binds request_hash, account_id, agent_id, capability_key, destination_identity, expiry
 ```
 
 ### 5. UI Honesty As A Build Constraint
@@ -193,7 +193,7 @@ Axiom can reject code paths that violate product invariants:
 invariant capability_not_retrieval
   forbid:
     agent_route returns raw_sensitive_record
-    agent_route lists all_vault_records
+    agent_route lists all_records
     agent_route searches decrypted_payload
 ```
 
@@ -225,7 +225,6 @@ Axiom is most useful where these are true:
 
 Examples:
 
-- Vault
 - agent payment broker
 - AI-driven form filling
 - medical intake helper
@@ -249,7 +248,7 @@ Axiom is probably overkill for:
 
 Axiom should be built as a layer, not a replacement.
 
-The practical stack for Vault can remain:
+The practical stack for an Axiom-governed application can remain:
 
 ```text
 FastAPI
@@ -275,5 +274,4 @@ Axiom capability specs
 
 The first useful version does not need to be a full language.
 
-It needs to stop Vault from becoming the wrong thing.
-
+It needs to stop agent-facing systems from becoming broader and less accountable than their original design.

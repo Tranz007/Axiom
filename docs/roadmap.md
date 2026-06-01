@@ -1,8 +1,8 @@
 # Axiom Roadmap
 
-This roadmap assumes the first serious use case is Vault.
+This roadmap assumes Axiom begins as a small practical toolchain, not a full language implementation.
 
-The implementation should be pragmatic. Axiom should begin as a small contract language plus generators and checks, not as a grand compiler project that stalls Vault.
+The implementation should be pragmatic. Axiom should begin as a contract language plus generators and checks, not as a grand compiler project that delays real adoption.
 
 ## Phase 0: Documentation And Examples
 
@@ -12,23 +12,23 @@ Goal:
 - document the runtime model
 - define the security model
 - create examples
-- identify the Vault integration path
+- define when Axiom is worth its complexity
 
 Output:
 
 - this documentation set
 - example `.ax` files
 
-## Phase 1: Axiom Lite For Vault
+## Phase 1: Axiom Lite
 
 Goal:
 
-Model Vault capabilities in a structured source format and generate tests.
+Model agent-facing capabilities in a structured source format and generate tests.
 
 Scope:
 
 - define a simple parser or use a typed intermediate format
-- model the five MVP Vault capabilities
+- model a small generic capability set
 - model data classes
 - model disclosure modes
 - model policy outcomes
@@ -131,7 +131,7 @@ Success:
 
 Goal:
 
-Let future agents inspect and modify Vault through Axiom rather than ad hoc repo editing.
+Let future agents inspect and modify Axiom-governed systems through the capability graph rather than ad hoc repo editing.
 
 Scope:
 
@@ -147,7 +147,7 @@ Success:
 
 ## Strong Warning
 
-Do not let Axiom become a reason to delay Vault indefinitely.
+Do not let Axiom become a reason to delay useful software indefinitely.
 
 The first useful implementation should be small:
 
@@ -160,4 +160,3 @@ audit coverage tests
 ```
 
 That is enough to add real safety.
-

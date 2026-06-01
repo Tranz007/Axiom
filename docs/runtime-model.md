@@ -170,7 +170,7 @@ Axiom deployment artifacts should include:
 A deployable bundle should be signed:
 
 ```text
-VaultMVP.axbundle
+CapabilityGatewayMVP.axbundle
   app_graph
   generated_code_hashes
   policy_manifest
@@ -195,4 +195,3 @@ strict around sensitive effects
 Most checks should be compiled away or reduced to simple lookup and validation at runtime.
 
 Axiom should not be used to justify slow applications.
-

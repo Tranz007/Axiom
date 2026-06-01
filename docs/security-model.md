@@ -32,7 +32,7 @@ Actors receive specific capabilities, not broad process-level permission.
 Bad:
 
 ```text
-agent may read vault
+agent may read private_records
 ```
 
 Good:
@@ -91,7 +91,7 @@ Approval is not:
 
 ### 5. Audit Without Leaking
 
-Audit records must preserve accountability without becoming a second vault of plaintext secrets.
+Audit records must preserve accountability without becoming a second store of plaintext secrets.
 
 Allowed:
 
@@ -217,7 +217,7 @@ Example:
 test no_generic_retrieval
   attempt:
     GET /records
-    GET /vault/export
+    GET /records/export
     POST /capabilities/search_all
 
   expect:
@@ -245,4 +245,3 @@ Axiom should fail closed.
 If required policy inputs are missing, malformed, stale, or contradictory, the decision is deny or require approval.
 
 No silent fallback should broaden access.
-

@@ -391,8 +391,8 @@
     <main class="wrap">
       <section class="callout">
         <strong>Practical position:</strong>
-        Axiom should be built as a layer, not a replacement. For Vault, the ordinary stack can remain
-        FastAPI, Pydantic, SQLAlchemy, Next.js, TypeScript, pytest, and Docker. Axiom defines the
+        Axiom should be built as a layer, not a replacement. The ordinary stack can remain
+        FastAPI, Pydantic, SQLAlchemy, Next.js, TypeScript, pytest, Docker, or equivalent tools. Axiom defines the
         capability contracts, policy matrix, broker obligations, approval context, audit requirements,
         and route guardrails above that stack.
       </section>
@@ -608,9 +608,9 @@
             <span class="tag">Guardrail</span>
             <h3>Anti-drift build checks</h3>
             <p>The build can reject routes that quietly turn a capability broker into a secret export API.</p>
-            <pre>invariant capability_not_retrieval
+<pre>invariant capability_not_retrieval
   forbid agent_route returns raw_sensitive_record
-  forbid agent_route lists all_vault_records</pre>
+  forbid agent_route lists all_records</pre>
           </article>
         </div>
       </section>
@@ -632,7 +632,7 @@
 
       <p class="footer">
         Companion text version: <code>comparison-matrix.md</code>. Best first implementation target:
-        Vault capability specs and policy matrix tests.
+        capability specs and policy matrix tests for an agent-facing application.
       </p>
     </main>
 

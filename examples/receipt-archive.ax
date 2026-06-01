@@ -1,4 +1,4 @@
-app ReceiptVault
+app ReceiptArchive
   intent:
     user stores receipt images privately
     user searches extracted receipt fields
@@ -18,7 +18,7 @@ actor User
     view_monthly_summary
     delete_receipt
 
-actor OCRWorker
+actor ExtractionWorker
   trust internal_limited_worker
   may:
     request capability extract_receipt_fields
@@ -116,11 +116,10 @@ capability monthly_summary
 
 target web
   frontend:
-    nextjs
-    react
+    browser_ui
 
   backend:
-    node_or_python_api
+    api_service
 
   runtime:
     thin_client_axiom

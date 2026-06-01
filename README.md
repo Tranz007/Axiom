@@ -2,7 +2,6 @@
 
 **Status:** Concept specification  
 **Purpose:** AI-native language and runtime model for building capability-bound, policy-verifiable applications.  
-**Primary near-term target:** Vault
 
 Axiom is an experimental language concept for building software with AI agents without treating generated application code as the real source of truth.
 
@@ -113,15 +112,15 @@ An Axiom application is made from:
 
 See [docs/language-overview.md](docs/language-overview.md) for details.
 
-## Why This Matters For Vault
+## Why This Complexity Exists
 
-Vault is already close to the Axiom thesis.
+Human developers should be skeptical of new layers.
 
-Vault is not supposed to be a generic store of secrets that agents can search. It is supposed to be a policy-enforced sensitive action layer where agents request capabilities, deterministic policy decides what can happen, a broker performs narrow work, and audit logs preserve accountability.
+Axiom should not be used just because it is conceptually interesting. It is useful only when the system already has cross-cutting authority complexity: agents, sensitive data, approvals, external effects, audit obligations, and policy decisions that must not depend on model judgment.
 
-Axiom would let Vault define that architecture as executable source, not just documentation.
+The point is not to add ceremony. The point is to move security-critical promises out of scattered code, comments, and tribal memory into executable structure.
 
-See [docs/vault-integration.md](docs/vault-integration.md).
+See [docs/why-axiom.md](docs/why-axiom.md).
 
 ## Initial Documentation Map
 
@@ -130,9 +129,9 @@ See [docs/vault-integration.md](docs/vault-integration.md).
 - [docs/runtime-model.md](docs/runtime-model.md): build-time, runtime, frontend, backend, deployment
 - [docs/security-model.md](docs/security-model.md): security posture, threats, capability isolation
 - [docs/compiler-and-targets.md](docs/compiler-and-targets.md): how Axiom compiles to real software
+- [docs/why-axiom.md](docs/why-axiom.md): developer-facing rationale for the added layer
 - [docs/comparison-matrix.html](docs/comparison-matrix.html): human-readable visual comparison matrix
 - [docs/comparison-matrix.md](docs/comparison-matrix.md): plain Markdown source for the comparison matrix
-- [docs/vault-integration.md](docs/vault-integration.md): how Axiom applies to Vault
 - [docs/roadmap.md](docs/roadmap.md): phased implementation plan
-- [examples/receipt-vault.ax](examples/receipt-vault.ax): small app example
-- [examples/vault-capabilities.ax](examples/vault-capabilities.ax): Vault capability examples
+- [examples/receipt-archive.ax](examples/receipt-archive.ax): small app example
+- [examples/agent-capabilities.ax](examples/agent-capabilities.ax): generic agent capability gateway example

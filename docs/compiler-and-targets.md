@@ -113,7 +113,7 @@ Axiom:
 ```text
 capability fill_tax_identity_fields
   input:
-    vault_id
+    account_id
     agent_id
     form_type
     destination_identity
@@ -182,7 +182,7 @@ This report becomes part of CI and deployment.
 A deployable Axiom bundle should include:
 
 ```text
-bundle VaultMVP
+bundle CapabilityGatewayMVP
   graph_hash
   generated_code_hashes
   policy_manifest
@@ -195,4 +195,3 @@ bundle VaultMVP
 ```
 
 Deployment systems should reject bundles that fail verification or lack required signatures.
-

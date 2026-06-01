@@ -13,7 +13,7 @@ The text format is intentionally readable, but readability is not the main desig
 An Axiom program begins with purpose.
 
 ```text
-app ReceiptVault
+app ReceiptArchive
   intent:
     user stores receipt images privately
     user searches extracted receipt fields
@@ -114,7 +114,7 @@ Approval is not a boolean.
 approval one_time_tax_identity_approval
   binds:
     request_hash
-    vault_id
+    account_id
     agent_id
     capability_key
     destination_identity
@@ -162,7 +162,7 @@ Logs should help investigation without becoming a secondary leak.
 Defines the bounded product or service.
 
 ```text
-app Vault
+app AgentCapabilityGateway
   intent:
     external agents perform sensitive workflows without raw secret access
 ```
@@ -210,7 +210,7 @@ capability return_masked_payment_method
     let an agent confirm an approved payment method without raw credentials
 
   input:
-    vault_id
+    account_id
     agent_id
     payment_use_case
     destination_identity
@@ -255,14 +255,14 @@ invariant no_generic_agent_retrieval
 Defines generated implementation outputs.
 
 ```text
-target vault_mvp
+target gateway_mvp
   backend:
-    python fastapi
-    pydantic schemas
-    sqlalchemy models
+    api_service
+    typed schemas
+    deterministic policy engine
 
   frontend:
-    nextjs app_router
+    browser_ui
     approval_console
 
   tests:
@@ -283,4 +283,3 @@ Axiom syntax should be:
 It should avoid clever punctuation and hidden behavior.
 
 The strangeness should live in the model, not in syntax tricks.
-
