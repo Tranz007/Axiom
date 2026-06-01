@@ -1,0 +1,295 @@
+app Vault
+  intent:
+    allow external agents to request sensitive actions without broad raw secret access
+
+  invariant capability_not_retrieval
+    forbid:
+      agent_route returns raw_sensitive_record
+      agent_route lists all_vault_records
+      agent_route searches decrypted_payload
+      model decides policy_outcome
+
+  invariant broker_only_decryption
+    require:
+      decrypted_sensitive_payload exists only inside broker_boundary
+
+  invariant no_raw_secret_logging
+    forbid:
+      audit_event contains decrypted_payload
+      audit_event contains auth_header
+      audit_event contains approval_token
+
+actor VaultOwner
+  trust owner
+  may:
+    approve_request
+    deny_request
+    review_audit
+    configure_narrow_policy
+
+actor ExternalAgent
+  trust authenticated_but_untrusted
+  may:
+    request capability
+  may_not:
+    retrieve raw records
+    decide policy
+    mutate approval
+
+data_class identity.address
+  domain identity
+  sensitivity moderate
+  allowed_disclosure:
+    task_fields
+    masked_summary
+
+data_class tax.identity
+  domain tax
+  sensitivity high
+  allowed_disclosure:
+    task_fields
+  default_approval:
+    require_approval
+
+data_class payment.method_reference
+  domain payment
+  sensitivity moderate
+  allowed_disclosure:
+    masked_value
+    tokenized_reference
+
+data_class medical.coverage_metadata
+  domain medical
+  sensitivity high
+  allowed_disclosure:
+    summary
+    masked_value
+  default_approval:
+    require_approval
+
+capability use_approved_address
+  purpose:
+    provide an address for one workflow without exposing unrelated identity data
+
+  input:
+    vault_id
+    agent_id
+    address_type: mailing | billing | business
+    destination_identity
+    workflow_label
+
+  data:
+    requires identity.address
+
+  disclosure:
+    mode task_fields
+    forbidden raw_profile_export
+    forbidden unrelated_identity_fields
+
+  policy:
+    allow if agent_has_capability
+      and destination_allowlisted_for_capability
+      and request_frequency_normal
+
+    require_approval if destination_unknown
+      or standing_policy_absent
+      or workflow_high_risk
+
+    deny if schema_malformed
+      or capability_scope_exceeded
+      or destination_spoofed
+      or ownership_scope_invalid
+
+  broker:
+    may_decrypt identity.address
+    may_return task_fields.address
+
+  audit:
+    invocation
+    policy_decision
+    broker_execution
+    disclosure_mode
+
+capability fill_tax_identity_fields
+  purpose:
+    provide exactly tax-relevant fields for a specific form workflow
+
+  input:
+    vault_id
+    agent_id
+    form_type
+    destination_identity
+    required_fields
+
+  data:
+    requires tax.identity
+    may_require business.identity
+    may_require identity.legal_name
+    may_require identity.address
+
+  disclosure:
+    mode task_fields
+    forbidden full_profile_export
+    forbidden unrelated_fields
+
+  policy:
+    allow if agent_has_capability
+      and destination_allowlisted_for_capability
+      and standing_policy_matches
+      and required_fields_subset_of_capability
+
+    require_approval if standing_policy_absent
+      or destination_unknown
+      or sensitivity_high
+
+    deny if schema_malformed
+      or required_fields_exceed_capability
+      or destination_blocked
+      or repeated_field_harvesting_detected
+
+  approval:
+    one_time_default
+    binds request_hash, vault_id, agent_id, capability_key, destination_identity, expiry
+
+  broker:
+    may_decrypt tax.identity
+    may_return task_fields
+    forbidden raw_tax_payload
+
+  audit:
+    invocation
+    policy_decision
+    approval_state
+    broker_execution
+    requested_fields
+
+capability return_masked_payment_method
+  purpose:
+    confirm an approved payment method without exposing raw credentials
+
+  input:
+    vault_id
+    agent_id
+    payment_use_case
+    destination_identity
+
+  data:
+    requires payment.method_reference
+
+  disclosure:
+    mode masked_value | tokenized_reference
+    forbidden raw_payment_credential
+
+  policy:
+    allow if agent_has_capability
+      and destination_allowlisted_for_capability
+      and requested_disclosure_not_raw
+
+    require_approval if destination_unknown
+      or action_authorizes_payment
+
+    deny if requests_raw_payment_credential
+      or schema_malformed
+
+  broker:
+    may_decrypt payment.method_reference
+    may_return masked_value
+    may_return tokenized_reference
+
+  audit:
+    invocation
+    policy_decision
+    returned_fields_category
+
+capability request_medical_member_summary
+  purpose:
+    provide limited medical coverage summary for one workflow
+
+  input:
+    vault_id
+    agent_id
+    workflow_label
+    destination_identity
+    requested_summary_fields
+
+  data:
+    requires medical.coverage_metadata
+
+  disclosure:
+    mode summary | masked_value
+    forbidden broad_medical_export
+
+  policy:
+    require_approval if agent_has_capability
+      and requested_fields_subset_of_capability
+
+    deny if schema_malformed
+      or requested_fields_exceed_capability
+      or destination_blocked
+
+  approval:
+    one_time_default
+
+  broker:
+    may_decrypt medical.coverage_metadata
+    may_return summary
+    may_return masked_value
+
+  audit:
+    invocation
+    policy_decision
+    approval_state
+    requested_summary_fields
+
+capability create_approval_request
+  purpose:
+    convert a sensitive pending action into a user approval workflow
+
+  input:
+    request_id
+    vault_id
+    agent_id
+    capability_key
+
+  data:
+    references pending_request_context
+
+  disclosure:
+    mode approval_pending
+
+  policy:
+    allow if pending_request_exists
+      and pending_request_requires_approval
+
+    deny if request_missing
+      or request_already_resolved
+      or requester_mismatch
+
+  approval:
+    expires
+    one_time
+    auditable
+
+  audit:
+    approval_created
+    approval_expired
+    approval_approved
+    approval_denied
+
+target vault_mvp
+  backend:
+    python fastapi
+    pydantic schemas
+    deterministic policy engine
+    broker services
+
+  frontend:
+    nextjs approval console
+    audit review UI
+
+  tests:
+    policy_matrix
+    approval_replay
+    no_generic_retrieval
+    no_raw_secret_logging
+

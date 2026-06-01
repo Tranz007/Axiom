@@ -1,0 +1,128 @@
+app ReceiptVault
+  intent:
+    user stores receipt images privately
+    user searches extracted receipt fields
+    user views monthly spending summaries
+
+  invariant plaintext_receipts_stay_private
+    forbid:
+      receipt.image.plaintext leaves trusted_storage_boundary
+      receipt.text is sent to analytics
+      receipt.image appears in audit_log
+
+actor User
+  trust owner
+  may:
+    upload_receipt
+    search_receipts
+    view_monthly_summary
+    delete_receipt
+
+actor OCRWorker
+  trust internal_limited_worker
+  may:
+    request capability extract_receipt_fields
+  may_not:
+    read unrelated_receipts
+    export receipt_text
+
+data_class receipt.image
+  domain receipt
+  sensitivity high
+  storage encrypted_blob
+  allowed_disclosure:
+    none_to_external_agent
+
+data_class receipt.fields
+  domain receipt
+  sensitivity moderate
+  fields:
+    merchant inferred.text
+    date inferred.date
+    amount inferred.money
+  allowed_disclosure:
+    summary
+    task_fields
+
+capability upload_receipt
+  purpose:
+    store one receipt image for the authenticated user
+
+  input:
+    user_id
+    image_file
+
+  policy:
+    allow if user_authenticated
+    deny if file_type_invalid
+
+  broker:
+    encrypt image_file
+    store encrypted_blob
+    enqueue extract_receipt_fields
+
+  audit:
+    record upload_started
+    record encrypted_blob_stored
+    never log image_file
+
+capability extract_receipt_fields
+  purpose:
+    derive merchant, date, and amount from one receipt image
+
+  input:
+    receipt_id
+    worker_id
+
+  data:
+    requires receipt.image
+    writes receipt.fields
+
+  policy:
+    allow if worker_assigned_to_receipt
+    deny if worker_requests_unrelated_receipt
+
+  broker:
+    decrypt only inside extraction_boundary
+    write extracted_fields
+    discard plaintext
+
+  audit:
+    record extraction_started
+    record extraction_completed
+    never log receipt.image
+    never log full receipt.text
+
+capability monthly_summary
+  purpose:
+    calculate monthly total from extracted receipt fields
+
+  input:
+    user_id
+    month
+
+  data:
+    reads receipt.fields.amount
+    reads receipt.fields.date
+
+  policy:
+    allow if user_authenticated
+    deny if user_id mismatch
+
+  disclosure:
+    mode summary
+    forbidden receipt.image
+    forbidden receipt.text
+
+target web
+  frontend:
+    nextjs
+    react
+
+  backend:
+    node_or_python_api
+
+  runtime:
+    thin_client_axiom
+    server_policy_runtime
+

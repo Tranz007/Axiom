@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Axiom Comparison Matrix</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #182026;
+        --muted: #59656f;
+        --line: #d8e0e6;
+        --soft: #f4f7f9;
+        --panel: #ffffff;
+        --accent: #0f766e;
+        --accent-strong: #115e59;
+        --good: #0f7a4f;
+        --mid: #a45a00;
+        --low: #9f2f2f;
+        --none: #67717a;
+        --code: #eef4f5;
+        --shadow: 0 16px 40px rgba(24, 32, 38, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: #f8fafb;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      header {
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.96)),
+          radial-gradient(circle at 20% 10%, #dff3ef, transparent 34%),
+          radial-gradient(circle at 85% 15%, #e7eef8, transparent 30%);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .wrap {
+        width: min(1180px, calc(100vw - 40px));
+        margin: 0 auto;
+      }
+
+      .hero {
+        padding: 52px 0 36px;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--accent-strong);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 900px;
+        font-size: clamp(38px, 7vw, 78px);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 850px;
+        margin: 20px 0 0;
+        color: var(--muted);
+        font-size: clamp(18px, 2vw, 22px);
+      }
+
+      main {
+        padding: 34px 0 58px;
+      }
+
+      section {
+        margin-top: 34px;
+      }
+
+      h2 {
+        margin: 0 0 14px;
+        font-size: 26px;
+        letter-spacing: 0;
+      }
+
+      h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+
+      p {
+        margin: 0 0 12px;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .metric {
+        min-height: 136px;
+        padding: 18px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(24, 32, 38, 0.05);
+      }
+
+      .metric strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .callout {
+        padding: 18px 20px;
+        background: #ecf8f5;
+        border: 1px solid #bdded7;
+        border-radius: 8px;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .panel {
+        padding: 20px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(24, 32, 38, 0.05);
+      }
+
+      .panel ul {
+        margin: 10px 0 0;
+        padding-left: 20px;
+      }
+
+      .panel li + li {
+        margin-top: 8px;
+      }
+
+      .filters {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px 0;
+        margin-bottom: 10px;
+        background: rgba(248, 250, 251, 0.92);
+        backdrop-filter: blur(12px);
+      }
+
+      button {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 8px 12px;
+        font: inherit;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      button[aria-pressed="true"] {
+        color: #ffffff;
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .matrix-shell {
+        overflow: auto;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      table {
+        width: 100%;
+        min-width: 1020px;
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        border-right: 1px solid var(--line);
+        padding: 13px 14px;
+        text-align: left;
+        vertical-align: top;
+        font-size: 14px;
+      }
+
+      th {
+        position: sticky;
+        top: 58px;
+        z-index: 10;
+        background: #eef4f5;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      th:first-child,
+      td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 11;
+        width: 260px;
+        min-width: 260px;
+        background: #ffffff;
+        font-weight: 700;
+      }
+
+      th:first-child {
+        z-index: 12;
+        background: #e7f1f0;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .score {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 72px;
+        border-radius: 999px;
+        padding: 4px 9px;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .native {
+        background: var(--good);
+      }
+
+      .strong {
+        background: #247261;
+      }
+
+      .medium {
+        background: var(--mid);
+      }
+
+      .manual {
+        background: #687783;
+      }
+
+      .none {
+        background: var(--low);
+      }
+
+      .note {
+        display: block;
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        padding: 18px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(24, 32, 38, 0.05);
+      }
+
+      .tag {
+        display: inline-flex;
+        margin-bottom: 10px;
+        border-radius: 999px;
+        padding: 4px 9px;
+        color: var(--accent-strong);
+        background: #e4f4f1;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      code,
+      pre {
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      }
+
+      code {
+        padding: 2px 5px;
+        border-radius: 5px;
+        background: var(--code);
+      }
+
+      pre {
+        overflow: auto;
+        margin: 12px 0 0;
+        padding: 16px;
+        border-radius: 8px;
+        background: #101820;
+        color: #eef7f6;
+        font-size: 13px;
+      }
+
+      .footer {
+        margin-top: 38px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      @media (max-width: 860px) {
+        .wrap {
+          width: min(100vw - 28px, 1180px);
+        }
+
+        .summary-grid,
+        .split,
+        .cards {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 38px;
+        }
+
+        th {
+          top: 104px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap hero">
+        <p class="eyebrow">Axiom Comparison Matrix</p>
+        <h1>What Axiom adds beyond existing languages.</h1>
+        <p class="lead">
+          Axiom is not trying to replace Python, TypeScript, Rust, SQL, React, or policy engines.
+          It sits above them as an AI-native source of truth for intent, capability, policy,
+          sensitive disclosure, approval, brokered execution, audit, and deployment constraints.
+        </p>
+        <div class="summary-grid">
+          <div class="metric">
+            <strong>Intent</strong>
+            <span>Product purpose becomes executable structure, not a comment or README promise.</span>
+          </div>
+          <div class="metric">
+            <strong>Authority</strong>
+            <span>Agents receive narrow capabilities instead of ambient access to app internals.</span>
+          </div>
+          <div class="metric">
+            <strong>Policy</strong>
+            <span>Allow, deny, and approval decisions are deterministic software, not model judgment.</span>
+          </div>
+          <div class="metric">
+            <strong>Audit</strong>
+            <span>Sensitive actions produce semantic traces without logging raw secrets.</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="callout">
+        <strong>Practical position:</strong>
+        Axiom should be built as a layer, not a replacement. For Vault, the ordinary stack can remain
+        FastAPI, Pydantic, SQLAlchemy, Next.js, TypeScript, pytest, and Docker. Axiom defines the
+        capability contracts, policy matrix, broker obligations, approval context, audit requirements,
+        and route guardrails above that stack.
+      </section>
+
+      <section>
+        <h2>At A Glance</h2>
+        <div class="split">
+          <div class="panel">
+            <h3>Axiom Is</h3>
+            <ul>
+              <li>A source-of-truth layer above normal application frameworks.</li>
+              <li>A capability, policy, approval, broker, and audit contract language.</li>
+              <li>A way for agents to build without silently expanding their own authority.</li>
+              <li>A compiler target for schemas, tests, UI contracts, runtime guards, and deploy artifacts.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Axiom Is Not</h3>
+            <ul>
+              <li>Not a replacement for Python, TypeScript, Rust, SQL, React, or browsers.</li>
+              <li>Not JSON/YAML with grander naming.</li>
+              <li>Not a magical zero-day shield.</li>
+              <li>Not useful for every simple app or static site.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Capability Matrix</h2>
+        <div class="filters" aria-label="Matrix filters">
+          <button type="button" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-filter="agent">Agent Safety</button>
+          <button type="button" data-filter="policy">Policy</button>
+          <button type="button" data-filter="data">Sensitive Data</button>
+          <button type="button" data-filter="ui">Approval UI</button>
+          <button type="button" data-filter="deploy">Build & Deploy</button>
+        </div>
+        <div class="matrix-shell">
+          <table>
+            <thead>
+              <tr>
+                <th>Capability</th>
+                <th>Python</th>
+                <th>TypeScript</th>
+                <th>Rust</th>
+                <th>Rego / OPA</th>
+                <th>Workflow Engines</th>
+                <th>Axiom</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-category="agent">
+                <td>Express product intent as executable structure</td>
+                <td><span class="score none">Low</span><span class="note">Usually comments or docs.</span></td>
+                <td><span class="score none">Low</span><span class="note">Types do not encode purpose.</span></td>
+                <td><span class="score none">Low</span><span class="note">Correctness focus, not intent.</span></td>
+                <td><span class="score none">Low</span><span class="note">Policy only.</span></td>
+                <td><span class="score medium">Medium</span><span class="note">Workflow intent is present but narrow.</span></td>
+                <td><span class="score native">Native</span><span class="note">Intent is part of the source graph.</span></td>
+              </tr>
+              <tr data-category="agent">
+                <td>Model actors as trusted or untrusted entities</td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score medium">Medium</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score native">Native</span><span class="note">Actors carry trust posture.</span></td>
+              </tr>
+              <tr data-category="data">
+                <td>Define sensitive data classes</td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score medium">Medium</span><span class="note">Possible with discipline.</span></td>
+                <td><span class="score medium">Medium</span><span class="note">Possible with type design.</span></td>
+                <td><span class="score medium">Medium</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score native">Native</span><span class="note">Data classes include sensitivity and disclosure rules.</span></td>
+              </tr>
+              <tr data-category="data">
+                <td>Prevent broad retrieval by design</td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score medium">Partial</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score native">Native</span><span class="note">Generic retrieval can fail build checks.</span></td>
+              </tr>
+              <tr data-category="data">
+                <td>Require brokered disclosure</td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score medium">Partial</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score native">Native</span><span class="note">Broker contracts define what may decrypt and return.</span></td>
+              </tr>
+              <tr data-category="data">
+                <td>Distinguish masked, summary, tokenized, and task-field outputs</td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score medium">Medium</span></td>
+                <td><span class="score medium">Medium</span></td>
+                <td><span class="score medium">Medium</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score native">Native</span></td>
+              </tr>
+              <tr data-category="policy">
+                <td>Bind approval to request hash, actor, destination, and expiry</td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score medium">Partial</span></td>
+                <td><span class="score medium">Medium</span></td>
+                <td><span class="score native">Native</span><span class="note">Approval is a scoped object, not a boolean.</span></td>
+              </tr>
+              <tr data-category="ui">
+                <td>Generate approval UI requirements</td>
+                <td><span class="score none">None</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score none">None</span></td>
+                <td><span class="score none">None</span></td>
+                <td><span class="score none">None</span></td>
+                <td><span class="score native">Native</span><span class="note">UI must show security-critical context.</span></td>
+              </tr>
+              <tr data-category="policy">
+                <td>Generate audit event obligations</td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score medium">Partial</span></td>
+                <td><span class="score medium">Medium</span></td>
+                <td><span class="score native">Native</span></td>
+              </tr>
+              <tr data-category="policy">
+                <td>Treat model output as non-authoritative for access decisions</td>
+                <td><span class="score manual">Discipline</span></td>
+                <td><span class="score manual">Discipline</span></td>
+                <td><span class="score manual">Discipline</span></td>
+                <td><span class="score medium">Medium</span></td>
+                <td><span class="score manual">Manual</span></td>
+                <td><span class="score native">Native Rule</span></td>
+              </tr>
+              <tr data-category="deploy">
+                <td>Compile to deployable app artifacts</td>
+                <td><span class="score none">No</span></td>
+                <td><span class="score none">No</span></td>
+                <td><span class="score none">No</span></td>
+                <td><span class="score none">No</span></td>
+                <td><span class="score none">No</span></td>
+                <td><span class="score strong">Intended</span><span class="note">Schemas, tests, policy manifests, UI contracts.</span></td>
+              </tr>
+              <tr data-category="deploy">
+                <td>Generate policy matrix tests from capability specs</td>
+                <td><span class="score none">No</span></td>
+                <td><span class="score none">No</span></td>
+                <td><span class="score none">No</span></td>
+                <td><span class="score medium">Partial</span></td>
+                <td><span class="score none">No</span></td>
+                <td><span class="score strong">Intended</span><span class="note">First useful Axiom Lite feature.</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>What Axiom Adds</h2>
+        <div class="cards">
+          <article class="card">
+            <span class="tag">Authority</span>
+            <h3>Capability-first source</h3>
+            <p>Agents request narrow named operations instead of broad access to app data or internals.</p>
+            <pre>actor ExternalAgent
+  trust authenticated_but_untrusted
+  may request capability
+  may_not retrieve raw records</pre>
+          </article>
+          <article class="card">
+            <span class="tag">Disclosure</span>
+            <h3>Output modes as contracts</h3>
+            <p>Sensitive outputs are classified as masked, summary, tokenized, task fields, denied, or pending approval.</p>
+            <pre>disclosure:
+  mode masked_value | task_fields
+  forbidden raw_profile_export</pre>
+          </article>
+          <article class="card">
+            <span class="tag">Approval</span>
+            <h3>Approval is bound and expiring</h3>
+            <p>Approval is specific to the request, agent, destination, capability, and expiry window.</p>
+            <pre>approval:
+  one_time_default
+  binds request_hash, agent_id,
+        capability_key, destination_identity</pre>
+          </article>
+          <article class="card">
+            <span class="tag">Broker</span>
+            <h3>Action without raw disclosure</h3>
+            <p>The broker can use sensitive data while returning only the minimal allowed result.</p>
+            <pre>broker TaxIdentityBroker
+  may_decrypt tax.identity
+  may_return task_fields
+  forbidden raw_tax_payload</pre>
+          </article>
+          <article class="card">
+            <span class="tag">UI</span>
+            <h3>Honest approval screens</h3>
+            <p>Approval UI must show agent, capability, destination trust, data classes, disclosure mode, and expiry.</p>
+            <pre>surface ApprovalCard
+  displays agent_name, destination_trust,
+           data_classes, disclosure_mode</pre>
+          </article>
+          <article class="card">
+            <span class="tag">Guardrail</span>
+            <h3>Anti-drift build checks</h3>
+            <p>The build can reject routes that quietly turn a capability broker into a secret export API.</p>
+            <pre>invariant capability_not_retrieval
+  forbid agent_route returns raw_sensitive_record
+  forbid agent_route lists all_vault_records</pre>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Open Source Shape</h2>
+        <div class="panel">
+          <p>
+            If Axiom becomes open source, the first credible release should be small and practical:
+            a structured capability spec format, a policy matrix generator, route guard checks,
+            broker contract tests, and audit coverage tests. A full compiler can come later.
+          </p>
+          <p>
+            The point is not to make a beautiful theory. The point is to stop agent-built systems
+            from becoming broader, leakier, and less accountable than the human intended.
+          </p>
+        </div>
+      </section>
+
+      <p class="footer">
+        Companion text version: <code>comparison-matrix.md</code>. Best first implementation target:
+        Vault capability specs and policy matrix tests.
+      </p>
+    </main>
+
+    <script>
+      const buttons = [...document.querySelectorAll("[data-filter]")];
+      const rows = [...document.querySelectorAll("tbody tr")];
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.filter;
+          buttons.forEach((item) =>
+            item.setAttribute("aria-pressed", String(item === button)),
+          );
+          rows.forEach((row) => {
+            row.hidden = filter !== "all" && row.dataset.category !== filter;
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
