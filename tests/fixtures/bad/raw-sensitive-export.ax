@@ -1,0 +1,33 @@
+app BadRawSensitiveExport
+  intent:
+    demonstrate unsafe raw sensitive export
+
+actor ExternalAgent
+  trust authenticated_but_untrusted
+  may:
+    request capability
+  may_not:
+    decide policy
+
+data_class tax.identity
+  domain tax
+  sensitivity high
+  allowed_disclosure:
+    task_fields
+
+capability export_tax_identity
+  purpose:
+    export tax identity fields
+
+  data:
+    requires tax.identity
+
+  disclosure:
+    mode raw_profile_export
+
+  policy:
+    allow if agent_has_capability
+    deny if schema_malformed
+
+  audit:
+    record export_started

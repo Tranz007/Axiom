@@ -1,9 +1,50 @@
 # Axiom
 
-**Status:** Concept specification  
+**Status:** Experimental CLI prototype and concept specification  
 **Purpose:** AI-native language and runtime model for building capability-bound, policy-verifiable applications.  
 
 Axiom is an experimental language concept for building software with AI agents without treating generated application code as the real source of truth.
+
+The repo now includes a first usable MVP: a dependency-light Node CLI that parses `.ax` files, validates capability contracts, reports authority and disclosure problems, and generates initial TypeScript policy artifacts.
+
+## Quick Start
+
+Prerequisite: Node.js 20 or newer.
+
+```bash
+git clone https://github.com/Tranz007/Axiom.git
+cd Axiom
+node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax
+node ./bin/axiom.mjs matrix examples/agent-capability-gateway/axiom.ax
+node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
+node --test
+```
+
+If `npm` is available, these shortcuts also work:
+
+```bash
+npm run validate:examples
+npm run generate:example
+npm test
+```
+
+## What Works Today
+
+The current CLI can:
+
+- parse the MVP indentation-based `.ax` format
+- validate that capabilities declare purpose, policy, disclosure, broker, approval, and audit obligations where required
+- fail unsafe examples such as raw sensitive export, missing approval paths, model-decided policy, and unsafe audit logging
+- print a policy matrix as JSON
+- generate TypeScript artifacts for capabilities, data classes, audit obligations, runtime guards, and verification reports
+
+The current CLI cannot yet:
+
+- generate a full application
+- replace framework code
+- execute policies against real request context
+- guarantee security by itself
+- parse every future Axiom syntax idea in the docs
 
 In ordinary development, a human or agent writes framework code first: React components, API routes, database models, middleware, tests, deployment config. Security and intent are scattered across comments, docs, auth checks, policy files, test suites, and memory.
 
@@ -122,6 +163,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 
 ## Initial Documentation Map
 
+- [spec/grammar.md](spec/grammar.md): MVP grammar currently supported by the CLI
 - [docs/language-overview.md](docs/language-overview.md): core concepts and syntax
 - [docs/runtime-model.md](docs/runtime-model.md): build-time, runtime, frontend, backend, deployment
 - [docs/security-model.md](docs/security-model.md): security posture, threats, capability isolation
@@ -133,4 +175,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/comparison-matrix.md](docs/comparison-matrix.md): plain Markdown source for the comparison matrix
 - [docs/roadmap.md](docs/roadmap.md): phased implementation plan
 - [examples/receipt-archive.ax](examples/receipt-archive.ax): small app example
+- [examples/receipt-archive](examples/receipt-archive): runnable receipt archive example with generated artifacts
 - [examples/agent-capabilities.ax](examples/agent-capabilities.ax): generic agent capability gateway example
+- [examples/agent-capability-gateway](examples/agent-capability-gateway): runnable agent gateway example with generated artifacts
+- [tests/fixtures/bad](tests/fixtures/bad): intentionally unsafe examples that should fail validation

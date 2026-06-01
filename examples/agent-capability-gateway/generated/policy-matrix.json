@@ -1,0 +1,168 @@
+[
+  {
+    "capability": "use_approved_address",
+    "purpose": [
+      "provide an address for one workflow without exposing unrelated identity data"
+    ],
+    "reads": [
+      "identity.address"
+    ],
+    "disclosureModes": [
+      "task_fields"
+    ],
+    "forbiddenDisclosure": [
+      "raw_profile_export",
+      "unrelated_identity_fields"
+    ],
+    "decisions": [
+      {
+        "kind": "allow",
+        "conditions": [
+          "agent_has_capability",
+          "and destination_allowlisted_for_capability",
+          "and request_frequency_normal"
+        ]
+      },
+      {
+        "kind": "require_approval",
+        "conditions": [
+          "destination_unknown",
+          "or standing_policy_absent",
+          "or workflow_high_risk"
+        ]
+      },
+      {
+        "kind": "deny",
+        "conditions": [
+          "schema_malformed",
+          "or capability_scope_exceeded",
+          "or destination_spoofed",
+          "or ownership_scope_invalid"
+        ]
+      }
+    ],
+    "approval": true,
+    "broker": [
+      "may_decrypt identity.address",
+      "may_return task_fields.address"
+    ],
+    "audit": [
+      "invocation",
+      "policy_decision",
+      "broker_execution",
+      "disclosure_mode",
+      "never log raw_sensitive_record"
+    ]
+  },
+  {
+    "capability": "fill_tax_identity_fields",
+    "purpose": [
+      "provide exactly tax-relevant fields for a specific form workflow"
+    ],
+    "reads": [
+      "tax.identity"
+    ],
+    "disclosureModes": [
+      "task_fields"
+    ],
+    "forbiddenDisclosure": [
+      "full_profile_export",
+      "unrelated_fields"
+    ],
+    "decisions": [
+      {
+        "kind": "allow",
+        "conditions": [
+          "agent_has_capability",
+          "and destination_allowlisted_for_capability",
+          "and standing_policy_matches",
+          "and required_fields_subset_of_capability"
+        ]
+      },
+      {
+        "kind": "require_approval",
+        "conditions": [
+          "standing_policy_absent",
+          "or destination_unknown",
+          "or sensitivity_high"
+        ]
+      },
+      {
+        "kind": "deny",
+        "conditions": [
+          "schema_malformed",
+          "or required_fields_exceed_capability",
+          "or destination_blocked",
+          "or repeated_field_harvesting_detected"
+        ]
+      }
+    ],
+    "approval": true,
+    "broker": [
+      "may_decrypt tax.identity",
+      "may_return task_fields",
+      "forbidden raw_tax_payload"
+    ],
+    "audit": [
+      "invocation",
+      "policy_decision",
+      "approval_state",
+      "broker_execution",
+      "requested_fields",
+      "never log raw_tax_payload",
+      "never log approval_token"
+    ]
+  },
+  {
+    "capability": "return_masked_payment_method",
+    "purpose": [
+      "confirm an approved payment method without exposing raw credentials"
+    ],
+    "reads": [
+      "payment.method_reference"
+    ],
+    "disclosureModes": [
+      "masked_value",
+      "tokenized_reference"
+    ],
+    "forbiddenDisclosure": [
+      "raw_payment_credential"
+    ],
+    "decisions": [
+      {
+        "kind": "allow",
+        "conditions": [
+          "agent_has_capability",
+          "and destination_allowlisted_for_capability",
+          "and requested_disclosure_not_raw"
+        ]
+      },
+      {
+        "kind": "require_approval",
+        "conditions": [
+          "destination_unknown",
+          "or action_authorizes_payment"
+        ]
+      },
+      {
+        "kind": "deny",
+        "conditions": [
+          "requests_raw_payment_credential",
+          "or schema_malformed"
+        ]
+      }
+    ],
+    "approval": true,
+    "broker": [
+      "may_decrypt payment.method_reference",
+      "may_return masked_value",
+      "may_return tokenized_reference"
+    ],
+    "audit": [
+      "invocation",
+      "policy_decision",
+      "returned_fields_category",
+      "never log raw_payment_credential"
+    ]
+  }
+]

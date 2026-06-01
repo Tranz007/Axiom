@@ -1,0 +1,40 @@
+app MissingApprovalBinding
+  intent:
+    demonstrate high sensitivity access without approval
+
+actor ExternalAgent
+  trust authenticated_but_untrusted
+  may:
+    request capability
+  may_not:
+    retrieve raw records
+    decide policy
+
+data_class identity.secret
+  domain identity
+  sensitivity high
+  allowed_disclosure:
+    task_fields
+
+capability use_identity_secret
+  purpose:
+    use a secret identity value for one task
+
+  data:
+    requires identity.secret
+
+  disclosure:
+    mode task_fields
+    forbidden raw_secret
+
+  policy:
+    allow if agent_has_capability
+    deny if schema_malformed
+
+  broker:
+    may_decrypt identity.secret
+    may_return task_fields
+
+  audit:
+    record invocation
+    never log raw_secret

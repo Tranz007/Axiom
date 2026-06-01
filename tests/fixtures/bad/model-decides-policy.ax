@@ -1,0 +1,40 @@
+app ModelDecidesPolicy
+  intent:
+    demonstrate invalid model policy delegation
+
+actor ExternalAgent
+  trust authenticated_but_untrusted
+  may:
+    request capability
+  may_not:
+    retrieve raw records
+    decide policy
+
+data_class identity.address
+  domain identity
+  sensitivity moderate
+  allowed_disclosure:
+    task_fields
+
+capability use_address
+  purpose:
+    use one address for a task
+
+  data:
+    requires identity.address
+
+  disclosure:
+    mode task_fields
+    forbidden raw_profile_export
+
+  policy:
+    allow if model decides policy_outcome
+    deny if schema_malformed
+
+  broker:
+    may_decrypt identity.address
+    may_return task_fields
+
+  audit:
+    record invocation
+    never log raw_secret

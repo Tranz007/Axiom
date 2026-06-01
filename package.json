@@ -1,0 +1,28 @@
+{
+  "name": "@axiom-lang/axiom",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Experimental capability contract language and CLI for agent-facing software.",
+  "type": "module",
+  "bin": {
+    "axiom": "./bin/axiom.mjs"
+  },
+  "scripts": {
+    "axiom": "node ./bin/axiom.mjs",
+    "test": "node --test",
+    "validate:examples": "node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax && node ./bin/axiom.mjs validate examples/receipt-archive/axiom.ax",
+    "generate:example": "node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "capabilities",
+    "policy",
+    "security",
+    "compiler"
+  ],
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,110 @@
+[
+  {
+    "capability": "upload_receipt",
+    "purpose": [
+      "store one receipt image for the authenticated user"
+    ],
+    "reads": [],
+    "disclosureModes": [],
+    "forbiddenDisclosure": [],
+    "decisions": [
+      {
+        "kind": "allow",
+        "conditions": [
+          "user_authenticated"
+        ]
+      },
+      {
+        "kind": "deny",
+        "conditions": [
+          "file_type_invalid"
+        ]
+      }
+    ],
+    "approval": false,
+    "broker": [
+      "encrypt image_file",
+      "store encrypted_blob",
+      "enqueue extract_receipt_fields"
+    ],
+    "audit": [
+      "record upload_started",
+      "record encrypted_blob_stored",
+      "never log image_file"
+    ]
+  },
+  {
+    "capability": "extract_receipt_fields",
+    "purpose": [
+      "derive merchant, date, and amount from one receipt image"
+    ],
+    "reads": [
+      "receipt.image"
+    ],
+    "disclosureModes": [
+      "internal_processing"
+    ],
+    "forbiddenDisclosure": [
+      "external_disclosure",
+      "receipt.image"
+    ],
+    "decisions": [
+      {
+        "kind": "allow",
+        "conditions": [
+          "worker_assigned_to_receipt"
+        ]
+      },
+      {
+        "kind": "deny",
+        "conditions": [
+          "worker_requests_unrelated_receipt"
+        ]
+      }
+    ],
+    "approval": true,
+    "broker": [
+      "decrypt only inside extraction_boundary",
+      "write extracted_fields",
+      "discard plaintext"
+    ],
+    "audit": [
+      "record extraction_started",
+      "record extraction_completed",
+      "never log plaintext_receipt",
+      "never log receipt.image",
+      "never log full receipt.text"
+    ]
+  },
+  {
+    "capability": "monthly_summary",
+    "purpose": [
+      "calculate monthly total from extracted receipt fields"
+    ],
+    "reads": [],
+    "disclosureModes": [
+      "summary"
+    ],
+    "forbiddenDisclosure": [
+      "receipt.image",
+      "receipt.text"
+    ],
+    "decisions": [
+      {
+        "kind": "allow",
+        "conditions": [
+          "user_authenticated"
+        ]
+      },
+      {
+        "kind": "deny",
+        "conditions": [
+          "user_id mismatch"
+        ]
+      }
+    ],
+    "approval": false,
+    "broker": [],
+    "audit": []
+  }
+]
