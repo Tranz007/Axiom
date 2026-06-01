@@ -5,6 +5,9 @@ import { parseAxiom } from "../src/parser.mjs";
 import { validateGraph } from "../src/validator.mjs";
 import { generateArtifacts } from "../src/generator.mjs";
 import { evaluateAxiomPolicy, parseFactList } from "../src/runtime.mjs";
+import { initProject, listInitTemplates } from "../src/init.mjs";
+import { doctorExitCode, formatDoctorReport, formatNextAction, inspectProject } from "../src/doctor.mjs";
+import { formatSimulationExampleResults, runSimulationExamples } from "../src/simulations.mjs";
 
 const command = process.argv[2];
 const input = process.argv[3];
@@ -13,6 +16,11 @@ function usage() {
   console.log(`Axiom CLI
 
 Usage:
+  axiom init [--template local-private-app] [--agent codex] [--out .] [--force]
+  axiom init --list
+  axiom doctor [--cwd .] [--app app.ax]
+  axiom next [--cwd .] [--app app.ax]
+  axiom simulate-examples [--cwd .] [--app app.ax]
   axiom validate <file.ax>
   axiom explain <file.ax>
   axiom matrix <file.ax>
@@ -34,6 +42,10 @@ function optionValues(name) {
     }
   }
   return values;
+}
+
+function hasOption(name) {
+  return process.argv.includes(name);
 }
 
 async function loadGraph(file) {
@@ -66,6 +78,53 @@ function printSummary(graph, diagnostics) {
 try {
   if (!command || command === "help" || command === "--help" || command === "-h") {
     usage();
+    process.exit(0);
+  }
+
+  if (command === "init") {
+    if (hasOption("--list")) {
+      console.log(JSON.stringify(await listInitTemplates(), null, 2));
+      process.exit(0);
+    }
+
+    const result = await initProject({
+      template: optionValue("--template", "local-private-app"),
+      agent: optionValue("--agent", "codex"),
+      outDir: optionValue("--out", "."),
+      force: hasOption("--force"),
+    });
+
+    console.log(`initialized ${result.template} for ${result.agent} in ${result.outDir}`);
+    for (const file of result.written) {
+      console.log(`created ${file}`);
+    }
+    process.exit(0);
+  }
+
+  if (command === "doctor") {
+    const report = await inspectProject({
+      cwd: optionValue("--cwd", "."),
+      app: optionValue("--app", null),
+    });
+    console.log(formatDoctorReport(report));
+    process.exit(doctorExitCode(report));
+  }
+
+  if (command === "next") {
+    const report = await inspectProject({
+      cwd: optionValue("--cwd", "."),
+      app: optionValue("--app", null),
+    });
+    console.log(formatNextAction(report));
+    process.exit(0);
+  }
+
+  if (command === "simulate-examples") {
+    const report = await runSimulationExamples({
+      cwd: optionValue("--cwd", "."),
+      app: optionValue("--app", null),
+    });
+    console.log(formatSimulationExampleResults(report));
     process.exit(0);
   }
 

@@ -1,0 +1,85 @@
+app ApprovalGatedAutomation
+  intent:
+    agent drafts external actions
+    user approves irreversible actions before execution
+    audit records every decision and effect
+
+invariant approval_before_external_effect
+  forbid:
+    external_effect executes without approval
+    model decides policy
+
+actor User
+  trust owner
+  may:
+    approve_action
+    deny_action
+    review_audit
+
+actor AutomationAgent
+  trust authenticated_but_untrusted
+  may:
+    request capability
+  may_not:
+    execute external effects without approval
+    decide policy
+    mutate approval
+
+data_class automation.context
+  domain automation
+  sensitivity moderate
+  allowed_disclosure:
+    task_fields
+    summary
+
+capability draft_and_submit_action
+  purpose:
+    draft one external action and submit it only after scoped user approval
+
+  input:
+    user_id
+    agent_id
+    action_type
+    destination_identity
+    draft_payload
+
+  data:
+    requires automation.context
+
+  disclosure:
+    mode task_fields
+    forbidden raw_context_export
+    forbidden unrelated_context_fields
+
+  policy:
+    allow if user_authenticated
+      and approval_valid
+      and destination_matches_approval
+
+    require_approval if external_effect_requested
+      or destination_unknown
+
+    deny if schema_malformed
+      or approval_expired
+      or destination_changed
+
+  approval:
+    one_time_default
+    binds request_hash, user_id, agent_id, capability_key, destination_identity, expiry
+
+  broker:
+    may_decrypt automation.context
+    may_return task_fields
+
+  audit:
+    invocation
+    policy_decision
+    approval_state
+    external_effect_result
+    never log raw_context
+
+target automation
+  backend:
+    deterministic policy engine
+    approval service
+    audit service

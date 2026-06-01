@@ -197,21 +197,19 @@ export function validateGraph(graph) {
     }
   }
 
-  for (const invariant of graph.invariants) {
-    if (invariant.forbid.some((item) => /model decides policy/i.test(item))) {
-      continue;
-    }
+  const hasUntrustedActor = graph.actors.some((actor) => /untrusted|external/i.test(actor.trust));
+  const forbidsModelDecidedPolicy = graph.invariants.some((invariant) =>
+    invariant.forbid.some((item) => /model decides policy/i.test(item)),
+  );
 
-    if (graph.actors.some((actor) => /untrusted|external/i.test(actor.trust))) {
-      diagnostics.push(
-        diagnostic(
-          "warning",
-          "Programs with external or untrusted actors should include an invariant forbidding model-decided policy.",
-          "invariant",
-        ),
-      );
-      break;
-    }
+  if (hasUntrustedActor && !forbidsModelDecidedPolicy) {
+    diagnostics.push(
+      diagnostic(
+        "warning",
+        "Programs with external or untrusted actors should include an invariant forbidding model-decided policy.",
+        "invariant",
+      ),
+    );
   }
 
   return diagnostics;

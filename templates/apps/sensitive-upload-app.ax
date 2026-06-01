@@ -1,0 +1,85 @@
+app SensitiveUploadApp
+  intent:
+    user uploads sensitive files
+    system stores files in encrypted storage
+    agents can process only scoped extracted fields
+
+invariant uploaded_files_stay_private
+  forbid:
+    upload.plaintext leaves trusted_storage_boundary
+    audit_event contains plaintext_upload
+    model decides policy
+
+actor User
+  trust owner
+  may:
+    upload_file
+    view_status
+    approve_external_processing
+
+actor ProcessingWorker
+  trust internal_limited_worker
+  may:
+    request capability
+  may_not:
+    read unrelated_uploads
+    export plaintext files
+
+data_class upload.file
+  domain upload
+  sensitivity high
+  allowed_disclosure:
+    internal_processing
+    task_fields
+
+capability process_uploaded_file
+  purpose:
+    process one uploaded file inside a trusted boundary and return scoped fields
+
+  input:
+    user_id
+    upload_id
+    worker_id
+    processing_goal
+
+  data:
+    requires upload.file
+
+  disclosure:
+    mode internal_processing
+    forbidden external_disclosure
+    forbidden raw_file_export
+
+  policy:
+    allow if user_authenticated
+      and worker_assigned_to_upload
+      and processing_goal_in_scope
+
+    require_approval if external_processor_requested
+      or processing_goal_high_risk
+
+    deny if schema_malformed
+      or worker_requests_unrelated_upload
+      or requests_raw_file_export
+
+  approval:
+    one_time_default
+    binds request_hash, user_id, upload_id, capability_key, expiry
+
+  broker:
+    may_decrypt upload.file
+    may_return task_fields
+    forbidden raw_file
+
+  audit:
+    invocation
+    policy_decision
+    broker_execution
+    requested_fields
+    never log raw_file
+
+target upload_app
+  backend:
+    encrypted storage
+    worker queue
+    audit service

@@ -378,6 +378,7 @@
         </a>
         <div class="links">
           <a href="#why">Why</a>
+          <a href="docs/axiom-os.html">Axiom OS</a>
           <a href="#model">Model</a>
           <a href="#complexity">Complexity</a>
           <a href="docs/comparison-matrix.html">Matrix</a>
@@ -397,7 +398,8 @@
             agents build software without silently expanding their own authority.
           </p>
           <div class="actions">
-            <a class="button primary" href="docs/comparison-matrix.html">View the matrix</a>
+            <a class="button primary" href="docs/axiom-os.html">Start with Axiom OS</a>
+            <a class="button" href="docs/comparison-matrix.html">View the matrix</a>
             <a class="button" href="docs/skills-vs-axiom.html">Skills vs Axiom</a>
             <a class="button icon" href="https://github.com/Tranz007/Axiom" aria-label="GitHub repository" title="GitHub repository">
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -408,24 +410,15 @@
         </div>
         <div class="code-card" aria-label="Axiom code example">
           <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
-          <pre><span class="kw">capability</span> fill_tax_identity_fields
-  <span class="kw">purpose</span>:
-    provide tax fields for one workflow
+          <pre><span class="kw">$</span> axiom init --template local-private-app --agent codex
+<span class="kw">$</span> axiom doctor
+<span class="kw">$</span> axiom next
+<span class="kw">$</span> axiom simulate-examples
+<span class="kw">$</span> axiom next
 
-  <span class="kw">caller</span>:
-    external_agent: authenticated_but_untrusted
-
-  <span class="kw">disclosure</span>:
-    mode <span class="val">task_fields</span>
-    forbidden raw_profile_export
-
-  <span class="kw">policy</span>:
-    allow if destination_allowlisted
-    require_approval if sensitivity_high
-    deny if scope_exceeded
-
-  <span class="kw">audit</span>:
-    record invocation, decision, broker_execution</pre>
+<span class="kw">Next:</span> axiom generate app.ax --target typescript
+<span class="kw">Why:</span> The contract is ready. Generated artifacts
+     keep implementation aligned with app.ax.</pre>
         </div>
       </div>
     </header>
@@ -455,6 +448,37 @@
               <h3>Models do not decide access</h3>
               <p>LLMs can help build and explain, but final allow, deny, and approval decisions are deterministic software.</p>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="os">
+        <div class="wrap split">
+          <div>
+            <h2>Human installs. Agent uses.</h2>
+            <p class="section-lead">
+              Axiom OS is the open-source entry point for people building with AI coding agents.
+              The human adds Axiom to the project. The agent uses it to find the contract,
+              check policy, run simulations, and take the next safe implementation step.
+            </p>
+            <div class="actions">
+              <a class="button primary" href="docs/axiom-os.html">Explore Axiom OS</a>
+              <a class="button" href="https://github.com/Tranz007/Axiom">GitHub repo</a>
+            </div>
+          </div>
+          <div class="steps">
+            <div class="step">
+              <span class="num">1</span>
+              <div><strong>Initialize the contract</strong><span>`axiom init` creates `app.ax`, agent instructions, and simulation hints.</span></div>
+            </div>
+            <div class="step">
+              <span class="num">2</span>
+              <div><strong>Ask for the next move</strong><span>`axiom doctor` and `axiom next` tell the agent what is missing or ready.</span></div>
+            </div>
+            <div class="step">
+              <span class="num">3</span>
+              <div><strong>Simulate before generating</strong><span>`axiom simulate-examples` tests policy behavior before implementation artifacts are created.</span></div>
+            </div>
           </div>
         </div>
       </section>

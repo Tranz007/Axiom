@@ -1,0 +1,80 @@
+app AgentGateway
+  intent:
+    external agents request narrow capabilities without broad data access
+    deterministic policy decides allow, deny, or require_approval
+
+invariant capability_not_retrieval
+  forbid:
+    agent_route returns raw_sensitive_record
+    agent_route lists all_records
+    model decides policy
+
+actor AccountOwner
+  trust owner
+  may:
+    approve_request
+    deny_request
+    review_audit
+
+actor ExternalAgent
+  trust authenticated_but_untrusted
+  may:
+    request capability
+  may_not:
+    retrieve raw records
+    decide policy
+    mutate approval
+
+data_class profile.contact
+  domain profile
+  sensitivity moderate
+  allowed_disclosure:
+    task_fields
+    masked_summary
+
+capability use_contact_for_workflow
+  purpose:
+    provide only approved contact fields for one workflow
+
+  input:
+    account_id
+    agent_id
+    workflow_label
+    destination_identity
+
+  data:
+    requires profile.contact
+
+  disclosure:
+    mode task_fields
+    forbidden raw_profile_export
+    forbidden unrelated_profile_fields
+
+  policy:
+    allow if agent_has_capability
+      and destination_allowlisted_for_capability
+      and request_frequency_normal
+
+    require_approval if destination_unknown
+      or standing_policy_absent
+
+    deny if schema_malformed
+      or capability_scope_exceeded
+      or destination_spoofed
+
+  broker:
+    may_decrypt profile.contact
+    may_return task_fields
+
+  audit:
+    invocation
+    policy_decision
+    broker_execution
+    disclosure_mode
+    never log raw_profile
+
+target gateway
+  backend:
+    deterministic policy engine
+    broker services
+    audit service

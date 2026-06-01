@@ -14,6 +14,10 @@ Prerequisite: Node.js 20 or newer.
 ```bash
 git clone https://github.com/Tranz007/Axiom.git
 cd Axiom
+node ./bin/axiom.mjs init --template local-private-app --agent codex --out /tmp/axiom-starter
+node ./bin/axiom.mjs doctor --cwd /tmp/axiom-starter
+node ./bin/axiom.mjs next --cwd /tmp/axiom-starter
+node ./bin/axiom.mjs simulate-examples --cwd /tmp/axiom-starter
 node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax
 node ./bin/axiom.mjs matrix examples/agent-capability-gateway/axiom.ax
 node ./bin/axiom.mjs simulate examples/agent-capability-gateway/axiom.ax --capability fill_tax_identity_fields --fact standing_policy_absent=true
@@ -33,6 +37,10 @@ npm test
 
 The current CLI can:
 
+- initialize starter `app.ax` projects with AI coding agent instructions
+- inspect project readiness with `axiom doctor`
+- recommend the next useful agent action with `axiom next`
+- run starter policy simulations with `axiom simulate-examples`
 - parse the MVP indentation-based `.ax` format
 - validate that capabilities declare purpose, policy, disclosure, broker, approval, and audit obligations where required
 - fail unsafe examples such as raw sensitive export, missing approval paths, model-decided policy, and unsafe audit logging
@@ -44,6 +52,7 @@ The current CLI cannot yet:
 
 - generate a full application
 - replace framework code
+- run an interactive guided setup flow
 - execute policies against real request context
 - parse rich expressions beyond simple boolean facts
 - guarantee security by itself
@@ -171,6 +180,9 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/runtime-model.md](docs/runtime-model.md): build-time, runtime, frontend, backend, deployment
 - [docs/security-model.md](docs/security-model.md): security posture, threats, capability isolation
 - [docs/compiler-and-targets.md](docs/compiler-and-targets.md): how Axiom compiles to real software
+- [docs/axiom-os.html](docs/axiom-os.html): public-facing open-source edition page
+- [docs/editions.md](docs/editions.md): Axiom OS, Axiom Business, and Axiom Government distribution strategy
+- [docs/agent-instructions.md](docs/agent-instructions.md): instructions layer for AI coding agents and non-expert builders
 - [docs/why-axiom.html](docs/why-axiom.html): developer-facing rationale for the added layer
 - [docs/skills-vs-axiom.html](docs/skills-vs-axiom.html): how Axiom differs from Markdown agent skills and reusable AI guidance
 - [docs/why-axiom.md](docs/why-axiom.md): plain Markdown source for the rationale

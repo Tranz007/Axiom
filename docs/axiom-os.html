@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Axiom OS | Open-source capability contracts for AI coding agents</title>
+    <meta
+      name="description"
+      content="Axiom OS is the open-source edition of Axiom for humans building with AI coding agents. Humans install it; agents use it to validate, simulate, and generate from capability contracts."
+    />
+    <style>
+      :root {
+        --bg: #101820;
+        --ink: #edf6f4;
+        --muted: #a9bbb8;
+        --line: rgba(189, 216, 210, 0.22);
+        --panel: #16242c;
+        --panel-strong: #1e323b;
+        --accent: #72d6c8;
+        --accent-strong: #11a391;
+        --soft: rgba(114, 214, 200, 0.1);
+        --code: #091014;
+      }
+
+      [data-theme="light"] {
+        --bg: #f8fafb;
+        --ink: #172027;
+        --muted: #5c6871;
+        --line: #d7e0e5;
+        --panel: #ffffff;
+        --panel-strong: #eef6f4;
+        --accent: #0f766e;
+        --accent-strong: #104f4a;
+        --soft: #e6f5f2;
+        --code: #101820;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--bg);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.58;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        width: min(1040px, calc(100vw - 40px));
+        margin: 0 auto;
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid var(--line);
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(14px);
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 64px;
+        gap: 18px;
+      }
+
+      .brand,
+      .nav-links a {
+        text-decoration: none;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 850;
+      }
+
+      .mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 8px;
+        color: #07110f;
+        background: var(--accent);
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .theme {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .hero {
+        padding: 68px 0 44px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 940px;
+        margin-bottom: 18px;
+        font-size: clamp(44px, 7vw, 82px);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 850px;
+        color: var(--muted);
+        font-size: clamp(18px, 2vw, 23px);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0 16px;
+        color: var(--ink);
+        background: transparent;
+        text-decoration: none;
+        font-weight: 760;
+      }
+
+      .button.primary {
+        border-color: var(--accent);
+        color: #07110f;
+        background: var(--accent);
+      }
+
+      section {
+        padding: 46px 0;
+      }
+
+      h2 {
+        margin-bottom: 12px;
+        font-size: clamp(30px, 4vw, 48px);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .section-lead {
+        max-width: 820px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 28px;
+        align-items: start;
+      }
+
+      .card,
+      .step {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .card {
+        min-height: 170px;
+        padding: 20px;
+      }
+
+      .card h3 {
+        margin-bottom: 8px;
+      }
+
+      .card p,
+      .step span,
+      li {
+        color: var(--muted);
+      }
+
+      .tag {
+        display: inline-flex;
+        margin-bottom: 12px;
+        border-radius: 999px;
+        padding: 4px 9px;
+        color: var(--accent);
+        background: var(--soft);
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .steps {
+        display: grid;
+        gap: 10px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .num {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 8px;
+        color: #07110f;
+        background: var(--accent);
+        font-weight: 850;
+      }
+
+      .step strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      pre {
+        overflow: auto;
+        margin: 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+        color: #e7f3f1;
+        background: var(--code);
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 13px;
+        line-height: 1.62;
+      }
+
+      .callout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: center;
+        border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+        border-radius: 8px;
+        padding: 22px;
+        background: var(--soft);
+      }
+
+      .callout p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+
+      footer {
+        padding: 30px 0 42px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      @media (max-width: 860px) {
+        .grid,
+        .split,
+        .callout {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-links a:not(:last-child) {
+          display: none;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .wrap {
+          width: min(100vw - 28px, 1040px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav" aria-label="Primary navigation">
+      <div class="wrap nav-inner">
+        <a class="brand" href="../index.html">
+          <span class="mark">A</span>
+          <span>Axiom OS</span>
+        </a>
+        <div class="nav-links">
+          <a href="../index.html">Back to home</a>
+          <a href="skills-vs-axiom.html">Skills</a>
+          <a href="why-axiom.html">Why</a>
+          <button class="theme" type="button" data-theme-toggle aria-label="Switch to light mode">☾</button>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Open-source edition</p>
+        <h1>Install Axiom for the human. Use Axiom for the agent.</h1>
+        <p class="lead">
+          Axiom OS is the open-source path for AI-assisted builders. It gives coding agents
+          a contract to inspect, a policy path to simulate, and a next command to run before
+          they generate or modify authority-bearing code.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/Tranz007/Axiom">View on GitHub</a>
+          <a class="button" href="#flow">See the five-minute flow</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <div class="wrap">
+          <h2>Who it is for</h2>
+          <p class="section-lead">
+            Axiom OS is for people building with Codex, Claude, Cursor, Copilot, or similar
+            coding agents who want more than prompt instructions but do not want a heavy
+            enterprise governance platform.
+          </p>
+          <div class="grid">
+            <article class="card">
+              <span class="tag">Builders</span>
+              <h3>Advanced vibe coders</h3>
+              <p>Start with a template, let the agent follow `app.ax`, and keep the first workflow simple.</p>
+            </article>
+            <article class="card">
+              <span class="tag">Developers</span>
+              <h3>Not a toy</h3>
+              <p>Contracts include actors, data classes, capabilities, policy, approvals, brokers, and audit.</p>
+            </article>
+            <article class="card">
+              <span class="tag">Agents</span>
+              <h3>Deterministic next steps</h3>
+              <p>`axiom doctor` and `axiom next` give coding agents explicit repo-aware commands.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="flow">
+        <div class="wrap split">
+          <div>
+            <h2>The first five minutes</h2>
+            <p class="section-lead">
+              The first-run loop should be easy enough for a non-expert builder and concrete
+              enough that a serious developer can see the enforcement surface.
+            </p>
+          </div>
+          <pre>axiom init --template local-private-app --agent codex
+axiom doctor
+axiom next
+axiom simulate-examples
+axiom next
+axiom generate app.ax --target typescript --out generated</pre>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap split">
+          <div>
+            <h2>What the agent gets</h2>
+            <p class="section-lead">
+              Axiom does not replace the coding agent. It gives the agent a contract, checks,
+              simulation examples, and generated artifacts so implementation work does not
+              silently widen authority.
+            </p>
+          </div>
+          <div class="steps">
+            <div class="step">
+              <span class="num">1</span>
+              <div><strong>`app.ax`</strong><span>The source of truth for intent, actors, sensitive data, capabilities, policy, approvals, broker behavior, and audit.</span></div>
+            </div>
+            <div class="step">
+              <span class="num">2</span>
+              <div><strong>Agent instructions</strong><span>`AGENTS.md`, `CLAUDE.md`, Cursor rules, or generic instructions tell the agent to update the contract first.</span></div>
+            </div>
+            <div class="step">
+              <span class="num">3</span>
+              <div><strong>Policy simulations</strong><span>Starter scenarios prove allow and approval paths before generated artifacts are used.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <h2>What it does not promise</h2>
+          <p class="section-lead">
+            Axiom OS is not a guarantee that non-developers can safely ship high-risk systems alone.
+            It is a safer default path for AI-assisted building.
+          </p>
+          <div class="grid">
+            <article class="card">
+              <span class="tag">No magic</span>
+              <h3>Not a zero-day shield</h3>
+              <p>Axiom reduces classes of authority drift. It does not eliminate ordinary security engineering.</p>
+            </article>
+            <article class="card">
+              <span class="tag">No replacement</span>
+              <h3>Frameworks still matter</h3>
+              <p>Browsers, servers, databases, and deployment platforms still run normal software artifacts.</p>
+            </article>
+            <article class="card">
+              <span class="tag">No model policy</span>
+              <h3>LLMs do not decide access</h3>
+              <p>Models can draft and explain, but final policy decisions must remain deterministic.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap callout">
+          <div>
+            <h2>Future editions</h2>
+            <p>
+              Axiom Business and Axiom Government can build on the same core with stricter
+              policy profiles, evidence reports, deployment verification, and audit workflows.
+              The open-source core has to prove the contract model first.
+            </p>
+          </div>
+          <a class="button primary" href="https://github.com/Tranz007/Axiom/blob/main/docs/editions.md">Read the editions note</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        Axiom OS keeps the first contact simple: initialize a contract, check it, simulate policy,
+        then generate artifacts for ordinary implementation code.
+      </div>
+    </footer>
+
+    <script>
+      const root = document.documentElement;
+      const toggle = document.querySelector("[data-theme-toggle]");
+      const stored = localStorage.getItem("axiom-theme");
+      if (stored) root.dataset.theme = stored;
+
+      function syncThemeButton() {
+        const light = root.dataset.theme === "light";
+        toggle.textContent = light ? "☀" : "☾";
+        toggle.setAttribute("aria-label", light ? "Switch to dark mode" : "Switch to light mode");
+      }
+
+      toggle.addEventListener("click", () => {
+        root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
+        localStorage.setItem("axiom-theme", root.dataset.theme);
+        syncThemeButton();
+      });
+
+      syncThemeButton();
+    </script>
+  </body>
+</html>

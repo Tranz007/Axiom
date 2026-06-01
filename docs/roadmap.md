@@ -47,6 +47,45 @@ Success:
 - generic retrieval routes are detected
 - policy matrix clearly covers allow / deny / require_approval
 
+## Phase 1.5: Agent Instruction Onboarding
+
+Goal:
+
+Make Axiom usable by people who build with AI coding agents before they understand the full language.
+
+Scope:
+
+- add static instruction templates for Codex `AGENTS.md`, Claude `CLAUDE.md`, Cursor rules, and generic agent instructions
+- add `axiom init --agent codex` to generate a starter `app.ax` plus agent instructions
+- add app-type starters such as local private app, agent gateway, sensitive upload app, and approval-gated automation
+- add guided questions that help an agent identify sensitive data, actors, capabilities, effects, approvals, and audit obligations
+- add a project health check such as `axiom doctor`
+- add an agent-facing next-action command such as `axiom next`
+- add a simple way to run starter policy simulations before generation
+
+Non-goals:
+
+- making Axiom a replacement for engineering judgment
+- promising that non-developers can safely ship high-risk regulated production systems without review
+- adding full framework code generation before the contract onboarding flow works
+
+Success:
+
+- a user can ask an AI coding agent to build an app and have the agent create `app.ax` before implementation code
+- generated instructions tell the agent not to add routes, tools, or jobs that bypass the Axiom contract
+- first-run validation errors explain authority problems in plain language
+- consumer/developer onboarding does not require starting from a blank `.ax` file
+
+Current status:
+
+- static agent instruction templates exist
+- starter app templates exist
+- `axiom init` can generate `app.ax`, agent instructions, and simulation hints
+- `axiom doctor` can explain whether a project has the first Axiom files in place
+- `axiom next` can recommend the next useful action for a human or coding agent
+- `axiom simulate-examples` can run starter policy scenarios and save results
+- guided interactive init is still future work
+
 ## Phase 2: Broker And Audit Contracts
 
 Goal:
