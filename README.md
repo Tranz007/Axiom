@@ -126,7 +126,8 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/runtime-model.md](docs/runtime-model.md): build-time, runtime, frontend, backend, deployment
 - [docs/security-model.md](docs/security-model.md): security posture, threats, capability isolation
 - [docs/compiler-and-targets.md](docs/compiler-and-targets.md): how Axiom compiles to real software
-- [docs/why-axiom.md](docs/why-axiom.md): developer-facing rationale for the added layer
+- [docs/why-axiom.html](docs/why-axiom.html): developer-facing rationale for the added layer
+- [docs/why-axiom.md](docs/why-axiom.md): plain Markdown source for the rationale
 - [docs/comparison-matrix.html](docs/comparison-matrix.html): human-readable visual comparison matrix
 - [docs/comparison-matrix.md](docs/comparison-matrix.md): plain Markdown source for the comparison matrix
 - [docs/roadmap.md](docs/roadmap.md): phased implementation plan

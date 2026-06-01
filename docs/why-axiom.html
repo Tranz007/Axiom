@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Why Axiom | Developer Rationale</title>
+    <meta
+      name="description"
+      content="A developer-facing explanation of when Axiom is worth its added structure and when it is not."
+    />
+    <style>
+      :root {
+        --ink: #172027;
+        --muted: #5c6871;
+        --line: #d7e0e5;
+        --panel: #ffffff;
+        --soft: #f4f8f8;
+        --accent: #0f766e;
+        --accent-dark: #104f4a;
+        --blue: #315f7b;
+        --code: #101820;
+        --code-soft: #eef4f5;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: #f8fafb;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.55;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        width: min(1080px, calc(100vw - 40px));
+        margin: 0 auto;
+      }
+
+      .page-nav {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        border-bottom: 1px solid rgba(215, 224, 229, 0.88);
+        background: rgba(248, 250, 251, 0.94);
+        backdrop-filter: blur(12px);
+      }
+
+      .page-nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 60px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-weight: 850;
+      }
+
+      .mark {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border-radius: 8px;
+        color: #fff;
+        background: var(--accent);
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      }
+
+      .back-link {
+        color: var(--accent-dark);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 750;
+      }
+
+      header {
+        padding: 58px 0 38px;
+        border-bottom: 1px solid var(--line);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.93), rgba(248, 250, 251, 1)),
+          radial-gradient(circle at 16% 12%, #d8f0eb, transparent 32%),
+          radial-gradient(circle at 84% 8%, #e4edf5, transparent 30%);
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--accent-dark);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 880px;
+        font-size: clamp(42px, 7vw, 82px);
+        line-height: 0.96;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 820px;
+        margin: 22px 0 0;
+        color: var(--muted);
+        font-size: clamp(18px, 2vw, 22px);
+      }
+
+      main {
+        padding: 40px 0 64px;
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: minmax(0, 0.78fr) minmax(260px, 0.22fr);
+        gap: 32px;
+        align-items: start;
+      }
+
+      article {
+        padding: 26px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: 0 12px 32px rgba(23, 32, 39, 0.07);
+      }
+
+      aside {
+        position: sticky;
+        top: 82px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      aside strong {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      aside a {
+        display: block;
+        margin-top: 8px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      h2 {
+        margin: 34px 0 12px;
+        font-size: 29px;
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      h2:first-child {
+        margin-top: 0;
+      }
+
+      p {
+        margin: 0 0 16px;
+      }
+
+      blockquote {
+        margin: 18px 0;
+        padding: 16px 18px;
+        border-left: 4px solid var(--accent);
+        border-radius: 6px;
+        background: #ecf8f5;
+        color: var(--accent-dark);
+        font-weight: 720;
+      }
+
+      ul {
+        margin: 0 0 18px;
+        padding-left: 22px;
+      }
+
+      li + li {
+        margin-top: 6px;
+      }
+
+      code,
+      pre {
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      }
+
+      code {
+        padding: 2px 5px;
+        border-radius: 5px;
+        background: var(--code-soft);
+      }
+
+      pre {
+        overflow: auto;
+        margin: 18px 0;
+        padding: 16px;
+        border-radius: 8px;
+        color: #e7f3f1;
+        background: var(--code);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .decision {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 18px 0 24px;
+      }
+
+      .panel {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfdfd;
+      }
+
+      .panel strong {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .footer-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 26px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0 14px;
+        background: #fff;
+        text-decoration: none;
+        font-weight: 750;
+      }
+
+      .button.primary {
+        border-color: var(--accent);
+        color: #fff;
+        background: var(--accent);
+      }
+
+      @media (max-width: 860px) {
+        .wrap {
+          width: min(100vw - 28px, 1080px);
+        }
+
+        .content,
+        .decision {
+          grid-template-columns: 1fr;
+        }
+
+        aside {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="page-nav" aria-label="Page navigation">
+      <div class="wrap page-nav-inner">
+        <a class="brand" href="../index.html">
+          <span class="mark">A</span>
+          <span>Axiom</span>
+        </a>
+        <a class="back-link" href="../index.html">Back to home</a>
+      </div>
+    </nav>
+
+    <header>
+      <div class="wrap">
+        <p class="eyebrow">Developer Rationale</p>
+        <h1>Why add another layer?</h1>
+        <p class="lead">
+          Axiom should not exist unless it removes a class of complexity that current
+          stacks repeatedly push onto humans.
+        </p>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <div class="content">
+        <article>
+          <h2 id="objection">The objection is correct</h2>
+          <p>
+            Human developers will reasonably ask why Axiom should exist. Why not use the
+            languages, frameworks, policy engines, and tests we already have?
+          </p>
+          <p>
+            That objection is the right starting point. The argument for Axiom is not that
+            Python, TypeScript, Rust, OpenAPI, Rego, workflow engines, or infrastructure-as-code
+            are bad. They are useful. The problem is that agent-built software creates a
+            cross-cutting authority problem that those tools only address in fragments.
+          </p>
+
+          <h2 id="complexity">The complexity already exists</h2>
+          <p>In agent-facing software, teams already have to answer:</p>
+          <ul>
+            <li>Which actor is asking?</li>
+            <li>Is the actor trusted, authenticated, both, or neither?</li>
+            <li>What exact capability is being requested?</li>
+            <li>What data class is involved?</li>
+            <li>Where is the output going?</li>
+            <li>Is the output raw, masked, summarized, tokenized, or task-scoped?</li>
+            <li>Does this action require approval?</li>
+            <li>What must be audited?</li>
+            <li>What must never be logged?</li>
+            <li>What happens if the agent is prompt-injected?</li>
+          </ul>
+          <p>
+            Today, those answers tend to be scattered across endpoint code, middleware,
+            schema validators, comments, design docs, policy files, UI copy, test fixtures,
+            logging conventions, threat models, deployment checklists, and memory.
+          </p>
+          <blockquote>
+            If the complexity is security-critical, cross-cutting, and easy to forget,
+            it should become source code.
+          </blockquote>
+
+          <h2 id="languages">What existing languages miss</h2>
+          <p>TypeScript can say:</p>
+          <pre>type UserProfile = {
+  legalName: string
+  address: string
+}</pre>
+          <p>But it does not natively say:</p>
+          <pre>this field may only leave the broker as task_fields
+this action requires approval when the destination is unknown
+this endpoint must not exist for untrusted agents
+this UI must show destination trust before approval
+this audit event must not contain plaintext</pre>
+          <p>
+            You can build those rules manually. Good teams do. The problem is that each
+            team builds them differently, often after an incident, and often in places
+            future agents cannot reliably inspect.
+          </p>
+
+          <h2 id="question">The real developer question</h2>
+          <p>The serious question is not:</p>
+          <blockquote>Can I build this in TypeScript?</blockquote>
+          <p>Of course you can. The serious question is:</p>
+          <blockquote>
+            Can the next human or agent understand the authority model, preserve it during
+            changes, and prove that generated code did not drift from it?
+          </blockquote>
+          <p>Axiom is for that second question.</p>
+
+          <h2 id="when">When Axiom is worth it</h2>
+          <div class="decision">
+            <div class="panel">
+              <strong>Worth considering</strong>
+              <ul>
+                <li>AI agents call into the system.</li>
+                <li>Sensitive data is involved.</li>
+                <li>The system can take irreversible external actions.</li>
+                <li>Human approval matters.</li>
+                <li>Auditability matters.</li>
+                <li>A model must not decide access.</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <strong>Probably overkill</strong>
+              <ul>
+                <li>Static marketing pages.</li>
+                <li>Simple public-data dashboards.</li>
+                <li>Toy apps.</li>
+                <li>Local scripts.</li>
+                <li>Basic CRUD over non-sensitive data.</li>
+                <li>Low-level performance-critical systems.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 id="payoff">The developer payoff</h2>
+          <p>Axiom should earn its keep by producing practical outputs:</p>
+          <ul>
+            <li>request and response schemas</li>
+            <li>policy matrix tests</li>
+            <li>broker contracts</li>
+            <li>approval UI requirements</li>
+            <li>audit schemas</li>
+            <li>route guard checks</li>
+            <li>deployment manifests</li>
+            <li>verification reports</li>
+          </ul>
+          <p>
+            If Axiom only produces prettier documentation, it fails. If it produces tests
+            and guardrails that catch dangerous drift before deployment, it starts to justify itself.
+          </p>
+
+          <h2 id="example">A concrete example</h2>
+          <p>Without Axiom, a developer might add:</p>
+          <pre>GET /records/search</pre>
+          <p>
+            That looks harmless during a demo. It may even be authenticated. But in an
+            agent-facing system, that endpoint may quietly become a broad retrieval channel.
+          </p>
+          <p>With Axiom, the capability source might say:</p>
+          <pre>invariant capability_not_retrieval
+  forbid:
+    agent_route returns raw_sensitive_record
+    agent_route lists all_records
+    agent_route searches decrypted_payload</pre>
+          <p>
+            The build can reject the route before it ships. That is not extra complexity
+            for its own sake. That is moving a critical product promise from human memory
+            into executable structure.
+          </p>
+
+          <h2 id="model">The right mental model</h2>
+          <pre>existing languages describe how the system works
+Axiom describes what the system is allowed to do</pre>
+          <p>
+            The implementation can still be TypeScript, Python, Rust, React, SQL, OpenAPI,
+            or Rego. Axiom should make those systems safer to generate, connect, constrain,
+            test, and deploy when agents and sensitive actions are involved.
+          </p>
+
+          <h2 id="bar">The bar</h2>
+          <p>Axiom should be judged by whether it can answer these questions:</p>
+          <ul>
+            <li>What can this actor do?</li>
+            <li>Why is it allowed?</li>
+            <li>What data can it touch?</li>
+            <li>What data can leave?</li>
+            <li>What requires approval?</li>
+            <li>What is forbidden?</li>
+            <li>What gets audited?</li>
+            <li>What happens when a future agent changes the system?</li>
+          </ul>
+          <p>If it cannot answer those clearly, it should not be added.</p>
+
+          <div class="footer-actions">
+            <a class="button primary" href="../index.html">Back to home</a>
+            <a class="button" href="comparison-matrix.html">View the matrix</a>
+          </div>
+        </article>
+
+        <aside aria-label="Page sections">
+          <strong>On this page</strong>
+          <a href="#objection">The objection</a>
+          <a href="#complexity">Existing complexity</a>
+          <a href="#when">When to use it</a>
+          <a href="#payoff">Developer payoff</a>
+          <a href="#bar">The bar</a>
+          <a href="comparison-matrix.html">Comparison matrix</a>
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>

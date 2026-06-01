@@ -36,6 +36,53 @@
         line-height: 1.5;
       }
 
+      a {
+        color: inherit;
+      }
+
+      .page-nav {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        border-bottom: 1px solid rgba(216, 224, 230, 0.88);
+        background: rgba(248, 250, 251, 0.94);
+        backdrop-filter: blur(12px);
+      }
+
+      .page-nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 60px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-weight: 850;
+      }
+
+      .mark {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border-radius: 8px;
+        color: #fff;
+        background: var(--accent);
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      }
+
+      .back-link {
+        color: var(--accent-strong);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 750;
+      }
+
       header {
         background:
           linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.96)),
@@ -354,6 +401,16 @@
     </style>
   </head>
   <body>
+    <nav class="page-nav" aria-label="Page navigation">
+      <div class="wrap page-nav-inner">
+        <a class="brand" href="../index.html">
+          <span class="mark">A</span>
+          <span>Axiom</span>
+        </a>
+        <a class="back-link" href="../index.html">Back to home</a>
+      </div>
+    </nav>
+
     <header>
       <div class="wrap hero">
         <p class="eyebrow">Axiom Comparison Matrix</p>
