@@ -55,11 +55,66 @@ describe("axiom cli", () => {
         dir,
       ]);
       const capabilities = await readFile(join(dir, "capabilities.ts"), "utf8");
+      const evaluator = await readFile(join(dir, "policy-evaluator.ts"), "utf8");
       const report = await readFile(join(dir, "axiom-report.md"), "utf8");
       assert.match(capabilities, /fill_tax_identity_fields/);
+      assert.match(evaluator, /evaluateAxiomPolicy/);
       assert.match(report, /Axiom Verification Report/);
     } finally {
       await rm(dir, { recursive: true, force: true });
     }
+  });
+
+  it("simulates an allow decision", async () => {
+    const result = await axiom([
+      "simulate",
+      "tests/fixtures/good/agent-capability-gateway.ax",
+      "--capability",
+      "use_approved_address",
+      "--fact",
+      "agent_has_capability=true",
+      "--fact",
+      "destination_allowlisted_for_capability=true",
+      "--fact",
+      "request_frequency_normal=true",
+    ]);
+
+    assert.match(result.stdout, /"decision": "allow"/);
+  });
+
+  it("simulates a require_approval decision", async () => {
+    const result = await axiom([
+      "simulate",
+      "tests/fixtures/good/agent-capability-gateway.ax",
+      "--capability",
+      "fill_tax_identity_fields",
+      "--fact",
+      "standing_policy_absent=true",
+    ]);
+
+    assert.match(result.stdout, /"decision": "require_approval"/);
+    assert.match(result.stdout, /"requiredApproval"/);
+  });
+
+  it("gives deny precedence during simulation", async () => {
+    await expectAxiomFailure(
+      [
+        "simulate",
+        "tests/fixtures/good/agent-capability-gateway.ax",
+        "--capability",
+        "fill_tax_identity_fields",
+        "--fact",
+        "agent_has_capability=true",
+        "--fact",
+        "destination_allowlisted_for_capability=true",
+        "--fact",
+        "standing_policy_matches=true",
+        "--fact",
+        "required_fields_subset_of_capability=true",
+        "--fact",
+        "destination_blocked=true",
+      ],
+      /"decision": "deny"/,
+    );
   });
 });

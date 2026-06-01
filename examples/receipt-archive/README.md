@@ -6,5 +6,6 @@ Run:
 
 ```bash
 npm run axiom -- validate examples/receipt-archive/axiom.ax
+npm run axiom -- simulate examples/receipt-archive/axiom.ax --capability monthly_summary --fact user_authenticated=true
 npm run axiom -- generate examples/receipt-archive/axiom.ax --target typescript --out examples/receipt-archive/generated
 ```

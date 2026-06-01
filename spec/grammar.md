@@ -47,3 +47,19 @@ deny if condition
 ```
 
 The grammar will become stricter over time. The MVP favors clear diagnostics and useful generated contracts over language completeness.
+
+## Policy Simulation
+
+The MVP runtime evaluates policy conditions as boolean facts.
+
+```bash
+axiom simulate app.ax --capability fill_tax_identity_fields --fact standing_policy_absent=true
+```
+
+Decision precedence is:
+
+```text
+deny > require_approval > allow
+```
+
+If no rule matches, the result is `deny` with reason `no_policy_rule_matched`.

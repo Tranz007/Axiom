@@ -16,6 +16,7 @@ git clone https://github.com/Tranz007/Axiom.git
 cd Axiom
 node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax
 node ./bin/axiom.mjs matrix examples/agent-capability-gateway/axiom.ax
+node ./bin/axiom.mjs simulate examples/agent-capability-gateway/axiom.ax --capability fill_tax_identity_fields --fact standing_policy_absent=true
 node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
 node --test
 ```
@@ -36,6 +37,7 @@ The current CLI can:
 - validate that capabilities declare purpose, policy, disclosure, broker, approval, and audit obligations where required
 - fail unsafe examples such as raw sensitive export, missing approval paths, model-decided policy, and unsafe audit logging
 - print a policy matrix as JSON
+- simulate deterministic policy decisions from boolean request facts
 - generate TypeScript artifacts for capabilities, data classes, audit obligations, runtime guards, and verification reports
 
 The current CLI cannot yet:
@@ -43,6 +45,7 @@ The current CLI cannot yet:
 - generate a full application
 - replace framework code
 - execute policies against real request context
+- parse rich expressions beyond simple boolean facts
 - guarantee security by itself
 - parse every future Axiom syntax idea in the docs
 

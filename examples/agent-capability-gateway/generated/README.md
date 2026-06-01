@@ -6,6 +6,7 @@ These files were generated from an Axiom source graph.
 - `capabilities.ts`: generated capability contracts
 - `data-classes.ts`: generated sensitive data class contracts
 - `audit-events.ts`: generated audit obligations
+- `policy-evaluator.ts`: generated deterministic policy evaluator
 - `runtime-guards.ts`: minimal TypeScript runtime assertions
 - `axiom-report.md`: validation and generation report
 

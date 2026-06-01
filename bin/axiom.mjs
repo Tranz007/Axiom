@@ -4,6 +4,7 @@ import { dirname, resolve } from "node:path";
 import { parseAxiom } from "../src/parser.mjs";
 import { validateGraph } from "../src/validator.mjs";
 import { generateArtifacts } from "../src/generator.mjs";
+import { evaluateAxiomPolicy, parseFactList } from "../src/runtime.mjs";
 
 const command = process.argv[2];
 const input = process.argv[3];
@@ -15,6 +16,7 @@ Usage:
   axiom validate <file.ax>
   axiom explain <file.ax>
   axiom matrix <file.ax>
+  axiom simulate <file.ax> --capability <key> [--fact name=true ...]
   axiom generate <file.ax> [--target typescript] [--out generated]
 `);
 }
@@ -22,6 +24,16 @@ Usage:
 function optionValue(name, fallback) {
   const index = process.argv.indexOf(name);
   return index === -1 ? fallback : process.argv[index + 1] || fallback;
+}
+
+function optionValues(name) {
+  const values = [];
+  for (let index = 0; index < process.argv.length; index += 1) {
+    if (process.argv[index] === name && process.argv[index + 1]) {
+      values.push(process.argv[index + 1]);
+    }
+  }
+  return values;
 }
 
 async function loadGraph(file) {
@@ -91,6 +103,23 @@ try {
     }));
     console.log(JSON.stringify(matrix, null, 2));
     process.exit(diagnostics.some((item) => item.severity === "error") ? 1 : 0);
+  }
+
+  if (command === "simulate") {
+    const capability = optionValue("--capability", null);
+    if (!capability) {
+      throw new Error("simulate requires --capability <key>");
+    }
+
+    if (diagnostics.some((item) => item.severity === "error")) {
+      printDiagnostics(diagnostics);
+      throw new Error("Cannot simulate a graph with validation errors.");
+    }
+
+    const facts = parseFactList(optionValues("--fact"));
+    const result = evaluateAxiomPolicy(graph, capability, facts);
+    console.log(JSON.stringify(result, null, 2));
+    process.exit(result.decision === "deny" ? 1 : 0);
   }
 
   if (command === "generate") {
