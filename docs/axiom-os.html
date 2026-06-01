@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Axiom OS | Open-source capability contracts for AI coding agents</title>
+    <title>Axiom OS | Open-source rules for AI coding agents</title>
     <meta
       name="description"
-      content="Axiom OS is the open-source edition of Axiom for humans building with AI coding agents. Humans install it; agents use it to validate, simulate, and generate from capability contracts."
+      content="Axiom OS is the open-source edition of Axiom for humans building with AI coding agents. Humans install it; agents use it to check what the app can access, simulate policy, and generate from contracts."
     />
     <style>
       :root {
@@ -355,8 +355,8 @@
         <h1>Install Axiom for the human. Use Axiom for the agent.</h1>
         <p class="lead">
           Axiom OS is the open-source path for AI-assisted builders. It gives coding agents
-          a contract to inspect, a policy path to simulate, and a next command to run before
-          they generate or modify authority-bearing code.
+          a contract to inspect, policy paths to simulate, and a next command to run before
+          they write code that can access data or take action.
         </p>
         <div class="actions">
           <a class="button primary" href="https://github.com/Tranz007/Axiom">View on GitHub</a>
@@ -372,7 +372,7 @@
           <p class="section-lead">
             Axiom OS is for people building with Codex, Claude, Cursor, Copilot, or similar
             coding agents who want more than prompt instructions but do not want a heavy
-            enterprise governance platform.
+            security platform before they have a working app.
           </p>
           <div class="grid">
             <article class="card">
@@ -383,7 +383,7 @@
             <article class="card">
               <span class="tag">Developers</span>
               <h3>Not a toy</h3>
-              <p>Contracts include actors, data classes, capabilities, policy, approvals, brokers, and audit.</p>
+              <p>The simple flow still produces actors, data classes, capabilities, policy, approvals, brokers, and audit.</p>
             </article>
             <article class="card">
               <span class="tag">Agents</span>
@@ -400,7 +400,7 @@
             <h2>The first five minutes</h2>
             <p class="section-lead">
               The first-run loop should be easy enough for a non-expert builder and concrete
-              enough that a serious developer can see the enforcement surface.
+              enough that a serious developer can see what gets checked.
             </p>
           </div>
           <pre>axiom init --template local-private-app --agent codex
@@ -419,13 +419,13 @@ axiom generate app.ax --target typescript --out generated</pre>
             <p class="section-lead">
               Axiom does not replace the coding agent. It gives the agent a contract, checks,
               simulation examples, and generated artifacts so implementation work does not
-              silently widen authority.
+              quietly add new data access or actions outside the rules.
             </p>
           </div>
           <div class="steps">
             <div class="step">
               <span class="num">1</span>
-              <div><strong>`app.ax`</strong><span>The source of truth for intent, actors, sensitive data, capabilities, policy, approvals, broker behavior, and audit.</span></div>
+              <div><strong>`app.ax`</strong><span>The source of truth for what the app is for, what it can access, what needs approval, and what must be audited.</span></div>
             </div>
             <div class="step">
               <span class="num">2</span>
@@ -450,7 +450,7 @@ axiom generate app.ax --target typescript --out generated</pre>
             <article class="card">
               <span class="tag">No magic</span>
               <h3>Not a zero-day shield</h3>
-              <p>Axiom reduces classes of authority drift. It does not eliminate ordinary security engineering.</p>
+              <p>Axiom reduces cases where an agent quietly adds too much access. It does not eliminate ordinary security engineering.</p>
             </article>
             <article class="card">
               <span class="tag">No replacement</span>
