@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Axiom vs Agent Skills</title>
+    <meta
+      name="description"
+      content="How Axiom differs from Markdown agent skills, AGENTS.md files, and reusable AI guidance."
+    />
+    <style>
+      :root {
+        --ink: #172027;
+        --muted: #5c6871;
+        --line: #d7e0e5;
+        --panel: #ffffff;
+        --soft: #f4f8f8;
+        --accent: #0f766e;
+        --accent-dark: #104f4a;
+        --blue: #315f7b;
+        --code: #101820;
+        --code-soft: #eef4f5;
+        --warn: #9a5a00;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: #f8fafb;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.55;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        width: min(1100px, calc(100vw - 40px));
+        margin: 0 auto;
+      }
+
+      .page-nav {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        border-bottom: 1px solid rgba(215, 224, 229, 0.88);
+        background: rgba(248, 250, 251, 0.94);
+        backdrop-filter: blur(12px);
+      }
+
+      .page-nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 60px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-weight: 850;
+      }
+
+      .mark {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border-radius: 8px;
+        color: #fff;
+        background: var(--accent);
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      }
+
+      .back-link {
+        color: var(--accent-dark);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 750;
+      }
+
+      header {
+        padding: 58px 0 38px;
+        border-bottom: 1px solid var(--line);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.93), rgba(248, 250, 251, 1)),
+          radial-gradient(circle at 18% 12%, #d8f0eb, transparent 32%),
+          radial-gradient(circle at 86% 10%, #e4edf5, transparent 30%),
+          radial-gradient(circle at 70% 88%, #f6ead9, transparent 28%);
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--accent-dark);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 940px;
+        font-size: clamp(42px, 7vw, 82px);
+        line-height: 0.96;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 850px;
+        margin: 22px 0 0;
+        color: var(--muted);
+        font-size: clamp(18px, 2vw, 22px);
+      }
+
+      main {
+        padding: 40px 0 64px;
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: minmax(0, 0.76fr) minmax(260px, 0.24fr);
+        gap: 32px;
+        align-items: start;
+      }
+
+      article {
+        padding: 26px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: 0 12px 32px rgba(23, 32, 39, 0.07);
+      }
+
+      aside {
+        position: sticky;
+        top: 82px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      aside strong {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      aside a {
+        display: block;
+        margin-top: 8px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      h2 {
+        margin: 34px 0 12px;
+        font-size: 29px;
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      h2:first-child {
+        margin-top: 0;
+      }
+
+      p {
+        margin: 0 0 16px;
+      }
+
+      ul {
+        margin: 0 0 18px;
+        padding-left: 22px;
+      }
+
+      li + li {
+        margin-top: 6px;
+      }
+
+      .callout {
+        margin: 18px 0 22px;
+        padding: 16px 18px;
+        border-left: 4px solid var(--accent);
+        border-radius: 6px;
+        background: #ecf8f5;
+        color: var(--accent-dark);
+        font-weight: 720;
+      }
+
+      .warning {
+        border-left-color: var(--warn);
+        background: #fff6e6;
+        color: #704300;
+      }
+
+      .matrix {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 18px 0 24px;
+      }
+
+      .panel {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfdfd;
+      }
+
+      .panel strong {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .rows {
+        display: grid;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 18px 0 24px;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 0.9fr 1.05fr 1.05fr;
+      }
+
+      .row > div {
+        padding: 14px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .row > div:last-child {
+        border-right: 0;
+      }
+
+      .row:last-child > div {
+        border-bottom: 0;
+      }
+
+      .row.header > div {
+        background: #eef4f5;
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      code,
+      pre {
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      }
+
+      code {
+        padding: 2px 5px;
+        border-radius: 5px;
+        background: var(--code-soft);
+      }
+
+      pre {
+        overflow: auto;
+        margin: 18px 0;
+        padding: 16px;
+        border-radius: 8px;
+        color: #e7f3f1;
+        background: var(--code);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .sources {
+        margin-top: 26px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .sources a {
+        color: var(--accent-dark);
+      }
+
+      .footer-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 26px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0 14px;
+        background: #fff;
+        text-decoration: none;
+        font-weight: 750;
+      }
+
+      .button.primary {
+        border-color: var(--accent);
+        color: #fff;
+        background: var(--accent);
+      }
+
+      @media (max-width: 860px) {
+        .wrap {
+          width: min(100vw - 28px, 1100px);
+        }
+
+        .content,
+        .matrix,
+        .row {
+          grid-template-columns: 1fr;
+        }
+
+        aside {
+          position: static;
+        }
+
+        .row > div {
+          border-right: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="page-nav" aria-label="Page navigation">
+      <div class="wrap page-nav-inner">
+        <a class="brand" href="../index.html">
+          <span class="mark">A</span>
+          <span>Axiom</span>
+        </a>
+        <a class="back-link" href="../index.html">Back to home</a>
+      </div>
+    </nav>
+
+    <header>
+      <div class="wrap">
+        <p class="eyebrow">Agent Skills, Markdown Guides, And Axiom</p>
+        <h1>Markdown can guide an agent. Axiom should constrain a system.</h1>
+        <p class="lead">
+          Agent skills, AGENTS.md files, and reusable Markdown playbooks are becoming a normal
+          way to teach agents how to work. Axiom should respect that trend while solving a
+          different problem: turning authority, policy, approval, disclosure, effects, and audit
+          into executable contracts.
+        </p>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <div class="content">
+        <article>
+          <h2 id="trend">The trend is real</h2>
+          <p>
+            The agent ecosystem is converging on lightweight instruction packages. Claude Code
+            skills use a <code>SKILL.md</code> file plus optional scripts and resources. GitHub Copilot
+            supports agent skills that are folders of instructions, scripts, and resources. Codex
+            reads <code>AGENTS.md</code> files so projects can provide persistent operating guidance.
+          </p>
+          <p>
+            That is a good direction. Markdown is cheap, portable, reviewable, and easy for teams
+            to write. It is likely to become the README layer for agent behavior.
+          </p>
+          <div class="callout">
+            Axiom should not compete with skills as a better notebook. It should compile the parts
+            of a system that cannot safely remain as advice.
+          </div>
+
+          <h2 id="markdown-is-good">What Markdown skills are good at</h2>
+          <div class="matrix">
+            <div class="panel">
+              <strong>Skills and guides shine when they describe process</strong>
+              <ul>
+                <li>How to run a project</li>
+                <li>How to review code</li>
+                <li>How to format a document</li>
+                <li>How to follow team conventions</li>
+                <li>How to use a tool correctly</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <strong>They are weaker when they must enforce authority</strong>
+              <ul>
+                <li>Whether an agent may touch sensitive data</li>
+                <li>Whether an output may leave a broker</li>
+                <li>Whether an approval is bound to the right destination</li>
+                <li>Whether a generated route violates policy</li>
+                <li>Whether audit logs omit raw secrets</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 id="difference">The difference</h2>
+          <div class="rows" role="table" aria-label="Agent skills compared with Axiom">
+            <div class="row header" role="row">
+              <div role="columnheader">Question</div>
+              <div role="columnheader">Markdown Skill / Guide</div>
+              <div role="columnheader">Axiom</div>
+            </div>
+            <div class="row" role="row">
+              <div role="cell">What is it?</div>
+              <div role="cell">Instructional context loaded into an agent.</div>
+              <div role="cell">Executable source for authority, policy, capabilities, effects, approvals, and audit.</div>
+            </div>
+            <div class="row" role="row">
+              <div role="cell">Who follows it?</div>
+              <div role="cell">The model, if it loads, understands, and obeys the guidance.</div>
+              <div role="cell">The compiler, generated tests, runtime guards, approval flows, and broker boundaries.</div>
+            </div>
+            <div class="row" role="row">
+              <div role="cell">What can fail?</div>
+              <div role="cell">The agent may ignore, misread, truncate, override, or overgeneralize the instruction.</div>
+              <div role="cell">The build should fail, the route should be blocked, or runtime policy should deny the action.</div>
+            </div>
+            <div class="row" role="row">
+              <div role="cell">Best use</div>
+              <div role="cell">Teaching agents repeatable workflows and project conventions.</div>
+              <div role="cell">Constraining systems where agents, sensitive data, approvals, and external effects collide.</div>
+            </div>
+          </div>
+
+          <h2 id="security">The security problem with advice-only layers</h2>
+          <p>
+            A skill can say, <q>never expose raw customer records</q>. That helps. But it does not
+            prove that an API route cannot return raw records, that a future agent did not add a
+            broad search endpoint, or that an approval screen is binding the approved destination
+            to the actual effect.
+          </p>
+          <p>
+            This is the core limitation: Markdown can express a promise, but it usually cannot
+            enforce the promise across generated code, runtime boundaries, and deployment changes.
+          </p>
+          <div class="callout warning">
+            Axiom should be judged by whether it catches drift that a well-written skill merely
+            warned about.
+          </div>
+
+          <h2 id="example">A concrete example</h2>
+          <p>A skill might instruct an agent:</p>
+          <pre>When building customer support tools, never expose raw identity records to an untrusted agent.
+Use masked summaries unless a human explicitly approves disclosure.</pre>
+          <p>That is useful guidance. The Axiom version should turn the same promise into structure:</p>
+          <pre>data_class identity_record
+  sensitivity high
+  disclosure raw: forbidden_to untrusted_agent
+  disclosure summary: allowed_if task_scoped
+
+capability answer_support_question
+  caller support_agent: untrusted
+  reads identity_record through broker identity_broker
+  output summary_only
+  approval required_if destination_unknown
+
+invariant no_raw_identity_to_agent
+  forbid:
+    route returns identity_record.raw to untrusted_agent
+    audit includes identity_record.raw</pre>
+          <p>
+            The important difference is not syntax. The difference is that a compiler can generate
+            policy tests, route guard checks, broker contracts, approval UI requirements, and audit
+            assertions from the Axiom source.
+          </p>
+
+          <h2 id="complementary">Axiom should use skills, not dismiss them</h2>
+          <p>
+            The strongest version of Axiom would likely ship with skills. A <code>SKILL.md</code> can teach
+            an agent how to author Axiom files, run the compiler, interpret policy failures, and
+            update generated targets without bypassing the source graph.
+          </p>
+          <p>
+            In that relationship, skills are the agent-facing operating manual. Axiom is the
+            system-facing contract. One helps the agent do good work. The other limits what the
+            resulting system is allowed to do.
+          </p>
+
+          <h2 id="claim">The claim Axiom has to earn</h2>
+          <p>
+            Axiom is more than Markdown only if it produces enforceable outputs:
+          </p>
+          <ul>
+            <li>Policy matrices that can be tested</li>
+            <li>Generated route guards that deny out-of-scope capabilities</li>
+            <li>Broker contracts that prevent raw data leakage</li>
+            <li>Approval flows bound to actor, destination, data class, and effect</li>
+            <li>Audit schemas that record decisions without leaking sensitive payloads</li>
+            <li>Verification reports showing generated code has not drifted from intent</li>
+          </ul>
+          <p>
+            If Axiom cannot generate those artifacts, developers should use Markdown skills,
+            ordinary docs, and tests instead. The honest bar is high.
+          </p>
+
+          <div class="sources">
+            <strong>Research notes:</strong>
+            This page reflects current public documentation for
+            <a href="https://code.claude.com/docs/en/skills">Claude Code skills</a>,
+            <a href="https://developers.openai.com/codex/guides/agents-md">Codex AGENTS.md</a>,
+            <a href="https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills">GitHub Copilot agent skills</a>,
+            and the community <a href="https://agentskills.my/specification/">Agent Skills specification</a>.
+          </div>
+
+          <div class="footer-actions">
+            <a class="button primary" href="../index.html">Back to home</a>
+            <a class="button" href="why-axiom.html">Why Axiom</a>
+            <a class="button" href="comparison-matrix.html">View the matrix</a>
+          </div>
+        </article>
+
+        <aside aria-label="Page sections">
+          <strong>On this page</strong>
+          <a href="#trend">The trend</a>
+          <a href="#markdown-is-good">Where skills fit</a>
+          <a href="#difference">The difference</a>
+          <a href="#security">Security gap</a>
+          <a href="#example">Example</a>
+          <a href="#claim">The bar</a>
+          <a href="../index.html">Back to home</a>
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>
