@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -86,6 +86,30 @@
         text-decoration: none;
         font-size: 14px;
         font-weight: 750;
+      }
+
+      .nav-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .theme-toggle {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        background: var(--panel);
+        cursor: pointer;
+      }
+
+      .theme-toggle:hover {
+        border-color: var(--accent);
+        color: #ffffff;
+        background: var(--accent);
       }
 
       header {
@@ -264,6 +288,112 @@
         background: var(--accent);
       }
 
+      [data-theme="dark"] {
+        color-scheme: dark;
+        --ink: #edf7f5;
+        --muted: #a9bbb8;
+        --line: rgba(179, 211, 204, 0.18);
+        --panel: #111c1f;
+        --soft: #0b1518;
+        --accent: #19a99a;
+        --accent-dark: #80e7db;
+        --blue: #73a8c8;
+        --code: #071012;
+        --code-soft: #1b2b2e;
+        background: #081113;
+      }
+
+      [data-theme="light"] {
+        color-scheme: light;
+        --ink: #172027;
+        --muted: #5c6871;
+        --line: #d7e0e5;
+        --panel: #ffffff;
+        --soft: #f4f8f8;
+        --accent: #0f766e;
+        --accent-dark: #104f4a;
+        --blue: #315f7b;
+        --code: #101820;
+        --code-soft: #eef4f5;
+      }
+
+      [data-theme="dark"] body {
+        background:
+          linear-gradient(180deg, rgba(8, 17, 19, 0.96), #0d1719 38%, #091113),
+          radial-gradient(circle at 18% 8%, rgba(25, 169, 154, 0.18), transparent 30%),
+          radial-gradient(circle at 84% 18%, rgba(115, 168, 200, 0.16), transparent 28%);
+      }
+
+      [data-theme="light"] body {
+        background: #f8fafb;
+      }
+
+      [data-theme] .page-nav {
+        border-bottom-color: var(--line);
+        background: color-mix(in srgb, var(--soft) 88%, transparent);
+      }
+
+      [data-theme] header {
+        background:
+          linear-gradient(180deg, color-mix(in srgb, var(--panel) 88%, transparent), color-mix(in srgb, var(--soft) 92%, transparent)),
+          radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 34%),
+          radial-gradient(circle at 86% 10%, color-mix(in srgb, var(--blue) 18%, transparent), transparent 30%);
+      }
+
+      [data-theme] .content {
+        display: block;
+      }
+
+      [data-theme] article {
+        position: relative;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: clamp(24px, 4vw, 46px);
+        background:
+          linear-gradient(180deg, color-mix(in srgb, var(--panel) 96%, transparent), var(--panel)),
+          linear-gradient(90deg, color-mix(in srgb, var(--accent) 18%, transparent), transparent 34%);
+      }
+
+      [data-theme] article::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: 8px;
+        background:
+          linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 44px 44px;
+        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3), transparent 38%);
+      }
+
+      [data-theme] article > * {
+        position: relative;
+      }
+
+      [data-theme] h2:not(:first-child) {
+        margin-top: 48px;
+        padding-top: 26px;
+        border-top: 1px solid var(--line);
+      }
+
+      [data-theme] blockquote {
+        background: color-mix(in srgb, var(--accent) 13%, var(--panel));
+        color: var(--ink);
+      }
+
+      [data-theme] .panel {
+        background: color-mix(in srgb, var(--panel) 88%, var(--soft));
+      }
+
+      [data-theme] .button {
+        background: color-mix(in srgb, var(--panel) 88%, var(--soft));
+      }
+
+      aside {
+        display: none;
+      }
+
       @media (max-width: 860px) {
         .wrap {
           width: min(100vw - 28px, 1080px);
@@ -274,9 +404,6 @@
           grid-template-columns: 1fr;
         }
 
-        aside {
-          position: static;
-        }
       }
     </style>
   </head>
@@ -287,7 +414,10 @@
           <span class="mark">A</span>
           <span>Axiom</span>
         </a>
-        <a class="back-link" href="../index.html">Back to home</a>
+        <div class="nav-actions">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode">☾</button>
+          <a class="back-link" href="../index.html">Back to home</a>
+        </div>
       </div>
     </nav>
 
@@ -474,18 +604,25 @@ Axiom describes what the system is allowed to do</pre>
           </div>
         </article>
 
-        <aside aria-label="Page sections">
-          <strong>On this page</strong>
-          <a href="#objection">The objection</a>
-          <a href="#complexity">Existing complexity</a>
-          <a href="#skills">Agent skills</a>
-          <a href="#when">When to use it</a>
-          <a href="#payoff">Developer payoff</a>
-          <a href="#bar">The bar</a>
-          <a href="skills-vs-axiom.html">Skills vs Axiom</a>
-          <a href="comparison-matrix.html">Comparison matrix</a>
-        </aside>
       </div>
     </main>
+    <script>
+      const themeToggle = document.querySelector("[data-theme-toggle]");
+
+      function setTheme(theme) {
+        document.documentElement.dataset.theme = theme;
+        themeToggle.textContent = theme === "dark" ? "☾" : "☀";
+        themeToggle.setAttribute(
+          "aria-label",
+          theme === "dark" ? "Switch to light mode" : "Switch to dark mode",
+        );
+        localStorage.setItem("axiom-theme", theme);
+      }
+
+      setTheme(localStorage.getItem("axiom-theme") || "dark");
+      themeToggle.addEventListener("click", () => {
+        setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+      });
+    </script>
   </body>
 </html>
