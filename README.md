@@ -213,6 +213,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/security-model.md](docs/security-model.md): security posture, threats, capability isolation
 - [docs/compiler-and-targets.md](docs/compiler-and-targets.md): how Axiom compiles to real software
 - [docs/axiom-os.html](docs/axiom-os.html): public-facing open-source edition page
+- [docs/editions.html](docs/editions.html): public-facing edition strategy page
 - [docs/editions.md](docs/editions.md): Axiom OS, Axiom Business, and Axiom Government distribution strategy
 - [docs/agent-instructions.md](docs/agent-instructions.md): instructions layer for AI coding agents and non-expert builders
 - [docs/why-axiom.html](docs/why-axiom.html): developer-facing rationale for the added layer

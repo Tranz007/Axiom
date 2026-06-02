@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Axiom OS | Open-source rules for AI coding agents</title>
+    <title>Axiom OS | Development preview for AI coding agents</title>
     <meta
       name="description"
-      content="Axiom OS is the open-source edition of Axiom for humans building with AI coding agents. Humans install it; agents use it to check what the app can access, simulate policy, and generate from contracts."
+      content="Axiom OS is the planned open-source edition of Axiom for humans building with AI coding agents. The core is currently in private development while the language, CLI, and examples are hardened."
     />
     <style>
       :root {
@@ -351,16 +351,17 @@
 
     <header class="hero">
       <div class="wrap">
-        <p class="eyebrow">Open-source edition</p>
+        <p class="eyebrow">Private development preview</p>
         <h1>Install Axiom for the human. Use Axiom for the agent.</h1>
         <p class="lead">
-          Axiom OS is the open-source path for AI-assisted builders. It gives coding agents
-          a contract to inspect, policy paths to simulate, and a next command to run before
-          they write code that can access data or take action.
+          Axiom OS is planned as the open-source path for AI-assisted builders. The core is
+          currently in private development while the CLI, language, and examples are hardened.
+          Its job is to give coding agents a contract to inspect, policy paths to simulate,
+          and a next command to run before they write code that can access data or take action.
         </p>
         <div class="actions">
-          <a class="button primary" href="https://github.com/Tranz007/Axiom">View on GitHub</a>
-          <a class="button" href="#flow">See the five-minute flow</a>
+          <a class="button primary" href="#flow">See the planned flow</a>
+          <a class="button" href="why-axiom.html">Why Axiom</a>
         </div>
       </div>
     </header>
@@ -370,9 +371,9 @@
         <div class="wrap">
           <h2>Who it is for</h2>
           <p class="section-lead">
-            Axiom OS is for people building with Codex, Claude, Cursor, Copilot, or similar
-            coding agents who want more than prompt instructions but do not want a heavy
-            security platform before they have a working app.
+            Axiom OS is being built for people using Codex, Claude, Cursor, Copilot, or
+            similar coding agents who want more than prompt instructions but do not want a
+            heavy security platform before they have a working app.
           </p>
           <div class="grid">
             <article class="card">
@@ -399,8 +400,9 @@
           <div>
             <h2>The first five minutes</h2>
             <p class="section-lead">
-              The first-run loop should be easy enough for a non-expert builder and concrete
-              enough that a serious developer can see what gets checked.
+              This is the flow being hardened before a public open-source release: easy
+              enough for a non-expert builder and concrete enough that a serious developer
+              can see what gets checked.
             </p>
           </div>
           <pre>axiom init --template local-private-app --agent codex
@@ -473,10 +475,10 @@ axiom generate app.ax --target typescript --out generated</pre>
             <p>
               Axiom Business and Axiom Government can build on the same core with stricter
               policy profiles, evidence reports, deployment verification, and audit workflows.
-              The open-source core has to prove the contract model first.
+              The open-source release should happen after the local core proves the contract model.
             </p>
           </div>
-          <a class="button primary" href="https://github.com/Tranz007/Axiom/blob/main/docs/editions.md">Read the editions note</a>
+          <a class="button primary" href="editions.html">Read the editions note</a>
         </div>
       </section>
     </main>

@@ -2,7 +2,7 @@
 
 Axiom can serve different audiences without becoming three different languages.
 
-The right model is one shared Axiom core with separate distributions for open-source developers, businesses, and government environments. Each distribution should have its own defaults, packaging, documentation, and trust posture, but the language primitives should stay compatible.
+The right model is one shared Axiom core with separate distributions for a planned open-source release, businesses, and government environments. Each distribution should have its own defaults, packaging, documentation, and trust posture, but the language primitives should stay compatible.
 
 ```text
 Axiom Core
@@ -21,9 +21,9 @@ The editions should differ by audience and assurance requirements, not by fragme
 
 ## Axiom OS
 
-Axiom OS is the open-source consumer and developer edition.
+Axiom OS is the planned open-source consumer and developer edition.
 
-Its job is to prove the language, earn trust, and give developers a useful local tool for building safer agent-facing software.
+The core is currently in private development while the language, CLI, and examples are hardened. Its job is to prove the language, earn trust, and give developers a useful local tool for building safer agent-facing software before a public release.
 
 It should include:
 
@@ -50,7 +50,7 @@ generate artifacts
 inspect everything locally
 ```
 
-The main promise:
+The planned public promise:
 
 > Open-source AI-native capability contracts for safer agent-built software.
 
@@ -151,7 +151,7 @@ The editions should vary by defaults and integrations:
 | Area | Axiom OS | Axiom Business | Axiom Government |
 | --- | --- | --- | --- |
 | Primary user | developers and builders | platform, security, compliance, product teams | agencies, contractors, regulated teams |
-| Deployment | local and open-source | SaaS, private cloud, on-prem | GovCloud, on-prem, restricted networks |
+| Deployment | local, planned open-source | SaaS, private cloud, on-prem | GovCloud, on-prem, restricted networks |
 | Policy posture | explicit but flexible | organization-defined | default-deny and evidence-heavy |
 | Approvals | local examples and generated contracts | workflow integrations and dashboards | separation of duties and attestations |
 | Audit | generated schemas and local logs | searchable operational audit | high-assurance audit trails and exports |
@@ -180,7 +180,6 @@ The likely build order is:
 4. Build business-oriented governance workflows.
 5. Add government deployment and attestation profiles.
 
-This keeps the open-source core honest. If the local CLI cannot prove useful contracts, the enterprise and government versions would just be packaging around an unproven idea.
+This keeps the future open-source core honest. If the local CLI cannot prove useful contracts, the enterprise and government versions would just be packaging around an unproven idea.
 
-The open-source edition should remain the foundation, not a demo.
-
+The open-source release should become the foundation, not a demo.
