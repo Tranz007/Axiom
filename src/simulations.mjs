@@ -4,7 +4,7 @@ import { parseAxiom } from "./parser.mjs";
 import { evaluateAxiomPolicy, parseFactList } from "./runtime.mjs";
 import { validateGraph } from "./validator.mjs";
 
-function parseSimulationCommand(command) {
+export function parseSimulationCommand(command) {
   const parts = command.trim().split(/\s+/);
   const capabilityIndex = parts.indexOf("--capability");
   if (capabilityIndex === -1 || !parts[capabilityIndex + 1]) {
@@ -22,6 +22,40 @@ function parseSimulationCommand(command) {
   };
 }
 
+export function normalizeSimulationExample(example) {
+  if (example.capability && example.facts) {
+    return {
+      description: example.description || "",
+      command: example.command || null,
+      capability: example.capability,
+      facts: example.facts,
+      expect: example.expect || null,
+    };
+  }
+
+  if (!example.command) {
+    throw new Error(`Simulation example must include either command or capability/facts.`);
+  }
+
+  const parsed = parseSimulationCommand(example.command);
+  return {
+    description: example.description || "",
+    command: example.command,
+    capability: parsed.capability,
+    facts: parsed.facts,
+    expect: example.expect || null,
+  };
+}
+
+export async function loadSimulationExamples(path) {
+  const hints = JSON.parse(await readFile(path, "utf8"));
+  const examples = Array.isArray(hints.examples) ? hints.examples : [];
+  if (!examples.length) {
+    throw new Error(`No simulation examples found in ${path}.`);
+  }
+  return examples.map(normalizeSimulationExample);
+}
+
 export async function runSimulationExamples(options = {}) {
   const cwd = resolve(options.cwd || ".");
   const appPath = resolve(cwd, options.app || "app.ax");
@@ -36,18 +70,16 @@ export async function runSimulationExamples(options = {}) {
     throw new Error(`Cannot run simulation examples because app.ax has ${errors.length} validation error(s).`);
   }
 
-  const hints = JSON.parse(await readFile(hintsPath, "utf8"));
-  const examples = Array.isArray(hints.examples) ? hints.examples : [];
-  if (!examples.length) {
-    throw new Error("No simulation examples found in axiom/simulations.json.");
-  }
+  const examples = await loadSimulationExamples(hintsPath);
 
   const results = examples.map((example) => {
-    const parsed = parseSimulationCommand(example.command);
+    const result = evaluateAxiomPolicy(graph, example.capability, example.facts);
     return {
       description: example.description || "",
       command: example.command,
-      result: evaluateAxiomPolicy(graph, parsed.capability, parsed.facts),
+      expect: example.expect,
+      matchedExpectation: example.expect?.decision ? result.decision === example.expect.decision : null,
+      result,
     };
   });
 
@@ -66,6 +98,15 @@ export async function runSimulationExamples(options = {}) {
     "utf8",
   );
 
+  const mismatches = results.filter((item) => item.matchedExpectation === false);
+  if (mismatches.length) {
+    throw new Error(
+      `Simulation expectation mismatch: ${mismatches
+        .map((item) => `${item.description || item.result.capability} expected ${item.expect.decision} got ${item.result.decision}`)
+        .join("; ")}`,
+    );
+  }
+
   return { cwd, appPath, hintsPath, resultsPath, results };
 }
 
@@ -73,11 +114,10 @@ export function formatSimulationExampleResults(report) {
   const lines = ["Axiom simulation examples", ""];
   for (const item of report.results) {
     lines.push(`${item.result.decision.toUpperCase()} ${item.description || item.result.capability}`);
-    lines.push(`      ${item.command}`);
+    if (item.command) lines.push(`      ${item.command}`);
     lines.push(`      reasons: ${item.result.reasons.join(", ") || "none"}`);
   }
   lines.push("");
   lines.push(`saved ${report.resultsPath}`);
   return lines.join("\n");
 }
-

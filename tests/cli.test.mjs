@@ -3,11 +3,17 @@ import assert from "node:assert/strict";
 import { mkdtemp, rm, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { execFile } from "node:child_process";
+import { execFile, spawn } from "node:child_process";
 import { promisify } from "node:util";
 
 const run = promisify(execFile);
 const cli = new URL("../bin/axiom.mjs", import.meta.url).pathname;
+
+function childProcessEnv() {
+  const env = { ...process.env };
+  delete env.NODE_TEST_CONTEXT;
+  return env;
+}
 
 async function axiom(args, options = {}) {
   return run(process.execPath, [cli, ...args], {
@@ -25,6 +31,30 @@ async function expectAxiomFailure(args, pattern) {
   }
 }
 
+function axiomWithInput(args, input, options = {}) {
+  return new Promise((resolvePromise, reject) => {
+    const child = spawn(process.execPath, [cli, ...args], {
+      cwd: new URL("..", import.meta.url).pathname,
+      env: childProcessEnv(),
+      ...options,
+    });
+    let stdout = "";
+    let stderr = "";
+    child.stdout.on("data", (chunk) => {
+      stdout += chunk;
+    });
+    child.stderr.on("data", (chunk) => {
+      stderr += chunk;
+    });
+    child.on("error", reject);
+    child.on("close", (code) => {
+      if (code === 0) resolvePromise({ stdout, stderr });
+      else reject(Object.assign(new Error(`Command failed with exit code ${code}`), { stdout, stderr, code }));
+    });
+    child.stdin.end(input);
+  });
+}
+
 describe("axiom cli", () => {
   it("validates good examples", async () => {
     const result = await axiom(["validate", "tests/fixtures/good/agent-capability-gateway.ax"]);
@@ -37,6 +67,13 @@ describe("axiom cli", () => {
 
   it("fails missing approval path", async () => {
     await expectAxiomFailure(["validate", "tests/fixtures/bad/missing-approval-binding.ax"], /approval path/);
+  });
+
+  it("prints beginner guidance for sensitive-data validation errors", async () => {
+    await expectAxiomFailure(
+      ["validate", "tests/fixtures/bad/missing-approval-binding.ax"],
+      /missing: approval path[\s\S]*why it matters:[\s\S]*try:/,
+    );
   });
 
   it("fails model-decided policy", async () => {
@@ -56,9 +93,11 @@ describe("axiom cli", () => {
       ]);
       const capabilities = await readFile(join(dir, "capabilities.ts"), "utf8");
       const evaluator = await readFile(join(dir, "policy-evaluator.ts"), "utf8");
+      const nodeEvaluator = await readFile(join(dir, "policy-evaluator.mjs"), "utf8");
       const report = await readFile(join(dir, "axiom-report.md"), "utf8");
       assert.match(capabilities, /fill_tax_identity_fields/);
       assert.match(evaluator, /evaluateAxiomPolicy/);
+      assert.match(nodeEvaluator, /export function evaluateAxiomPolicy/);
       assert.match(report, /Axiom Verification Report/);
     } finally {
       await rm(dir, { recursive: true, force: true });
@@ -82,6 +121,25 @@ describe("axiom cli", () => {
 
       const validation = await axiom(["validate", join(dir, "app.ax")]);
       assert.match(validation.stdout, /0 errors/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("initializes a starter project through guided init", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-guided-init-"));
+    try {
+      const result = await axiomWithInput(["init", "--guided", "--out", dir], "2\n4\n");
+      assert.match(result.stdout, /Axiom guided init/);
+      assert.match(result.stdout, /initialized agent-gateway for generic/);
+
+      const app = await readFile(join(dir, "app.ax"), "utf8");
+      const instructions = await readFile(join(dir, "instructions.md"), "utf8");
+      const simulations = await readFile(join(dir, "axiom", "simulations.json"), "utf8");
+
+      assert.match(app, /app AgentGateway/);
+      assert.match(instructions, /Axiom Agent Instructions/);
+      assert.match(simulations, /agent-gateway/);
     } finally {
       await rm(dir, { recursive: true, force: true });
     }
@@ -173,6 +231,54 @@ describe("axiom cli", () => {
     } finally {
       await rm(dir, { recursive: true, force: true });
     }
+  });
+
+  it("generates runnable tests from simulation examples", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-generated-tests-"));
+    try {
+      await axiom(["init", "--template", "local-private-app", "--agent", "codex", "--out", dir]);
+      const result = await axiom([
+        "generate-tests",
+        join(dir, "app.ax"),
+        "--examples",
+        join(dir, "axiom", "simulations.json"),
+        "--target",
+        "node",
+        "--out",
+        join(dir, "generated-tests"),
+      ]);
+
+      assert.match(result.stdout, /generated .*axiom-policy\.test\.mjs/);
+
+      const testFile = join(dir, "generated-tests", "axiom-policy.test.mjs");
+      const contents = await readFile(testFile, "utf8");
+      assert.match(contents, /Axiom policy simulation examples/);
+      assert.match(contents, /Local summary allow path/);
+      assert.match(contents, /External destination requires approval/);
+
+      const generatedTest = await run(process.execPath, ["--test", testFile], {
+        cwd: dir,
+        env: childProcessEnv(),
+      });
+      assert.match(`${generatedTest.stdout}\n${generatedTest.stderr}`, /pass 2/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("runs the local private notes example app", async () => {
+    const validation = await axiom(["validate", "examples/local-private-notes/axiom.ax"]);
+    assert.match(validation.stdout, /0 errors/);
+
+    const result = await run(process.execPath, ["examples/local-private-notes/app/policy-demo.mjs"], {
+      cwd: new URL("..", import.meta.url).pathname,
+      env: childProcessEnv(),
+    });
+    const decisions = JSON.parse(result.stdout);
+    assert.deepEqual(
+      decisions.map((item) => item.decision),
+      ["allow", "require_approval", "deny"],
+    );
   });
 
   it("simulates an allow decision", async () => {

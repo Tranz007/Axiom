@@ -84,7 +84,7 @@ Current status:
 - `axiom doctor` can explain whether a project has the first Axiom files in place
 - `axiom next` can recommend the next useful action for a human or coding agent
 - `axiom simulate-examples` can run starter policy scenarios and save results
-- guided interactive init is still future work
+- `axiom init --guided` can select a starter template and agent instruction target
 
 ## Phase 2: Broker And Audit Contracts
 

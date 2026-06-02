@@ -1,0 +1,56 @@
+[
+  {
+    "capability": "summarize_private_note",
+    "purpose": [
+      "summarize one user-selected private note without exposing raw contents"
+    ],
+    "reads": [
+      "private.note"
+    ],
+    "disclosureModes": [
+      "summary"
+    ],
+    "forbiddenDisclosure": [
+      "raw_note_export",
+      "unrelated_note_fields"
+    ],
+    "decisions": [
+      {
+        "kind": "allow",
+        "conditions": [
+          "owner_authenticated",
+          "and note_selected",
+          "and destination_local"
+        ]
+      },
+      {
+        "kind": "require_approval",
+        "conditions": [
+          "destination_external",
+          "or summary_includes_sensitive_details"
+        ]
+      },
+      {
+        "kind": "deny",
+        "conditions": [
+          "schema_malformed",
+          "or requests_raw_note",
+          "or ownership_scope_invalid"
+        ]
+      }
+    ],
+    "approval": true,
+    "broker": [
+      "may_decrypt private.note",
+      "may_return summary",
+      "forbidden raw_note"
+    ],
+    "audit": [
+      "invocation",
+      "policy_decision",
+      "broker_execution",
+      "disclosure_mode",
+      "never log raw_note"
+    ]
+  }
+]

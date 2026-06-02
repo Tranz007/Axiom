@@ -2,8 +2,8 @@ const SENSITIVE_LEVELS = new Set(["moderate", "high"]);
 const HIGH_SENSITIVITY = new Set(["high"]);
 const RAW_TERMS = /raw|plaintext|decrypted|secret|credential|token|auth_header|full_profile/i;
 
-function diagnostic(severity, message, ref) {
-  return { severity, message, ref };
+function diagnostic(severity, message, ref, guidance = {}) {
+  return { severity, message, ref, ...guidance };
 }
 
 function byName(items) {
@@ -49,6 +49,11 @@ export function validateGraph(graph) {
           "error",
           `Sensitive data class ${dataClass.name} must declare allowed_disclosure.`,
           `data_class ${dataClass.name}`,
+          {
+            missing: ["allowed_disclosure"],
+            why: "Axiom needs to know what form of this data is safe to return before an agent or app code can use it.",
+            try: ["Add allowed_disclosure values such as task_fields, masked_value, or tokenized_reference."],
+          },
         ),
       );
     }
@@ -112,6 +117,11 @@ export function validateGraph(graph) {
           "error",
           `Capability ${capability.name} reads sensitive data but declares no disclosure mode.`,
           `capability ${capability.name}`,
+          {
+            missing: ["disclosure mode"],
+            why: "This capability reads private or sensitive data, but the contract does not say what shape is allowed to leave the trusted boundary.",
+            try: ["Add a disclosure block with a narrow mode, such as task_fields or masked_value."],
+          },
         ),
       );
     }
@@ -132,6 +142,14 @@ export function validateGraph(graph) {
           "error",
           `Capability ${capability.name} reads high-sensitivity data but has no approval path.`,
           `capability ${capability.name}`,
+          {
+            missing: ["approval path"],
+            why: "High-sensitivity data should not be available to agent-driven code without a deterministic policy gate or human approval path.",
+            try: [
+              "Add a require_approval policy decision for risky cases.",
+              "Or add an approval block that binds request_hash, owner_id, capability_key, and expiry.",
+            ],
+          },
         ),
       );
     }
@@ -142,6 +160,11 @@ export function validateGraph(graph) {
           "error",
           `Capability ${capability.name} reads high-sensitivity data but declares no broker boundary.`,
           `capability ${capability.name}`,
+          {
+            missing: ["broker boundary"],
+            why: "A broker is the trusted code boundary that can touch sensitive data while returning only the approved result shape.",
+            try: ["Add a broker block that names what it may decrypt and what it may return."],
+          },
         ),
       );
     }
@@ -162,6 +185,11 @@ export function validateGraph(graph) {
           "error",
           `Capability ${capability.name} reads sensitive data but declares no audit obligations.`,
           `capability ${capability.name}`,
+          {
+            missing: ["audit obligations"],
+            why: "Sensitive operations need a durable trail so a human can inspect what happened later.",
+            try: ["Add an audit block with record events and a rule that forbids logging raw sensitive values."],
+          },
         ),
       );
     }
@@ -172,6 +200,11 @@ export function validateGraph(graph) {
           "error",
           `Capability ${capability.name} audit must explicitly forbid raw or plaintext high-sensitivity values.`,
           `capability ${capability.name}`,
+          {
+            missing: ["raw-value audit guard"],
+            why: "Audit logs are long-lived. They should prove the action happened without storing secrets, credentials, or full private records.",
+            try: ["Add an audit line such as `never log raw_secret`, `never log plaintext`, or the raw field name used by this capability."],
+          },
         ),
       );
     }
@@ -192,6 +225,10 @@ export function validateGraph(graph) {
           "error",
           `Capability ${capability.name} policy cannot delegate access decisions to a model.`,
           `capability ${capability.name}`,
+          {
+            why: "The model can request a capability, but policy must be checked by deterministic code.",
+            try: ["Replace model-decided conditions with explicit facts such as user_authenticated, destination_allowlisted, or approval_valid."],
+          },
         ),
       );
     }

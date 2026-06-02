@@ -37,4 +37,3 @@ Target: typescript
 - Disclosure: summary
 - Decisions: allow, deny
 - Approval path: no
-

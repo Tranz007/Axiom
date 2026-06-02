@@ -196,7 +196,7 @@ export function recommendNextAction(report) {
   if (missingApp) {
     return {
       action: "axiom init --template local-private-app --agent codex",
-      why: "No Axiom contract was found. Axiom needs app.ax before an agent starts adding authority-bearing code.",
+      why: "No Axiom contract was found. Axiom needs app.ax before an agent starts adding code that can access data or take action.",
       after: "Run axiom doctor.",
     };
   }

@@ -10,8 +10,9 @@
   "scripts": {
     "axiom": "node ./bin/axiom.mjs",
     "test": "node --test",
-    "validate:examples": "node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax && node ./bin/axiom.mjs validate examples/receipt-archive/axiom.ax",
-    "generate:example": "node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated"
+    "validate:examples": "node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax && node ./bin/axiom.mjs validate examples/receipt-archive/axiom.ax && node ./bin/axiom.mjs validate examples/local-private-notes/axiom.ax",
+    "generate:example": "node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated",
+    "demo:local-private-notes": "node examples/local-private-notes/app/policy-demo.mjs"
   },
   "engines": {
     "node": ">=20"

@@ -7,9 +7,19 @@ Axiom is an experimental language concept for building software with AI agents w
 
 The repo now includes a first usable MVP: a dependency-light Node CLI that parses `.ax` files, validates capability contracts, reports authority and disclosure problems, and generates initial TypeScript policy artifacts.
 
-## Quick Start
+## Start Here
 
 Prerequisite: Node.js 20 or newer.
+
+The open-source flow is designed for a human who installs Axiom and an AI coding agent that uses it inside a project.
+
+For a guided template picker:
+
+```bash
+node ./bin/axiom.mjs init --guided --out /tmp/axiom-starter
+```
+
+For the direct path:
 
 ```bash
 git clone https://github.com/Tranz007/Axiom.git
@@ -18,10 +28,29 @@ node ./bin/axiom.mjs init --template local-private-app --agent codex --out /tmp/
 node ./bin/axiom.mjs doctor --cwd /tmp/axiom-starter
 node ./bin/axiom.mjs next --cwd /tmp/axiom-starter
 node ./bin/axiom.mjs simulate-examples --cwd /tmp/axiom-starter
+node ./bin/axiom.mjs next --cwd /tmp/axiom-starter
+node ./bin/axiom.mjs generate /tmp/axiom-starter/app.ax --target typescript --out /tmp/axiom-starter/generated
+node ./bin/axiom.mjs generate-tests /tmp/axiom-starter/app.ax --examples /tmp/axiom-starter/axiom/simulations.json --out /tmp/axiom-starter/generated-tests
+node --test /tmp/axiom-starter/generated-tests/axiom-policy.test.mjs
+```
+
+That creates:
+
+- `app.ax`: the app contract
+- `AGENTS.md`: instructions for the coding agent
+- `axiom/simulations.json`: starter policy scenarios
+- `axiom/simulation-results.json`: saved simulation output after `simulate-examples`
+- `generated/`: TypeScript policy and contract artifacts after `generate`
+- `generated-tests/`: runnable Node policy tests after `generate-tests`
+
+To inspect the bundled examples:
+
+```bash
 node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax
 node ./bin/axiom.mjs matrix examples/agent-capability-gateway/axiom.ax
 node ./bin/axiom.mjs simulate examples/agent-capability-gateway/axiom.ax --capability fill_tax_identity_fields --fact standing_policy_absent=true
 node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
+node examples/local-private-notes/app/policy-demo.mjs
 node --test
 ```
 
@@ -30,6 +59,7 @@ If `npm` is available, these shortcuts also work:
 ```bash
 npm run validate:examples
 npm run generate:example
+npm run demo:local-private-notes
 npm test
 ```
 
@@ -38,11 +68,14 @@ npm test
 The current CLI can:
 
 - initialize starter `app.ax` projects with AI coding agent instructions
+- guide first-time setup with `axiom init --guided`
 - inspect project readiness with `axiom doctor`
 - recommend the next useful agent action with `axiom next`
 - run starter policy simulations with `axiom simulate-examples`
+- generate runnable policy tests from starter simulations with `axiom generate-tests`
 - parse the MVP indentation-based `.ax` format
 - validate that capabilities declare purpose, policy, disclosure, broker, approval, and audit obligations where required
+- explain common sensitive-data validation failures with concrete next steps
 - fail unsafe examples such as raw sensitive export, missing approval paths, model-decided policy, and unsafe audit logging
 - print a policy matrix as JSON
 - simulate deterministic policy decisions from boolean request facts
@@ -52,7 +85,6 @@ The current CLI cannot yet:
 
 - generate a full application
 - replace framework code
-- run an interactive guided setup flow
 - execute policies against real request context
 - parse rich expressions beyond simple boolean facts
 - guarantee security by itself
@@ -189,8 +221,11 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/comparison-matrix.html](docs/comparison-matrix.html): human-readable visual comparison matrix
 - [docs/comparison-matrix.md](docs/comparison-matrix.md): plain Markdown source for the comparison matrix
 - [docs/roadmap.md](docs/roadmap.md): phased implementation plan
+- [BACKLOG.md](BACKLOG.md): tactical next work for open-source readiness
+- [CHANGELOG.md](CHANGELOG.md): notable repo changes
 - [examples/receipt-archive.ax](examples/receipt-archive.ax): small app example
 - [examples/receipt-archive](examples/receipt-archive): runnable receipt archive example with generated artifacts
+- [examples/local-private-notes](examples/local-private-notes): tiny runnable app example that imports a generated policy evaluator
 - [examples/agent-capabilities.ax](examples/agent-capabilities.ax): generic agent capability gateway example
 - [examples/agent-capability-gateway](examples/agent-capability-gateway): runnable agent gateway example with generated artifacts
 - [tests/fixtures/bad](tests/fixtures/bad): intentionally unsafe examples that should fail validation

@@ -9,11 +9,11 @@ Target: typescript
 - Actors checked: 2
 - Data classes checked: 3
 - Errors: 0
-- Warnings: 0
+- Warnings: 1
 
 ## Diagnostics
 
-- No diagnostics.
+- **WARNING** Programs with external or untrusted actors should include an invariant forbidding model-decided policy. (invariant)
 
 ## Generated Contracts
 
@@ -37,4 +37,3 @@ Target: typescript
 - Disclosure: masked_value, tokenized_reference
 - Decisions: allow, require_approval, deny
 - Approval path: yes
-

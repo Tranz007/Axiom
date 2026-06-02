@@ -1,0 +1,59 @@
+# Changelog
+
+All notable changes to Axiom will be documented here.
+
+The project is experimental and pre-release.
+
+## 0.1.0 - Unreleased
+
+### Added
+
+- MVP `.ax` parser and validator.
+- CLI commands:
+  - `axiom validate`
+  - `axiom explain`
+  - `axiom matrix`
+  - `axiom simulate`
+  - `axiom generate`
+  - `axiom init`
+  - `axiom doctor`
+  - `axiom next`
+  - `axiom simulate-examples`
+  - `axiom generate-tests`
+- Guided `axiom init --guided` setup for selecting a starter app and agent instruction target.
+- TypeScript artifact generation:
+  - `policy-matrix.json`
+  - `capabilities.ts`
+  - `data-classes.ts`
+  - `audit-events.ts`
+  - `policy-evaluator.ts`
+  - `runtime-guards.ts`
+  - `axiom-report.md`
+- Starter app templates:
+  - `local-private-app`
+  - `agent-gateway`
+  - `sensitive-upload-app`
+  - `approval-gated-automation`
+- Agent instruction templates:
+  - Codex `AGENTS.md`
+  - Claude `CLAUDE.md`
+  - Cursor rules
+  - generic `instructions.md`
+- Public Axiom landing page.
+- Public Axiom OS page.
+- Developer rationale and comparison docs.
+- Bad fixtures for unsafe patterns such as raw sensitive export, missing approval paths, model-decided policy, and unsafe audit logging.
+- Generated Node policy tests from `axiom/simulations.json`.
+- Tiny local private notes example app that imports a generated Node policy evaluator.
+
+### Changed
+
+- Public copy now leads with builder-friendly language before developer/security terms.
+- Starter templates validate with zero errors and zero warnings.
+- `axiom next` now recommends policy simulation before generation.
+- Validation errors for sensitive-data risks now include plain-language guidance and concrete next steps.
+- Generated artifacts now include `policy-evaluator.mjs` for plain Node examples.
+
+### Fixed
+
+- Corrected invariant validation so a program with multiple invariants does not warn when one invariant already forbids model-decided policy.

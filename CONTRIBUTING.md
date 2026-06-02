@@ -12,6 +12,7 @@ node --test
 
 ## Contribution Priorities
 
+- Pick from [BACKLOG.md](BACKLOG.md) when possible.
 - Improve validation diagnostics.
 - Add bad fixtures for unsafe agent-facing patterns.
 - Add generated artifacts that developers can actually use.

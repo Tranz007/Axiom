@@ -1,0 +1,88 @@
+app LocalPrivateNotes
+  intent:
+    user keeps private notes locally
+    user asks an agent for narrow summaries
+    note contents do not leave the trusted boundary
+
+invariant no_model_decided_policy
+  forbid:
+    model decides policy
+
+invariant no_raw_note_export
+  forbid:
+    agent_route returns raw_sensitive_record
+    agent_route exports plaintext_note
+
+actor Owner
+  trust owner
+  may:
+    create_note
+    request_summary
+    approve_external_disclosure
+
+actor LocalAgent
+  trust authenticated_but_untrusted
+  may:
+    request capability
+  may_not:
+    retrieve raw records
+    decide policy
+    export plaintext notes
+
+data_class private.note
+  domain personal
+  sensitivity high
+  allowed_disclosure:
+    summary
+    task_fields
+
+capability summarize_private_note
+  purpose:
+    summarize one user-selected private note without exposing raw contents
+
+  input:
+    owner_id
+    note_id
+    summary_goal
+    destination_identity
+
+  data:
+    requires private.note
+
+  disclosure:
+    mode summary
+    forbidden raw_note_export
+    forbidden unrelated_note_fields
+
+  policy:
+    allow if owner_authenticated
+      and note_selected
+      and destination_local
+
+    require_approval if destination_external
+      or summary_includes_sensitive_details
+
+    deny if schema_malformed
+      or requests_raw_note
+      or ownership_scope_invalid
+
+  approval:
+    one_time_default
+    binds request_hash, owner_id, capability_key, destination_identity, expiry
+
+  broker:
+    may_decrypt private.note
+    may_return summary
+    forbidden raw_note
+
+  audit:
+    invocation
+    policy_decision
+    broker_execution
+    disclosure_mode
+    never log raw_note
+
+target local_app
+  runtime:
+    local_axiom_runtime
+    server_policy_runtime

@@ -181,15 +181,14 @@ axiom simulate my-axiom-app/app.ax --capability summarize_private_document --fac
 
 `axiom simulate-examples` runs the generated policy examples and writes `axiom/simulation-results.json`. This keeps the first agent workflow honest: validate the contract, simulate at least one policy path, then generate artifacts.
 
-The future interactive version should ask:
+The guided version asks:
 
 ```text
 What are you building?
 1. Local private app
 2. Agent tool gateway
-3. Personal data broker
+3. Sensitive upload app
 4. Approval-gated automation
-5. Sensitive upload app
 
 Which agent instructions should Axiom generate?
 1. Codex AGENTS.md
@@ -215,14 +214,14 @@ This does not remove the need for engineering judgment. Axiom should not claim t
 
 The realistic promise is narrower:
 
-> Axiom gives AI-assisted builders a safer default path by making the coding agent define authority before it writes authority-bearing code.
+> Axiom gives AI-assisted builders a safer default path by making the coding agent define what the app can access and do before it writes that code.
 
 ## Implementation Order
 
 1. Add static instruction templates for `AGENTS.md`, `CLAUDE.md`, Cursor rules, and generic `instructions.md`. Done.
 2. Add `axiom init --agent codex` to copy a template plus starter `app.ax`. Done.
 3. Add app-type templates such as local private app, agent gateway, sensitive upload app, and approval-gated automation. Done.
-4. Add guided prompts that generate starter contracts from answers.
+4. Add guided prompts that generate starter contracts from answers. Done.
 5. Add `axiom doctor` to explain whether the project has Axiom instructions, a valid contract, generated artifacts, and runnable simulations. Done.
 6. Add `axiom next` so coding agents can ask for the next useful action instead of inferring it from docs. Done.
 7. Add `axiom simulate-examples` so the first workflow tests policy behavior before generation. Done.

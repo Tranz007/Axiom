@@ -20,10 +20,12 @@ const SIMULATION_EXAMPLES = {
       description: "Local summary allow path.",
       command:
         "axiom simulate app.ax --capability summarize_private_document --fact owner_authenticated=true --fact document_selected=true --fact destination_local=true",
+      expect: { decision: "allow" },
     },
     {
       description: "External destination requires approval.",
       command: "axiom simulate app.ax --capability summarize_private_document --fact destination_external=true",
+      expect: { decision: "require_approval" },
     },
   ],
   "agent-gateway": [
@@ -31,10 +33,12 @@ const SIMULATION_EXAMPLES = {
       description: "Allow approved agent workflow.",
       command:
         "axiom simulate app.ax --capability use_contact_for_workflow --fact agent_has_capability=true --fact destination_allowlisted_for_capability=true --fact request_frequency_normal=true",
+      expect: { decision: "allow" },
     },
     {
       description: "Unknown destination requires approval.",
       command: "axiom simulate app.ax --capability use_contact_for_workflow --fact destination_unknown=true",
+      expect: { decision: "require_approval" },
     },
   ],
   "sensitive-upload-app": [
@@ -42,10 +46,12 @@ const SIMULATION_EXAMPLES = {
       description: "Allow assigned worker processing.",
       command:
         "axiom simulate app.ax --capability process_uploaded_file --fact user_authenticated=true --fact worker_assigned_to_upload=true --fact processing_goal_in_scope=true",
+      expect: { decision: "allow" },
     },
     {
       description: "External processor requires approval.",
       command: "axiom simulate app.ax --capability process_uploaded_file --fact external_processor_requested=true",
+      expect: { decision: "require_approval" },
     },
   ],
   "approval-gated-automation": [
@@ -53,10 +59,12 @@ const SIMULATION_EXAMPLES = {
       description: "Allow approved external action.",
       command:
         "axiom simulate app.ax --capability draft_and_submit_action --fact user_authenticated=true --fact approval_valid=true --fact destination_matches_approval=true",
+      expect: { decision: "allow" },
     },
     {
       description: "External effect requires approval.",
       command: "axiom simulate app.ax --capability draft_and_submit_action --fact external_effect_requested=true",
+      expect: { decision: "require_approval" },
     },
   ],
 };
