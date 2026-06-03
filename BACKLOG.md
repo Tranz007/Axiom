@@ -14,6 +14,7 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - `examples/local-private-notes` shows app code importing a generated policy evaluator.
 - Private package readiness is in place with a package allowlist, local install docs, and CI `npm pack --dry-run`.
 - `axiom diff old.ax new.ax` reports added, removed, and changed capabilities and data classes.
+- Agent templates now tell agents to keep external-model context small and use focused Axiom commands.
 
 ## Now
 

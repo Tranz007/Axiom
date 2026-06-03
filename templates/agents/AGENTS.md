@@ -26,4 +26,12 @@ When adding a feature:
 7. Never log raw secrets, decrypted payloads, approval tokens, auth headers, or plaintext sensitive records.
 8. If a requested change violates `app.ax`, explain the violation and propose a narrower capability or approval-gated flow.
 
+Keep Axiom usage token-aware:
+
+- Prefer `axiom next`, `axiom doctor`, `axiom diff`, and targeted `axiom simulate` output over pasting full Axiom files into chat.
+- Do not paste generated artifacts, full reports, or long policy matrices unless the user asks for them.
+- Summarize only the changed capability, data class, policy decision, or approval path needed for the task.
+- Reference file paths and commands so the agent can re-check locally instead of carrying the whole contract in context.
+- If using an external model, keep context small by default. Richer context is acceptable only when the user is using an internal or deployed model that can handle it.
+
 Implementation code may be hand-written, but it must satisfy the Axiom contract.

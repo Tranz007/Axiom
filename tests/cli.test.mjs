@@ -116,6 +116,8 @@ describe("axiom cli", () => {
 
       assert.match(app, /app LocalPrivateApp/);
       assert.match(instructions, /Axiom Project Instructions/);
+      assert.match(instructions, /token-aware/);
+      assert.match(instructions, /external model/);
       assert.match(simulations, /local-private-app/);
       assert.match(simulations, /summarize_private_document/);
 

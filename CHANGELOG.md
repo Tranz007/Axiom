@@ -47,6 +47,7 @@ The project is experimental and pre-release.
 - Generated Node policy tests from `axiom/simulations.json`.
 - Tiny local private notes example app that imports a generated Node policy evaluator.
 - Contract diffing for added, removed, and changed capabilities and data classes.
+- Token-budget guidance for agent templates and external-model usage.
 
 ### Changed
 

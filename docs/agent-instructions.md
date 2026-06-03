@@ -35,6 +35,7 @@ The agent should then:
 8. add broker and audit obligations
 9. run Axiom validation
 10. avoid routes or tools that bypass the contract
+11. keep Axiom context small by using focused CLI output instead of pasting full files
 
 ## Copy-Paste Starter Instruction
 
@@ -52,6 +53,8 @@ If the app handles private data, money, identity, credentials, documents, messag
 Models may help draft code and summaries, but models must not make final allow, deny, approval, sensitivity, or disclosure decisions.
 
 Run Axiom validation and explain any errors before continuing.
+
+Keep Axiom usage token-aware. Use `axiom next`, `axiom doctor`, `axiom diff`, and targeted simulations instead of pasting full contracts, generated artifacts, or reports. Summarize only the changed capability, data class, policy decision, or approval path needed for the task.
 ```
 
 ## Codex-Oriented Project Instruction
@@ -88,7 +91,17 @@ When adding a feature:
 8. If a requested change violates `app.ax`, explain the violation and propose a narrower capability or approval-gated flow.
 
 Implementation code may be hand-written, but it must satisfy the Axiom contract.
+
+Keep Axiom usage token-aware:
+
+- Prefer `axiom next`, `axiom doctor`, `axiom diff`, and targeted `axiom simulate` output over pasting full Axiom files into chat.
+- Do not paste generated artifacts, full reports, or long policy matrices unless the user asks for them.
+- Summarize only the changed capability, data class, policy decision, or approval path needed for the task.
+- Reference file paths and commands so the agent can re-check locally instead of carrying the whole contract in context.
+- If using an external model, keep context small by default. Richer context is acceptable only when the user is using an internal or deployed model that can handle it.
 ```
+
+See [token-budget.md](token-budget.md) for the broader constraint.
 
 ## Guided Questions
 
