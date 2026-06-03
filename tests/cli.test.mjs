@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, rm, readFile, writeFile } from "node:fs/promises";
+import { mkdtemp, rm, readFile, writeFile, utimes } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { execFile, spawn } from "node:child_process";
@@ -263,6 +263,62 @@ describe("axiom cli", () => {
         env: childProcessEnv(),
       });
       assert.match(`${generatedTest.stdout}\n${generatedTest.stderr}`, /pass 2/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("recommends generated policy tests after artifacts exist", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-next-tests-"));
+    try {
+      await axiom(["init", "--template", "local-private-app", "--agent", "codex", "--out", dir]);
+      await axiom(["simulate-examples", "--cwd", dir]);
+      await axiom(["generate", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated")]);
+
+      const next = await axiom(["next", "--cwd", dir]);
+      assert.match(next.stdout, /Next: axiom generate-tests .*app\.ax --examples axiom\/simulations\.json --out generated-tests/);
+      assert.match(next.stdout, /without loading the whole contract into context/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("recommends running generated policy tests when present", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-next-run-tests-"));
+    try {
+      await axiom(["init", "--template", "local-private-app", "--agent", "codex", "--out", dir]);
+      await axiom(["simulate-examples", "--cwd", dir]);
+      await axiom(["generate", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated")]);
+      await axiom([
+        "generate-tests",
+        join(dir, "app.ax"),
+        "--examples",
+        join(dir, "axiom", "simulations.json"),
+        "--out",
+        join(dir, "generated-tests"),
+      ]);
+
+      const next = await axiom(["next", "--cwd", dir]);
+      assert.match(next.stdout, /Next: node --test generated-tests\/axiom-policy\.test\.mjs/);
+      assert.match(next.stdout, /compact policy test/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("recommends regeneration when app.ax is newer than generated artifacts", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-next-stale-"));
+    try {
+      const appPath = join(dir, "app.ax");
+      await axiom(["init", "--template", "local-private-app", "--agent", "codex", "--out", dir]);
+      await axiom(["simulate-examples", "--cwd", dir]);
+      await axiom(["generate", appPath, "--target", "typescript", "--out", join(dir, "generated")]);
+      const future = new Date(Date.now() + 5000);
+      await utimes(appPath, future, future);
+
+      const next = await axiom(["next", "--cwd", dir]);
+      assert.match(next.stdout, /Next: axiom generate .*app\.ax --target typescript --out generated/);
+      assert.match(next.stdout, /app\.ax changed after generated artifacts/);
     } finally {
       await rm(dir, { recursive: true, force: true });
     }

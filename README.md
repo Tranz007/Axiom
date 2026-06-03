@@ -91,7 +91,7 @@ The current CLI can:
 - initialize starter `app.ax` projects with AI coding agent instructions
 - guide first-time setup with `axiom init --guided`
 - inspect project readiness with `axiom doctor`
-- recommend the next useful agent action with `axiom next`
+- recommend the next useful agent action with `axiom next`, including generation, generated tests, stale artifacts, and compact policy test runs
 - run starter policy simulations with `axiom simulate-examples`
 - generate runnable policy tests from starter simulations with `axiom generate-tests`
 - parse the MVP indentation-based `.ax` format

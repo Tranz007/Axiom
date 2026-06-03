@@ -190,7 +190,7 @@ axiom simulate my-axiom-app/app.ax --capability summarize_private_document --fac
 - simulation hints
 - generated artifacts or a next command to create them
 
-`axiom next` is the agent-facing companion command. A human installs Axiom, but an AI coding agent often needs to decide what to do next inside the repo. `axiom next` returns one recommended action, why it matters, and what should happen afterward.
+`axiom next` is the agent-facing companion command. A human installs Axiom, but an AI coding agent often needs to decide what to do next inside the repo. `axiom next` returns one recommended action, why it matters, and what should happen afterward. It should prefer compact next steps such as generation, generated policy tests, stale artifact regeneration, and targeted test runs.
 
 `axiom simulate-examples` runs the generated policy examples and writes `axiom/simulation-results.json`. This keeps the first agent workflow honest: validate the contract, simulate at least one policy path, then generate artifacts.
 

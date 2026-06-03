@@ -54,6 +54,7 @@ The project is experimental and pre-release.
 - Public copy now leads with builder-friendly language before developer/security terms.
 - Starter templates validate with zero errors and zero warnings.
 - `axiom next` now recommends policy simulation before generation.
+- `axiom next` now recommends generated policy tests, compact policy test runs, and stale artifact regeneration when applicable.
 - Validation errors for sensitive-data risks now include plain-language guidance and concrete next steps.
 - Generated artifacts now include `policy-evaluator.mjs` for plain Node examples.
 

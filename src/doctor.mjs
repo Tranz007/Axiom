@@ -1,4 +1,4 @@
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, stat } from "node:fs/promises";
 import { constants } from "node:fs";
 import { join, resolve } from "node:path";
 import { parseAxiom } from "./parser.mjs";
@@ -18,11 +18,21 @@ const GENERATED_HINT_PATHS = [
 ];
 
 const SIMULATION_RESULTS_PATH = "axiom/simulation-results.json";
+const GENERATED_TEST_PATH = "generated-tests/axiom-policy.test.mjs";
 
 async function exists(path) {
   try {
     await access(path, constants.F_OK);
     return true;
+  } catch {
+    return false;
+  }
+}
+
+async function newerThan(left, right) {
+  try {
+    const [leftStat, rightStat] = await Promise.all([stat(left), stat(right)]);
+    return leftStat.mtimeMs > rightStat.mtimeMs;
   } catch {
     return false;
   }
@@ -128,6 +138,18 @@ export async function inspectProject(options = {}) {
 
   if (generated.length) {
     checks.push(check("ok", "generated artifacts found", generated.join(", ")));
+    const generatedPaths = generated.map((path) => join(cwd, path));
+    const stale = await Promise.all(generatedPaths.map((path) => newerThan(appPath, path)));
+    if (stale.some(Boolean)) {
+      checks.push(
+        check(
+          "info",
+          "generated artifacts may be stale",
+          "app.ax is newer than at least one generated artifact.",
+          graph ? `Run: axiom generate ${appPath} --target typescript --out generated` : null,
+        ),
+      );
+    }
   } else {
     checks.push(
       check(
@@ -135,6 +157,30 @@ export async function inspectProject(options = {}) {
         "generated artifacts not found",
         "This is fine for a new project.",
         graph ? `Run: axiom generate ${appPath} --target typescript --out generated` : null,
+      ),
+    );
+  }
+
+  const generatedTestPath = join(cwd, GENERATED_TEST_PATH);
+  if (await exists(generatedTestPath)) {
+    checks.push(check("ok", "generated policy tests found", generatedTestPath));
+    if (await newerThan(appPath, generatedTestPath)) {
+      checks.push(
+        check(
+          "info",
+          "generated policy tests may be stale",
+          "app.ax is newer than the generated policy test.",
+          graph ? `Run: axiom generate-tests ${appPath} --examples axiom/simulations.json --out generated-tests` : null,
+        ),
+      );
+    }
+  } else if (graph) {
+    checks.push(
+      check(
+        "info",
+        "generated policy tests not found",
+        "Generated policy tests help agents catch policy drift without reading the full contract.",
+        `Run: axiom generate-tests ${appPath} --examples axiom/simulations.json --out generated-tests`,
       ),
     );
   }
@@ -251,6 +297,40 @@ export function recommendNextAction(report) {
       action: `axiom generate ${report.appPath} --target typescript --out generated`,
       why: "The contract is ready. Generated artifacts make it easier for implementation code to stay aligned with app.ax.",
       after: "Implement against the generated contracts and keep app.ax as the authority source.",
+    };
+  }
+
+  const staleGenerated = firstCheck(report, "info", "generated artifacts may be stale");
+  if (staleGenerated) {
+    return {
+      action: `axiom generate ${report.appPath} --target typescript --out generated`,
+      why: "app.ax changed after generated artifacts. Regenerate before implementation code relies on them.",
+      after: "Then run axiom next again.",
+    };
+  }
+
+  if (hasCheck(report, "info", "generated policy tests not found")) {
+    return {
+      action: `axiom generate-tests ${report.appPath} --examples axiom/simulations.json --out generated-tests`,
+      why: "Generated policy tests let agents verify expected decisions without loading the whole contract into context.",
+      after: "Run node --test generated-tests/axiom-policy.test.mjs.",
+    };
+  }
+
+  const staleGeneratedTests = firstCheck(report, "info", "generated policy tests may be stale");
+  if (staleGeneratedTests) {
+    return {
+      action: `axiom generate-tests ${report.appPath} --examples axiom/simulations.json --out generated-tests`,
+      why: "app.ax changed after generated policy tests. Regenerate tests before trusting them.",
+      after: "Run node --test generated-tests/axiom-policy.test.mjs.",
+    };
+  }
+
+  if (hasCheck(report, "ok", "generated policy tests found")) {
+    return {
+      action: "node --test generated-tests/axiom-policy.test.mjs",
+      why: "The contract, artifacts, and generated policy tests exist. Run the compact policy test before more implementation work.",
+      after: "If tests pass, implement the next feature against app.ax.",
     };
   }
 

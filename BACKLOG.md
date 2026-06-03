@@ -15,6 +15,7 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - Private package readiness is in place with a package allowlist, local install docs, and CI `npm pack --dry-run`.
 - `axiom diff old.ax new.ax` reports added, removed, and changed capabilities and data classes.
 - Agent templates now tell agents to keep external-model context small and use focused Axiom commands.
+- `axiom next` now stays compact while recognizing generated tests and stale generated artifacts.
 
 ## Now
 
