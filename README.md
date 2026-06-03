@@ -7,6 +7,12 @@ Axiom is an experimental language concept for building software with AI agents w
 
 The repo now includes a first usable MVP: a dependency-light Node CLI that parses `.ax` files, validates capability contracts, reports authority and disclosure problems, and generates initial TypeScript policy artifacts.
 
+## Current Status
+
+Axiom is currently in private development. The public site is a development preview, and the open-source release is planned after the CLI, examples, packaging, and docs are hardened.
+
+The package is intentionally still marked `"private": true`. Packaging work in this repo is for dry runs and local install testing, not npm publication yet.
+
 ## Start Here
 
 Prerequisite: Node.js 20 or newer.
@@ -61,6 +67,20 @@ npm run validate:examples
 npm run generate:example
 npm run demo:local-private-notes
 npm test
+```
+
+For local tool testing from a private checkout:
+
+```bash
+npm link
+axiom init --guided --out /tmp/axiom-linked-starter
+axiom doctor --cwd /tmp/axiom-linked-starter
+```
+
+To inspect what would be included in a package without publishing:
+
+```bash
+npm pack --dry-run
 ```
 
 ## What Works Today

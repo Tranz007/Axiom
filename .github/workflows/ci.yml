@@ -10,9 +10,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Check whitespace
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git diff --check "origin/${{ github.base_ref }}...HEAD"
+          else
+            base="${{ github.event.before }}"
+            if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
+              base="$(git rev-list --max-parents=0 HEAD)"
+            fi
+            git diff --check "$base" HEAD
+          fi
       - run: node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax
       - run: node ./bin/axiom.mjs validate examples/receipt-archive/axiom.ax
+      - run: node ./bin/axiom.mjs validate examples/local-private-notes/axiom.ax
+      - run: node examples/local-private-notes/app/policy-demo.mjs
       - run: node --test
+      - run: npm pack --dry-run

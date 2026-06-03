@@ -7,6 +7,20 @@
   "bin": {
     "axiom": "./bin/axiom.mjs"
   },
+  "files": [
+    "bin/",
+    "src/",
+    "templates/",
+    "examples/local-private-notes/",
+    "examples/agent-capability-gateway/",
+    "examples/receipt-archive/",
+    "docs/",
+    "spec/",
+    "index.html",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "scripts": {
     "axiom": "node ./bin/axiom.mjs",
     "test": "node --test",
