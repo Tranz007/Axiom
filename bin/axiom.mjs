@@ -10,6 +10,7 @@ import { initProject, listInitTemplates } from "../src/init.mjs";
 import { doctorExitCode, formatDoctorReport, formatNextAction, inspectProject } from "../src/doctor.mjs";
 import { formatSimulationExampleResults, runSimulationExamples } from "../src/simulations.mjs";
 import { generateNodeTests } from "../src/testgen.mjs";
+import { diffGraphs, formatGraphDiff } from "../src/diff.mjs";
 
 const command = process.argv[2];
 const input = process.argv[3];
@@ -28,6 +29,7 @@ Usage:
   axiom explain <file.ax>
   axiom matrix <file.ax>
   axiom simulate <file.ax> --capability <key> [--fact name=true ...]
+  axiom diff <old.ax> <new.ax>
   axiom generate <file.ax> [--target typescript] [--out generated]
   axiom generate-tests <file.ax> [--examples axiom/simulations.json] [--target node] [--out generated-tests]
 `);
@@ -224,6 +226,20 @@ try {
       outDir: optionValue("--out", "generated-tests"),
     });
     console.log(`generated ${result.testPath}`);
+    process.exit(0);
+  }
+
+  if (command === "diff") {
+    const oldFile = input;
+    const newFile = process.argv[4];
+    if (!oldFile || !newFile) {
+      usage();
+      process.exit(2);
+    }
+
+    const oldGraph = await loadGraph(oldFile);
+    const newGraph = await loadGraph(newFile);
+    console.log(formatGraphDiff(diffGraphs(oldGraph.graph, newGraph.graph)));
     process.exit(0);
   }
 

@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, rm, readFile } from "node:fs/promises";
+import { mkdtemp, rm, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { execFile, spawn } from "node:child_process";
@@ -279,6 +279,126 @@ describe("axiom cli", () => {
       decisions.map((item) => item.decision),
       ["allow", "require_approval", "deny"],
     );
+  });
+
+  it("diffs Axiom contract changes", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-diff-"));
+    try {
+      const oldFile = join(dir, "old.ax");
+      const newFile = join(dir, "new.ax");
+      await writeFile(
+        oldFile,
+        `app DiffOld
+  intent:
+    compare contracts
+
+data_class private.note
+  domain personal
+  sensitivity high
+  allowed_disclosure:
+    summary
+
+capability summarize_private_note
+  purpose:
+    summarize one note
+  data:
+    requires private.note
+  disclosure:
+    mode summary
+  policy:
+    allow if owner_authenticated
+    deny if requests_raw_note
+  audit:
+    record invocation
+    never log raw_note
+
+capability archive_note
+  purpose:
+    archive one note
+  policy:
+    allow if owner_authenticated
+    deny if ownership_scope_invalid
+`,
+        "utf8",
+      );
+      await writeFile(
+        newFile,
+        `app DiffNew
+  intent:
+    compare contracts
+
+data_class private.note
+  domain personal
+  sensitivity high
+  allowed_disclosure:
+    summary
+    task_fields
+
+data_class private.tag
+  domain personal
+  sensitivity moderate
+  allowed_disclosure:
+    label
+
+capability summarize_private_note
+  purpose:
+    summarize one note
+  data:
+    requires private.note
+    requires private.tag
+  disclosure:
+    mode summary | task_fields
+  policy:
+    allow if owner_authenticated
+    require_approval if destination_external
+    deny if requests_raw_note
+  approval:
+    one_time_default
+    binds request_hash, owner_id, capability_key, expiry
+  audit:
+    record invocation
+    never log raw_note
+
+capability share_note_summary
+  purpose:
+    share a summary
+  data:
+    requires private.note
+  disclosure:
+    mode summary
+  policy:
+    allow if owner_authenticated
+    deny if requests_raw_note
+`,
+        "utf8",
+      );
+
+      const result = await axiom(["diff", oldFile, newFile]);
+      assert.match(result.stdout, /Axiom diff/);
+      assert.match(result.stdout, /old: DiffOld/);
+      assert.match(result.stdout, /new: DiffNew/);
+      assert.match(result.stdout, /ADDED data_class private\.tag/);
+      assert.match(result.stdout, /ADDED capability share_note_summary/);
+      assert.match(result.stdout, /REMOVED capability archive_note/);
+      assert.match(result.stdout, /CHANGED capability summarize_private_note/);
+      assert.match(result.stdout, /reads: private\.note -> private\.note, private\.tag/);
+      assert.match(result.stdout, /approval: no -> yes/);
+      assert.match(result.stdout, /CHANGED data_class private\.note/);
+      assert.match(result.stdout, /allowedDisclosure: summary -> summary, task_fields/);
+      assert.match(result.stdout, /Summary: 2 added, 1 removed, 2 changed/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("reports no diff for unchanged Axiom contracts", async () => {
+    const result = await axiom([
+      "diff",
+      "examples/local-private-notes/axiom.ax",
+      "examples/local-private-notes/axiom.ax",
+    ]);
+    assert.match(result.stdout, /No contract changes/);
+    assert.match(result.stdout, /Summary: 0 added, 0 removed, 0 changed/);
   });
 
   it("simulates an allow decision", async () => {

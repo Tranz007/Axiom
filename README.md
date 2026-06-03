@@ -54,6 +54,7 @@ To inspect the bundled examples:
 ```bash
 node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax
 node ./bin/axiom.mjs matrix examples/agent-capability-gateway/axiom.ax
+node ./bin/axiom.mjs diff examples/local-private-notes/axiom.ax templates/apps/local-private-app.ax
 node ./bin/axiom.mjs simulate examples/agent-capability-gateway/axiom.ax --capability fill_tax_identity_fields --fact standing_policy_absent=true
 node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
 node examples/local-private-notes/app/policy-demo.mjs
@@ -98,6 +99,7 @@ The current CLI can:
 - explain common sensitive-data validation failures with concrete next steps
 - fail unsafe examples such as raw sensitive export, missing approval paths, model-decided policy, and unsafe audit logging
 - print a policy matrix as JSON
+- diff two `.ax` contracts for capability and data-class changes
 - simulate deterministic policy decisions from boolean request facts
 - generate TypeScript artifacts for capabilities, data classes, audit obligations, runtime guards, and verification reports
 

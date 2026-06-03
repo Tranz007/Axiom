@@ -13,26 +13,9 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - `axiom init --guided` provides a small template and agent-instruction picker.
 - `examples/local-private-notes` shows app code importing a generated policy evaluator.
 - Private package readiness is in place with a package allowlist, local install docs, and CI `npm pack --dry-run`.
+- `axiom diff old.ax new.ax` reports added, removed, and changed capabilities and data classes.
 
 ## Now
-
-### Policy Diff
-
-Expected shape:
-
-```bash
-axiom diff old.ax new.ax
-```
-
-Should show:
-
-- added capabilities
-- removed capabilities
-- changed data access
-- changed disclosure modes
-- changed approval requirements
-
-## Later
 
 ### Python Target
 
@@ -41,6 +24,8 @@ Generate:
 - Pydantic models
 - policy evaluator
 - audit contract stubs
+
+## Later
 
 ### Bundle Verification
 

@@ -20,6 +20,7 @@ The project is experimental and pre-release.
   - `axiom next`
   - `axiom simulate-examples`
   - `axiom generate-tests`
+  - `axiom diff`
 - Guided `axiom init --guided` setup for selecting a starter app and agent instruction target.
 - TypeScript artifact generation:
   - `policy-matrix.json`
@@ -45,6 +46,7 @@ The project is experimental and pre-release.
 - Bad fixtures for unsafe patterns such as raw sensitive export, missing approval paths, model-decided policy, and unsafe audit logging.
 - Generated Node policy tests from `axiom/simulations.json`.
 - Tiny local private notes example app that imports a generated Node policy evaluator.
+- Contract diffing for added, removed, and changed capabilities and data classes.
 
 ### Changed
 
