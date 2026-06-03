@@ -12,37 +12,9 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - Validation errors for sensitive-data risks now include plain-language guidance.
 - `axiom init --guided` provides a small template and agent-instruction picker.
 - `examples/local-private-notes` shows app code importing a generated policy evaluator.
+- Private package readiness is in place with a package allowlist, local install docs, and CI `npm pack --dry-run`.
 
 ## Now
-
-### Package For Local Install
-
-Goal:
-
-- make the repo feel publishable without necessarily publishing yet
-
-Tasks:
-
-- review package name
-- decide whether `private` should stay true
-- add npm package files allowlist
-- test `npm pack`
-- document local install flow
-
-Possible package names:
-
-- `@axiom-lang/axiom`
-- `@axiom-lang/cli`
-
-## Later
-
-### Python Target
-
-Generate:
-
-- Pydantic models
-- policy evaluator
-- audit contract stubs
 
 ### Policy Diff
 
@@ -59,6 +31,16 @@ Should show:
 - changed data access
 - changed disclosure modes
 - changed approval requirements
+
+## Later
+
+### Python Target
+
+Generate:
+
+- Pydantic models
+- policy evaluator
+- audit contract stubs
 
 ### Bundle Verification
 

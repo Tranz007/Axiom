@@ -11,6 +11,7 @@
     "bin/",
     "src/",
     "templates/",
+    "examples/*.ax",
     "examples/local-private-notes/",
     "examples/agent-capability-gateway/",
     "examples/receipt-archive/",
