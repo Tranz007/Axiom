@@ -32,6 +32,8 @@ jobs:
       - run: node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax
       - run: node ./bin/axiom.mjs validate examples/receipt-archive/axiom.ax
       - run: node ./bin/axiom.mjs validate examples/local-private-notes/axiom.ax
+      - run: node ./bin/axiom.mjs validate examples/local-private-notes-python/axiom.ax
       - run: node examples/local-private-notes/app/policy-demo.mjs
+      - run: python3 examples/local-private-notes-python/app/policy_demo.py
       - run: node --test
       - run: npm pack --dry-run

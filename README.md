@@ -59,6 +59,7 @@ node ./bin/axiom.mjs simulate examples/agent-capability-gateway/axiom.ax --capab
 node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
 node ./bin/axiom.mjs generate templates/apps/local-private-app.ax --target python --out /tmp/axiom-python-generated
 node examples/local-private-notes/app/policy-demo.mjs
+python3 examples/local-private-notes-python/app/policy_demo.py
 node --test
 ```
 
@@ -104,6 +105,7 @@ The current CLI can:
 - simulate deterministic policy decisions from boolean request facts
 - generate TypeScript artifacts for capabilities, data classes, audit obligations, runtime guards, and verification reports
 - generate Python artifacts for Pydantic contract models, deterministic policy evaluation, audit obligation stubs, and verification reports
+- run tiny Node and Python examples that import generated policy evaluators from ordinary app code
 
 The current CLI cannot yet:
 
@@ -253,6 +255,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [examples/receipt-archive.ax](examples/receipt-archive.ax): small app example
 - [examples/receipt-archive](examples/receipt-archive): runnable receipt archive example with generated artifacts
 - [examples/local-private-notes](examples/local-private-notes): tiny runnable app example that imports a generated policy evaluator
+- [examples/local-private-notes-python](examples/local-private-notes-python): tiny runnable Python example that imports a generated policy evaluator
 - [examples/agent-capabilities.ax](examples/agent-capabilities.ax): generic agent capability gateway example
 - [examples/agent-capability-gateway](examples/agent-capability-gateway): runnable agent gateway example with generated artifacts
 - [tests/fixtures/bad](tests/fixtures/bad): intentionally unsafe examples that should fail validation

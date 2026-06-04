@@ -1,0 +1,56 @@
+[
+  {
+    "capability": "summarize_private_document",
+    "purpose": [
+      "summarize one user-selected private document without exposing raw contents"
+    ],
+    "reads": [
+      "private.document"
+    ],
+    "disclosureModes": [
+      "summary"
+    ],
+    "forbiddenDisclosure": [
+      "raw_document_export",
+      "unrelated_document_fields"
+    ],
+    "decisions": [
+      {
+        "kind": "allow",
+        "conditions": [
+          "owner_authenticated",
+          "and document_selected",
+          "and destination_local"
+        ]
+      },
+      {
+        "kind": "require_approval",
+        "conditions": [
+          "destination_external",
+          "or summary_includes_sensitive_details"
+        ]
+      },
+      {
+        "kind": "deny",
+        "conditions": [
+          "schema_malformed",
+          "or requests_raw_document",
+          "or ownership_scope_invalid"
+        ]
+      }
+    ],
+    "approval": true,
+    "broker": [
+      "may_decrypt private.document",
+      "may_return summary",
+      "forbidden raw_document"
+    ],
+    "audit": [
+      "invocation",
+      "policy_decision",
+      "broker_execution",
+      "disclosure_mode",
+      "never log raw_document"
+    ]
+  }
+]

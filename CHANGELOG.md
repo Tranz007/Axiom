@@ -50,6 +50,7 @@ The project is experimental and pre-release.
 - Token-budget guidance for agent templates and external-model usage.
 - First agent loop documentation and smoke coverage for the Axiom OS golden path.
 - Python generation target for Pydantic contract models, policy evaluation, audit stubs, and reports.
+- Tiny Python example that imports the generated policy evaluator from ordinary app code.
 
 ### Changed
 

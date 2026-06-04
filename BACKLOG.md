@@ -18,16 +18,18 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - `axiom next` now stays compact while recognizing generated tests and stale generated artifacts.
 - `docs/first-agent-loop.md` documents the compact Axiom OS golden path and tests cover it.
 - `axiom generate --target python` creates Pydantic contract models, a policy evaluator, audit stubs, and reports.
+- `examples/local-private-notes-python` shows Python app code importing a generated policy evaluator.
 
 ## Now
 
-### Tiny Python Example
+### Open Source Readiness Review
 
-Show a minimal Python app using generated Axiom contracts:
+Check the repo as a future public project:
 
-- import `generated-python/policy_evaluator.py`
-- check allow, approval, and deny paths
-- keep it framework-free before adding a FastAPI example
+- verify README first-run commands work from a fresh checkout
+- inspect package contents from `npm pack --dry-run`
+- confirm public docs do not overpromise current CLI behavior
+- list only true blockers before opening the repo
 
 ## Later
 

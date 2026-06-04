@@ -420,6 +420,21 @@ describe("axiom cli", () => {
     );
   });
 
+  it("runs the local private notes Python example app", async () => {
+    const validation = await axiom(["validate", "examples/local-private-notes-python/axiom.ax"]);
+    assert.match(validation.stdout, /0 errors/);
+
+    const result = await run("python3", ["examples/local-private-notes-python/app/policy_demo.py"], {
+      cwd: new URL("..", import.meta.url).pathname,
+      env: childProcessEnv(),
+    });
+    const decisions = JSON.parse(result.stdout);
+    assert.deepEqual(
+      decisions.map((item) => item.decision),
+      ["allow", "require_approval", "deny"],
+    );
+  });
+
   it("diffs Axiom contract changes", async () => {
     const dir = await mkdtemp(join(tmpdir(), "axiom-diff-"));
     try {
