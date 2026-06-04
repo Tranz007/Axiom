@@ -1,8 +1,8 @@
 # Open Source Readiness
 
-This is the current readiness checkpoint for opening Axiom OS.
+This page tracks the current release status for Axiom OS as an experimental open-source project.
 
-Axiom should not be opened just because the concept is interesting. It should be opened when a developer or advanced AI-assisted builder can run the first loop, inspect the generated artifacts, understand the limits, and see enough proof that the contract model is real.
+Axiom is useful only if a developer or advanced AI-assisted builder can run the first loop, inspect the generated artifacts, understand the limits, and see enough proof that the contract model is real.
 
 ## Ready Now
 
@@ -26,27 +26,27 @@ node --test /tmp/axiom-starter/generated-tests/axiom-policy.test.mjs
 - CI validates examples, runs demos, runs tests, and checks package contents with `npm pack --dry-run`.
 - Public copy says the repo is a development preview and does not claim production security guarantees.
 
-## Must Fix Before Opening
+## Pre-Release Checks
 
-- Decide the public repository state: keep `"private": true` until npm publication is intentional, or remove it only when ready to publish.
-- Confirm the public GitHub URL in README and site links once the repo is actually public.
-- Re-run `npm pack --dry-run` in CI or an npm-capable shell immediately before opening.
-- Do one final pass over public HTML pages for links that assume private-only development.
+- Keep `"private": true` until npm publication is intentional.
+- Confirm public GitHub URLs in README and site links before announcing a public repository.
+- Re-run `npm pack --dry-run` in CI or an npm-capable shell before npm publication.
+- Review public HTML pages whenever the project status changes from private development to public repository.
 
-## Should Fix Soon After Opening
+## Project Hygiene
 
-- Add contribution guidance for small examples, validation rules, and generator targets.
-- Add a short security policy that explains what Axiom does and does not protect.
-- Add issue templates for bugs, language proposals, and example requests.
-- Add a release checklist for future npm publication.
+- Contribution guidance exists for examples, validation rules, and generator targets.
+- A security policy explains what Axiom does and does not protect.
+- Issue templates exist for bugs, language proposals, and example requests.
+- A release checklist exists for public repository and npm publication steps.
 
 ## Explicit Non-Blockers
 
-- FastAPI scaffolding is not required before opening.
-- `axiom verify` bundles are not required before opening.
+- FastAPI scaffolding is not required for the current experimental release.
+- `axiom verify` bundles are not required for the current experimental release.
 - Hosted services, dashboards, org policy packs, and enterprise/government controls are not part of the open-source release bar.
 - Axiom does not need to generate full applications before it can be useful as a contract and policy artifact tool.
 
-## Current Judgment
+## Status Summary
 
-Axiom OS is close to open-source-ready as an experimental developer tool. The remaining blockers are mostly release hygiene and public-surface accuracy, not core architecture.
+Axiom OS is close to release-ready as an experimental developer tool. The remaining work is mostly release hygiene and public-surface accuracy, not core architecture.

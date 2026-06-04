@@ -251,9 +251,13 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/comparison-matrix.html](docs/comparison-matrix.html): human-readable visual comparison matrix
 - [docs/comparison-matrix.md](docs/comparison-matrix.md): plain Markdown source for the comparison matrix
 - [docs/roadmap.md](docs/roadmap.md): phased implementation plan
-- [docs/open-source-readiness.md](docs/open-source-readiness.md): current readiness review before opening the repo
+- [docs/open-source-readiness.md](docs/open-source-readiness.md): current release readiness status
+- [docs/release-checklist.md](docs/release-checklist.md): public repository and npm release checklist
 - [BACKLOG.md](BACKLOG.md): tactical next work for open-source readiness
 - [CHANGELOG.md](CHANGELOG.md): notable repo changes
+- [CONTRIBUTING.md](CONTRIBUTING.md): contribution priorities and local checks
+- [SECURITY.md](SECURITY.md): prototype security posture and reporting guidance
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md): project conduct expectations
 - [examples/receipt-archive.ax](examples/receipt-archive.ax): small app example
 - [examples/receipt-archive](examples/receipt-archive): runnable receipt archive example with generated artifacts
 - [examples/local-private-notes](examples/local-private-notes): tiny runnable app example that imports a generated policy evaluator

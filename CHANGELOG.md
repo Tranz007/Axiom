@@ -52,6 +52,7 @@ The project is experimental and pre-release.
 - Python generation target for Pydantic contract models, policy evaluation, audit stubs, and reports.
 - Tiny Python example that imports the generated policy evaluator from ordinary app code.
 - Open-source readiness review with current blockers and non-blockers.
+- Open-source contribution, security, issue template, pull request, conduct, and release checklist docs.
 
 ### Changed
 
@@ -62,6 +63,7 @@ The project is experimental and pre-release.
 - Validation errors for sensitive-data risks now include plain-language guidance and concrete next steps.
 - Generated artifacts now include `policy-evaluator.mjs` for plain Node examples.
 - README and comparison copy now separate the current open-source core from the future compiler vision.
+- Open-source readiness wording now reads as public release status.
 
 ### Fixed
 
