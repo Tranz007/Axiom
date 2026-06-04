@@ -53,6 +53,7 @@ The project is experimental and pre-release.
 - Tiny Python example that imports the generated policy evaluator from ordinary app code.
 - Open-source readiness review with current blockers and non-blockers.
 - Open-source contribution, security, issue template, pull request, conduct, and release checklist docs.
+- Trademark and brand-use guidance for Axiom project names.
 
 ### Changed
 

@@ -258,6 +258,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [CONTRIBUTING.md](CONTRIBUTING.md): contribution priorities and local checks
 - [SECURITY.md](SECURITY.md): prototype security posture and reporting guidance
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md): project conduct expectations
+- [TRADEMARKS.md](TRADEMARKS.md): project name and brand-use guidance
 - [examples/receipt-archive.ax](examples/receipt-archive.ax): small app example
 - [examples/receipt-archive](examples/receipt-archive): runnable receipt archive example with generated artifacts
 - [examples/local-private-notes](examples/local-private-notes): tiny runnable app example that imports a generated policy evaluator
