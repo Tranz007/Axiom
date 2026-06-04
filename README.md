@@ -9,7 +9,7 @@ The repo now includes a first usable MVP: a dependency-light Node CLI that parse
 
 ## Current Status
 
-Axiom is currently in private development. The public site is a development preview, and the open-source release is planned after the CLI, examples, packaging, and docs are hardened.
+Axiom is in release preparation as an experimental developer tool. The public site is a development preview while the CLI, examples, packaging, and docs are hardened.
 
 The package is intentionally still marked `"private": true`. Packaging work in this repo is for dry runs and local install testing, not npm publication yet.
 
@@ -73,7 +73,7 @@ npm run demo:local-private-notes-python
 npm test
 ```
 
-For local tool testing from a private checkout:
+For local tool testing from a checkout:
 
 ```bash
 npm link

@@ -260,7 +260,7 @@ pytest
 Docker
 ```
 
-Axiom should sit above that stack:
+Axiom should sit above that stack. The current core starts with capability specs, policy simulation, generated artifacts, and generated tests; future targets can add:
 
 ```text
 Axiom capability specs
