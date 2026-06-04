@@ -69,6 +69,7 @@ If `npm` is available, these shortcuts also work:
 npm run validate:examples
 npm run generate:example
 npm run demo:local-private-notes
+npm run demo:local-private-notes-python
 npm test
 ```
 
@@ -133,7 +134,7 @@ The source of truth is an executable intent graph:
 - what must be audited
 - what invariants must never be violated
 
-Axiom then compiles that graph into ordinary software artifacts: TypeScript, Python, FastAPI routes, React UI, policy rules, tests, audit schemas, deployment manifests, and runtime guards.
+Axiom should eventually compile that graph into ordinary software artifacts: TypeScript, Python, FastAPI routes, React UI, policy rules, tests, audit schemas, deployment manifests, and runtime guards. Today, this repo implements the smaller open-source core: contract validation, policy simulation, TypeScript and Python policy artifacts, generated policy tests, and runnable examples.
 
 The goal is not prettier syntax. The goal is safer agency.
 
@@ -250,6 +251,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/comparison-matrix.html](docs/comparison-matrix.html): human-readable visual comparison matrix
 - [docs/comparison-matrix.md](docs/comparison-matrix.md): plain Markdown source for the comparison matrix
 - [docs/roadmap.md](docs/roadmap.md): phased implementation plan
+- [docs/open-source-readiness.md](docs/open-source-readiness.md): current readiness review before opening the repo
 - [BACKLOG.md](BACKLOG.md): tactical next work for open-source readiness
 - [CHANGELOG.md](CHANGELOG.md): notable repo changes
 - [examples/receipt-archive.ax](examples/receipt-archive.ax): small app example

@@ -19,17 +19,19 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - `docs/first-agent-loop.md` documents the compact Axiom OS golden path and tests cover it.
 - `axiom generate --target python` creates Pydantic contract models, a policy evaluator, audit stubs, and reports.
 - `examples/local-private-notes-python` shows Python app code importing a generated policy evaluator.
+- `docs/open-source-readiness.md` captures the current readiness checkpoint and true opening blockers.
 
 ## Now
 
-### Open Source Readiness Review
+### Open Source Release Hygiene
 
-Check the repo as a future public project:
+Resolve the small blockers before opening the repo:
 
-- verify README first-run commands work from a fresh checkout
-- inspect package contents from `npm pack --dry-run`
-- confirm public docs do not overpromise current CLI behavior
-- list only true blockers before opening the repo
+- decide when to remove `"private": true` from `package.json`
+- confirm public GitHub URLs once the repo is public
+- add contribution guidance
+- add a short security policy
+- add issue templates
 
 ## Later
 

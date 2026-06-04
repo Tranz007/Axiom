@@ -24,7 +24,7 @@ It is an AI-native application specification, verification, and enforcement lang
 - invariants
 - deployment constraints
 
-Axiom then compiles those contracts into ordinary code, tests, policy artifacts, UI requirements, runtime guards, and deployment manifests.
+Axiom should eventually compile those contracts into ordinary code, tests, policy artifacts, UI requirements, runtime guards, and deployment manifests. The current open-source core starts smaller: contract validation, policy simulation, TypeScript and Python policy artifacts, generated tests, and runnable examples.
 
 ## What Axiom Is Best Compared To
 

@@ -51,6 +51,7 @@ The project is experimental and pre-release.
 - First agent loop documentation and smoke coverage for the Axiom OS golden path.
 - Python generation target for Pydantic contract models, policy evaluation, audit stubs, and reports.
 - Tiny Python example that imports the generated policy evaluator from ordinary app code.
+- Open-source readiness review with current blockers and non-blockers.
 
 ### Changed
 
@@ -60,6 +61,7 @@ The project is experimental and pre-release.
 - `axiom next` now recommends generated policy tests, compact policy test runs, and stale artifact regeneration when applicable.
 - Validation errors for sensitive-data risks now include plain-language guidance and concrete next steps.
 - Generated artifacts now include `policy-evaluator.mjs` for plain Node examples.
+- README and comparison copy now separate the current open-source core from the future compiler vision.
 
 ### Fixed
 
