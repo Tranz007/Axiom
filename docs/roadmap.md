@@ -85,6 +85,7 @@ Current status:
 - `axiom next` can recommend the next useful action for a human or coding agent
 - `axiom simulate-examples` can run starter policy scenarios and save results
 - `axiom init --guided` can select a starter template and agent instruction target
+- `axiom generate --target python` can emit Pydantic contract models, a deterministic policy evaluator, audit stubs, and reports
 
 ## Phase 2: Broker And Audit Contracts
 

@@ -30,7 +30,7 @@ Usage:
   axiom matrix <file.ax>
   axiom simulate <file.ax> --capability <key> [--fact name=true ...]
   axiom diff <old.ax> <new.ax>
-  axiom generate <file.ax> [--target typescript] [--out generated]
+  axiom generate <file.ax> [--target typescript|python] [--out generated]
   axiom generate-tests <file.ax> [--examples axiom/simulations.json] [--target node] [--out generated-tests]
 `);
 }

@@ -17,16 +17,17 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - Agent templates now tell agents to keep external-model context small and use focused Axiom commands.
 - `axiom next` now stays compact while recognizing generated tests and stale generated artifacts.
 - `docs/first-agent-loop.md` documents the compact Axiom OS golden path and tests cover it.
+- `axiom generate --target python` creates Pydantic contract models, a policy evaluator, audit stubs, and reports.
 
 ## Now
 
-### Python Target
+### Tiny Python Example
 
-Generate:
+Show a minimal Python app using generated Axiom contracts:
 
-- Pydantic models
-- policy evaluator
-- audit contract stubs
+- import `generated-python/policy_evaluator.py`
+- check allow, approval, and deny paths
+- keep it framework-free before adding a FastAPI example
 
 ## Later
 

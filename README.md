@@ -5,7 +5,7 @@
 
 Axiom is an experimental language concept for building software with AI agents without treating generated application code as the real source of truth.
 
-The repo now includes a first usable MVP: a dependency-light Node CLI that parses `.ax` files, validates capability contracts, reports authority and disclosure problems, and generates initial TypeScript policy artifacts.
+The repo now includes a first usable MVP: a dependency-light Node CLI that parses `.ax` files, validates capability contracts, reports authority and disclosure problems, and generates initial TypeScript and Python policy artifacts.
 
 ## Current Status
 
@@ -57,6 +57,7 @@ node ./bin/axiom.mjs matrix examples/agent-capability-gateway/axiom.ax
 node ./bin/axiom.mjs diff examples/local-private-notes/axiom.ax templates/apps/local-private-app.ax
 node ./bin/axiom.mjs simulate examples/agent-capability-gateway/axiom.ax --capability fill_tax_identity_fields --fact standing_policy_absent=true
 node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
+node ./bin/axiom.mjs generate templates/apps/local-private-app.ax --target python --out /tmp/axiom-python-generated
 node examples/local-private-notes/app/policy-demo.mjs
 node --test
 ```
@@ -102,6 +103,7 @@ The current CLI can:
 - diff two `.ax` contracts for capability and data-class changes
 - simulate deterministic policy decisions from boolean request facts
 - generate TypeScript artifacts for capabilities, data classes, audit obligations, runtime guards, and verification reports
+- generate Python artifacts for Pydantic contract models, deterministic policy evaluation, audit obligation stubs, and verification reports
 
 The current CLI cannot yet:
 

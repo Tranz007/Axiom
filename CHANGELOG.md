@@ -49,6 +49,7 @@ The project is experimental and pre-release.
 - Contract diffing for added, removed, and changed capabilities and data classes.
 - Token-budget guidance for agent templates and external-model usage.
 - First agent loop documentation and smoke coverage for the Axiom OS golden path.
+- Python generation target for Pydantic contract models, policy evaluation, audit stubs, and reports.
 
 ### Changed
 

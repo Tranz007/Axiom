@@ -104,6 +104,50 @@ describe("axiom cli", () => {
     }
   });
 
+  it("generates Python policy artifacts", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-python-target-"));
+    try {
+      await axiom([
+        "generate",
+        "templates/apps/local-private-app.ax",
+        "--target",
+        "python",
+        "--out",
+        dir,
+      ]);
+
+      const models = await readFile(join(dir, "models.py"), "utf8");
+      const evaluator = await readFile(join(dir, "policy_evaluator.py"), "utf8");
+      const auditContracts = await readFile(join(dir, "audit_contracts.py"), "utf8");
+      const matrix = await readFile(join(dir, "policy_matrix.json"), "utf8");
+      const readme = await readFile(join(dir, "README.md"), "utf8");
+
+      assert.match(models, /class AxiomCapability\(BaseModel\)/);
+      assert.match(evaluator, /def evaluate_axiom_policy/);
+      assert.match(auditContracts, /def audit_obligations_for/);
+      assert.match(matrix, /summarize_private_document/);
+      assert.match(readme, /Do not paste the full generated files into an LLM context window/);
+
+      const python = await run("python3", [
+        "-c",
+        [
+          "import sys",
+          `sys.path.insert(0, ${JSON.stringify(dir)})`,
+          "from policy_evaluator import evaluate_axiom_policy",
+          "result = evaluate_axiom_policy('summarize_private_document', {'owner_authenticated': True, 'document_selected': True, 'destination_local': True})",
+          "assert result['decision'] == 'allow', result",
+          "approval = evaluate_axiom_policy('summarize_private_document', {'owner_authenticated': True, 'destination_external': True})",
+          "assert approval['decision'] == 'require_approval', approval",
+          "deny = evaluate_axiom_policy('summarize_private_document', {'requests_raw_document': True})",
+          "assert deny['decision'] == 'deny', deny",
+        ].join("; "),
+      ]);
+      assert.equal(python.stderr, "");
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
   it("initializes a starter Axiom project", async () => {
     const dir = await mkdtemp(join(tmpdir(), "axiom-init-"));
     try {
