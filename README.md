@@ -234,6 +234,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/runtime-model.md](docs/runtime-model.md): build-time, runtime, frontend, backend, deployment
 - [docs/security-model.md](docs/security-model.md): security posture, threats, capability isolation
 - [docs/token-budget.md](docs/token-budget.md): context and token-budget constraints for agent use
+- [docs/first-agent-loop.md](docs/first-agent-loop.md): compact golden path for agent use
 - [docs/compiler-and-targets.md](docs/compiler-and-targets.md): how Axiom compiles to real software
 - [docs/axiom-os.html](docs/axiom-os.html): public-facing open-source edition page
 - [docs/editions.html](docs/editions.html): public-facing edition strategy page

@@ -324,6 +324,43 @@ describe("axiom cli", () => {
     }
   });
 
+  it("runs the first agent loop from a fresh project", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-first-loop-"));
+    try {
+      await axiom(["init", "--template", "local-private-app", "--agent", "codex", "--out", dir]);
+
+      const firstNext = await axiom(["next", "--cwd", dir]);
+      assert.match(firstNext.stdout, /Next: Run one command from axiom\/simulations\.json/);
+
+      await axiom(["simulate-examples", "--cwd", dir]);
+      const generationNext = await axiom(["next", "--cwd", dir]);
+      assert.match(generationNext.stdout, /Next: axiom generate .*app\.ax --target typescript --out generated/);
+
+      await axiom(["generate", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated")]);
+      const testGenerationNext = await axiom(["next", "--cwd", dir]);
+      assert.match(testGenerationNext.stdout, /Next: axiom generate-tests .*app\.ax --examples axiom\/simulations\.json --out generated-tests/);
+
+      await axiom([
+        "generate-tests",
+        join(dir, "app.ax"),
+        "--examples",
+        join(dir, "axiom", "simulations.json"),
+        "--out",
+        join(dir, "generated-tests"),
+      ]);
+      const runTestsNext = await axiom(["next", "--cwd", dir]);
+      assert.match(runTestsNext.stdout, /Next: node --test generated-tests\/axiom-policy\.test\.mjs/);
+
+      const generatedTest = await run(process.execPath, ["--test", join(dir, "generated-tests", "axiom-policy.test.mjs")], {
+        cwd: dir,
+        env: childProcessEnv(),
+      });
+      assert.match(`${generatedTest.stdout}\n${generatedTest.stderr}`, /pass 2/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
   it("runs the local private notes example app", async () => {
     const validation = await axiom(["validate", "examples/local-private-notes/axiom.ax"]);
     assert.match(validation.stdout, /0 errors/);

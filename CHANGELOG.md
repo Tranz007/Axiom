@@ -48,6 +48,7 @@ The project is experimental and pre-release.
 - Tiny local private notes example app that imports a generated Node policy evaluator.
 - Contract diffing for added, removed, and changed capabilities and data classes.
 - Token-budget guidance for agent templates and external-model usage.
+- First agent loop documentation and smoke coverage for the Axiom OS golden path.
 
 ### Changed
 

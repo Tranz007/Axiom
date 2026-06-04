@@ -16,6 +16,7 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - `axiom diff old.ax new.ax` reports added, removed, and changed capabilities and data classes.
 - Agent templates now tell agents to keep external-model context small and use focused Axiom commands.
 - `axiom next` now stays compact while recognizing generated tests and stale generated artifacts.
+- `docs/first-agent-loop.md` documents the compact Axiom OS golden path and tests cover it.
 
 ## Now
 
