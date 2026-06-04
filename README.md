@@ -1,15 +1,22 @@
 # Axiom
 
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+![Status: experimental](https://img.shields.io/badge/status-experimental-0f766e)
+![Node: 20+](https://img.shields.io/badge/node-20%2B-315f7b)
+![Package: private for now](https://img.shields.io/badge/npm-private_for_now-5c6871)
+
 **Status:** Experimental CLI prototype and concept specification  
 **Purpose:** AI-native language and runtime model for building capability-bound, policy-verifiable applications.  
 
 Axiom is an experimental language concept for building software with AI agents without treating generated application code as the real source of truth.
 
-The repo now includes a first usable MVP: a dependency-light Node CLI that parses `.ax` files, validates capability contracts, reports authority and disclosure problems, and generates initial TypeScript and Python policy artifacts.
+The repo now includes a first usable MVP: a dependency-light Node CLI that parses `.ax` files, validates capability contracts, reports permission and disclosure problems, and generates initial TypeScript and Python policy artifacts.
+
+![Axiom agent-first workflow](docs/assets/agent-first-workflow.png)
 
 ## Current Status
 
-Axiom is in release preparation as an experimental developer tool. The public site is a development preview while the CLI, examples, packaging, and docs are hardened.
+Axiom OS is in release preparation as an experimental developer tool. The public site is a development preview while the CLI, examples, packaging, and docs are hardened.
 
 The package is intentionally still marked `"private": true`. Packaging work in this repo is for dry runs and local install testing, not npm publication yet.
 
@@ -18,6 +25,8 @@ The package is intentionally still marked `"private": true`. Packaging work in t
 Prerequisite: Node.js 20 or newer.
 
 The open-source flow is designed for a human who installs Axiom and an AI coding agent that uses it inside a project.
+
+![Single agent Axiom workflow](docs/assets/single-agent-workflow.png)
 
 For a guided template picker:
 
@@ -137,6 +146,14 @@ The source of truth is an executable intent graph:
 Axiom should eventually compile that graph into ordinary software artifacts: TypeScript, Python, FastAPI routes, React UI, policy rules, tests, audit schemas, deployment manifests, and runtime guards. Today, this repo implements the smaller open-source core: contract validation, policy simulation, TypeScript and Python policy artifacts, generated policy tests, and runnable examples.
 
 The goal is not prettier syntax. The goal is safer agency.
+
+## Editions
+
+- **Axiom OS:** the open-source local core in this repo.
+- **Axiom Business:** future commercial tooling for teams, managed workflows, stronger reports, and organizational governance.
+- **Axiom Government:** future private/government-focused edition for stricter deployment, audit, and compliance environments.
+
+The open-source version needs to be useful by itself. The future editions should add operational depth, not make the public core a teaser.
 
 ## One-Sentence Definition
 

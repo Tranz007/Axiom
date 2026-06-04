@@ -288,6 +288,28 @@
         gap: 10px;
       }
 
+      .visual {
+        overflow: hidden;
+        margin: 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 10px 28px rgba(23, 32, 39, 0.06);
+      }
+
+      .visual img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .visual figcaption {
+        padding: 12px 14px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
       .step {
         display: grid;
         grid-template-columns: 42px 1fr;
@@ -462,18 +484,13 @@
             </div>
           </div>
           <div class="steps">
-            <div class="step">
-              <span class="num">1</span>
-              <div><strong>Write down the rules</strong><span>`axiom init` creates `app.ax`, agent instructions, and simulation hints.</span></div>
-            </div>
-            <div class="step">
-              <span class="num">2</span>
-              <div><strong>Ask for the next move</strong><span>`axiom doctor` and `axiom next` tell the agent what is missing or ready.</span></div>
-            </div>
-            <div class="step">
-              <span class="num">3</span>
-              <div><strong>Simulate before generating</strong><span>`axiom simulate-examples` tests policy behavior before implementation artifacts are created.</span></div>
-            </div>
+            <figure class="visual">
+              <img
+                src="docs/assets/agent-first-workflow.png"
+                alt="Axiom workflow showing a human installing Axiom, an agent reading the contract, and generated artifacts flowing back into the app."
+              />
+              <figcaption>The human sets up Axiom. The coding agent uses the contract, checks, simulations, and generated artifacts while building the app.</figcaption>
+            </figure>
           </div>
         </div>
       </section>

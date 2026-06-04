@@ -253,6 +253,27 @@
         gap: 10px;
       }
 
+      .visual {
+        overflow: hidden;
+        margin: 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .visual img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .visual figcaption {
+        padding: 12px 14px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
       .step {
         display: grid;
         grid-template-columns: 42px 1fr;
@@ -402,13 +423,20 @@
               This is the first flow: easy enough for a non-expert builder and concrete
               enough that a serious developer can see what gets checked.
             </p>
-          </div>
-          <pre>axiom init --template local-private-app --agent codex
+            <pre>axiom init --template local-private-app --agent codex
 axiom doctor
 axiom next
 axiom simulate-examples
 axiom next
 axiom generate app.ax --target typescript --out generated</pre>
+          </div>
+          <figure class="visual">
+            <img
+              src="assets/single-agent-workflow.png"
+              alt="Axiom single-agent workflow showing install, contract inspection, doctor, next, simulations, generation, and implementation."
+            />
+            <figcaption>The shortest useful loop: initialize the contract, check it, simulate policy, then generate artifacts for ordinary code.</figcaption>
+          </figure>
         </div>
       </section>
 
