@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,6 +8,7 @@
     <style>
       :root {
         color-scheme: light;
+        --bg: #f8fafb;
         --ink: #182026;
         --muted: #59656f;
         --line: #d8e0e6;
@@ -23,6 +24,24 @@
         --shadow: 0 16px 40px rgba(24, 32, 38, 0.1);
       }
 
+      [data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #101820;
+        --ink: #edf6f4;
+        --muted: #a9bbb8;
+        --line: rgba(189, 216, 210, 0.22);
+        --soft: rgba(114, 214, 200, 0.1);
+        --panel: #16242c;
+        --accent: #72d6c8;
+        --accent-strong: #72d6c8;
+        --good: #42a77b;
+        --mid: #cc8a36;
+        --low: #c85d5d;
+        --none: #87969d;
+        --code: #091014;
+        --shadow: 0 18px 46px rgba(0, 0, 0, 0.24);
+      }
+
       * {
         box-sizing: border-box;
       }
@@ -30,7 +49,7 @@
       body {
         margin: 0;
         color: var(--ink);
-        background: #f8fafb;
+        background: var(--bg);
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
@@ -46,7 +65,7 @@
         top: 0;
         z-index: 30;
         border-bottom: 1px solid rgba(216, 224, 230, 0.88);
-        background: rgba(248, 250, 251, 0.94);
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
         backdrop-filter: blur(12px);
       }
 
@@ -80,10 +99,10 @@
       }
 
       .back-link {
-        color: var(--accent-strong);
+        color: var(--muted);
         text-decoration: none;
         font-size: 14px;
-        font-weight: 750;
+        font-weight: 400;
       }
 
       .nav-actions {
@@ -92,12 +111,31 @@
         gap: 14px;
       }
 
+      .theme-toggle {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        background: var(--panel);
+        cursor: pointer;
+      }
+
       header {
         background:
-          linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.96)),
+          linear-gradient(180deg, color-mix(in srgb, var(--panel) 76%, transparent), var(--bg)),
           radial-gradient(circle at 20% 10%, #dff3ef, transparent 34%),
           radial-gradient(circle at 85% 15%, #e7eef8, transparent 30%);
         border-bottom: 1px solid var(--line);
+      }
+
+      [data-theme="dark"] header {
+        background:
+          linear-gradient(180deg, rgba(22, 36, 44, 0.96), var(--bg)),
+          radial-gradient(circle at 20% 10%, rgba(114, 214, 200, 0.16), transparent 34%),
+          radial-gradient(circle at 85% 15%, rgba(143, 183, 201, 0.12), transparent 30%);
       }
 
       .wrap {
@@ -186,8 +224,8 @@
 
       .callout {
         padding: 18px 20px;
-        background: #ecf8f5;
-        border: 1px solid #bdded7;
+        background: var(--soft);
+        border: 1px solid var(--line);
         border-radius: 8px;
       }
 
@@ -223,7 +261,7 @@
         gap: 8px;
         padding: 12px 0;
         margin-bottom: 10px;
-        background: rgba(248, 250, 251, 0.92);
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
         backdrop-filter: blur(12px);
       }
 
@@ -274,7 +312,7 @@
         position: sticky;
         top: 0;
         z-index: 10;
-        background: #eef4f5;
+        background: var(--soft);
         font-size: 13px;
         text-transform: uppercase;
         letter-spacing: 0.04em;
@@ -287,13 +325,13 @@
         z-index: 11;
         width: 260px;
         min-width: 260px;
-        background: #ffffff;
+        background: var(--panel);
         font-weight: 700;
       }
 
       th:first-child {
         z-index: 12;
-        background: #e7f1f0;
+        background: var(--soft);
       }
 
       tr:last-child td {
@@ -359,7 +397,7 @@
         border-radius: 999px;
         padding: 4px 9px;
         color: var(--accent-strong);
-        background: #e4f4f1;
+        background: var(--soft);
         font-size: 12px;
         font-weight: 800;
       }
@@ -431,6 +469,7 @@
           <a class="back-link" href="../index.html">Home</a>
           <a class="back-link" href="risks.html">Risks</a>
           <a class="back-link" href="setting-axiom-rules.html">Rules</a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode">☾</button>
         </div>
       </div>
     </nav>
@@ -716,6 +755,22 @@
     <script>
       const buttons = [...document.querySelectorAll("[data-filter]")];
       const rows = [...document.querySelectorAll("tbody tr")];
+      const themeToggle = document.querySelector("[data-theme-toggle]");
+
+      function setTheme(theme) {
+        document.documentElement.dataset.theme = theme;
+        themeToggle.textContent = theme === "dark" ? "☾" : "☀";
+        themeToggle.setAttribute(
+          "aria-label",
+          theme === "dark" ? "Switch to light mode" : "Switch to dark mode",
+        );
+        localStorage.setItem("axiom-theme", theme);
+      }
+
+      setTheme(localStorage.getItem("axiom-theme") || "dark");
+      themeToggle.addEventListener("click", () => {
+        setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+      });
 
       buttons.forEach((button) => {
         button.addEventListener("click", () => {

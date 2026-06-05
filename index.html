@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,6 +11,7 @@
     <link rel="icon" type="image/svg+xml" href="docs/assets/svg/axiom-mark.svg" />
     <style>
       :root {
+        --bg: #f8fafb;
         --ink: #172027;
         --muted: #5c6871;
         --line: #d7e0e5;
@@ -20,6 +21,19 @@
         --accent-dark: #104f4a;
         --blue: #315f7b;
         --code: #101820;
+      }
+
+      [data-theme="dark"] {
+        --bg: #101820;
+        --ink: #edf6f4;
+        --muted: #a9bbb8;
+        --line: rgba(189, 216, 210, 0.22);
+        --panel: #16242c;
+        --soft: rgba(114, 214, 200, 0.1);
+        --accent: #72d6c8;
+        --accent-dark: #72d6c8;
+        --blue: #8fb7c9;
+        --code: #091014;
       }
 
       * {
@@ -33,7 +47,7 @@
       body {
         margin: 0;
         color: var(--ink);
-        background: #f8fafb;
+        background: var(--bg);
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
@@ -53,8 +67,8 @@
         position: sticky;
         top: 0;
         z-index: 10;
-        border-bottom: 1px solid rgba(215, 224, 229, 0.86);
-        background: rgba(248, 250, 251, 0.9);
+        border-bottom: 1px solid var(--line);
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
         backdrop-filter: blur(14px);
       }
 
@@ -89,6 +103,7 @@
 
       .links {
         display: flex;
+        align-items: center;
         gap: 18px;
         color: var(--muted);
         font-size: 14px;
@@ -98,14 +113,33 @@
         text-decoration: none;
       }
 
+      .theme-toggle {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        background: var(--panel);
+        cursor: pointer;
+      }
+
       .hero {
         padding: 76px 0 54px;
         border-bottom: 1px solid var(--line);
         background:
-          linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 251, 1)),
+          linear-gradient(180deg, color-mix(in srgb, var(--panel) 76%, transparent), var(--bg)),
           radial-gradient(circle at 16% 12%, #d8f0eb, transparent 32%),
           radial-gradient(circle at 82% 12%, #e4edf5, transparent 30%),
           radial-gradient(circle at 72% 84%, #f5ead8, transparent 28%);
+      }
+
+      [data-theme="dark"] .hero {
+        background:
+          linear-gradient(180deg, rgba(22, 36, 44, 0.96), var(--bg)),
+          radial-gradient(circle at 16% 12%, rgba(114, 214, 200, 0.16), transparent 34%),
+          radial-gradient(circle at 82% 12%, rgba(143, 183, 201, 0.14), transparent 30%);
       }
 
       .hero-grid {
@@ -154,7 +188,7 @@
         border: 1px solid var(--line);
         border-radius: 8px;
         padding: 0 16px;
-        background: #fff;
+        background: var(--panel);
         text-decoration: none;
         font-weight: 750;
       }
@@ -264,7 +298,7 @@
         border-radius: 999px;
         padding: 4px 9px;
         color: var(--accent-dark);
-        background: #e4f4f1;
+        background: var(--soft);
         font-size: 12px;
         font-weight: 800;
       }
@@ -284,7 +318,7 @@
         border-radius: 999px;
         padding: 0 12px;
         color: var(--accent-dark);
-        background: #ffffff;
+        background: var(--panel);
         font-size: 13px;
         font-weight: 800;
       }
@@ -316,7 +350,7 @@
         margin: 0;
         border: 1px solid var(--line);
         border-radius: 8px;
-        background: #fff;
+        background: var(--panel);
         box-shadow: 0 10px 28px rgba(23, 32, 39, 0.06);
       }
 
@@ -361,7 +395,7 @@
         max-height: calc(100vh - 56px);
         overflow: auto;
         border-radius: 8px;
-        background: #ffffff;
+        background: var(--panel);
         box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
       }
 
@@ -388,7 +422,7 @@
         border: 1px solid var(--line);
         border-radius: 8px;
         color: var(--ink);
-        background: #ffffff;
+        background: var(--panel);
         cursor: pointer;
         font-weight: 850;
       }
@@ -473,6 +507,10 @@
         }
 
         .links {
+          gap: 10px;
+        }
+
+        .links a {
           display: none;
         }
       }
@@ -504,6 +542,7 @@
           <a href="docs/risks.html">Risks</a>
           <a href="docs/setting-axiom-rules.html">Rules</a>
           <a href="docs/comparison-matrix.html">Matrix</a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode">☾</button>
         </div>
       </div>
     </nav>
@@ -780,6 +819,23 @@
       });
       document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && lightbox.hasAttribute("open")) closeLightbox();
+      });
+
+      const themeToggle = document.querySelector("[data-theme-toggle]");
+
+      function setTheme(theme) {
+        document.documentElement.dataset.theme = theme;
+        themeToggle.textContent = theme === "dark" ? "☾" : "☀";
+        themeToggle.setAttribute(
+          "aria-label",
+          theme === "dark" ? "Switch to light mode" : "Switch to dark mode",
+        );
+        localStorage.setItem("axiom-theme", theme);
+      }
+
+      setTheme(localStorage.getItem("axiom-theme") || "dark");
+      themeToggle.addEventListener("click", () => {
+        setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
       });
     </script>
   </body>
