@@ -111,6 +111,11 @@ Success:
 - audit event coverage is testable
 - raw secret logging is caught in tests
 
+Current status:
+
+- TypeScript generation emits broker contracts and audit payload guards.
+- The generated customer-support app skeleton tests reject forbidden broker and audit fields.
+
 ## Phase 3: Approval UX Contracts
 
 Goal:
@@ -129,6 +134,11 @@ Success:
 
 - approval screens cannot omit agent, capability, destination, data classes, disclosure mode, or expiry
 - replay and mutation tests pass
+
+Current status:
+
+- TypeScript generation emits approval payload contracts and validates required binding fields.
+- The generated app skeleton returns `approval_required` before approval-bound paths execute.
 
 ## Phase 4: Code Generation
 
@@ -149,6 +159,11 @@ Success:
 
 - generated code reduces drift
 - manual implementation remains possible through declared escape hatches
+
+Current status:
+
+- TypeScript generation emits a minimal Node app skeleton and generated skeleton tests.
+- This is not yet full app generation; auth, persistence, transport, and UI remain manual.
 
 ## Phase 5: Deployment And Bundle Verification
 

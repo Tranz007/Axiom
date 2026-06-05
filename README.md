@@ -92,6 +92,7 @@ node ./bin/axiom.mjs simulate examples/agent-capability-gateway/axiom.ax --capab
 node ./bin/axiom.mjs simulate examples/customer-support-action/axiom.ax --capability issue_refund_credit --fact refund_requested=true
 node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
 node ./bin/axiom.mjs verify examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
+node --test examples/customer-support-action/generated/app-skeleton.test.mjs
 node ./bin/axiom.mjs generate templates/apps/local-private-app.ax --target python --out /tmp/axiom-python-generated
 node examples/customer-support-action/app/policy-demo.mjs
 node examples/local-private-notes/app/policy-demo.mjs
@@ -143,7 +144,8 @@ The current CLI can:
 - print a policy matrix as JSON
 - diff two `.ax` contracts for capability and data-class changes
 - simulate deterministic policy decisions from boolean request facts
-- generate TypeScript artifacts for capabilities, data classes, audit obligations, runtime guards, and generation reports
+- generate TypeScript artifacts for capabilities, data classes, broker boundaries, approval payloads, audit guards, runtime guards, and generation reports
+- generate a minimal Node app skeleton that gates policy, approval, broker, and audit behavior
 - generate Python artifacts for Pydantic contract models, deterministic policy evaluation, audit obligation stubs, and generation reports
 - run tiny Node and Python examples that import generated policy evaluators from ordinary app code
 
@@ -152,6 +154,7 @@ The current CLI cannot yet:
 - generate a full application
 - replace framework code
 - execute policies against real request context
+- generate polished UI screens or complete persistence/auth layers
 - parse rich expressions beyond simple boolean facts
 - guarantee security by itself
 - parse every future Axiom syntax idea in the docs

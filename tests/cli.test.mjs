@@ -136,10 +136,18 @@ describe("axiom cli", () => {
       const capabilities = await readFile(join(dir, "capabilities.ts"), "utf8");
       const evaluator = await readFile(join(dir, "policy-evaluator.ts"), "utf8");
       const nodeEvaluator = await readFile(join(dir, "policy-evaluator.mjs"), "utf8");
+      const brokerContracts = await readFile(join(dir, "broker-contracts.mjs"), "utf8");
+      const approvalContracts = await readFile(join(dir, "approval-contracts.mjs"), "utf8");
+      const appSkeleton = await readFile(join(dir, "app-skeleton.mjs"), "utf8");
+      const appSkeletonTest = await readFile(join(dir, "app-skeleton.test.mjs"), "utf8");
       const report = await readFile(join(dir, "axiom-report.md"), "utf8");
       assert.match(capabilities, /fill_tax_identity_fields/);
       assert.match(evaluator, /evaluateAxiomPolicy/);
       assert.match(nodeEvaluator, /export function evaluateAxiomPolicy/);
+      assert.match(brokerContracts, /axiomBrokerContracts/);
+      assert.match(approvalContracts, /validateApprovalPayload/);
+      assert.match(appSkeleton, /handleAxiomCapabilityRequest/);
+      assert.match(appSkeletonTest, /Axiom generated app skeleton/);
       assert.match(report, /Axiom Verification Report/);
     } finally {
       await rm(dir, { recursive: true, force: true });
@@ -154,7 +162,7 @@ describe("axiom cli", () => {
 
       const result = await axiom(["verify", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated"), "--write"]);
       assert.match(result.stdout, /Axiom verification/);
-      assert.match(result.stdout, /Result: verified 9 artifact\(s\)/);
+      assert.match(result.stdout, /Result: verified 17 artifact\(s\)/);
       assert.match(result.stdout, /wrote .*verification-manifest\.json/);
 
       const manifest = JSON.parse(await readFile(join(dir, "axiom", "verification-manifest.json"), "utf8"));
@@ -618,6 +626,17 @@ describe("axiom cli", () => {
       decisions.map((item) => item.decision),
       ["allow", "require_approval", "deny"],
     );
+  });
+
+  it("runs the generated customer support app skeleton tests", async () => {
+    const validation = await axiom(["validate", "examples/customer-support-action/axiom.ax"]);
+    assert.match(validation.stdout, /0 errors/);
+
+    const generatedTest = await run(process.execPath, ["--test", "examples/customer-support-action/generated/app-skeleton.test.mjs"], {
+      cwd: new URL("..", import.meta.url).pathname,
+      env: childProcessEnv(),
+    });
+    assert.match(`${generatedTest.stdout}\n${generatedTest.stderr}`, /pass 8/);
   });
 
   it("runs the local private notes Python example app", async () => {

@@ -25,19 +25,18 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - `examples/local-private-notes-python` shows Python app code importing a generated policy evaluator.
 - Open-source hygiene now includes contribution guidance, security policy, issue templates, pull request template, code of conduct, and release checklist.
 - `axiom verify` checks generated artifacts against `app.ax`, reports graph and artifact hashes, and writes verification evidence when requested.
+- The TypeScript generator now emits broker contracts, approval contracts, audit guards, and a minimal app skeleton with generated Node guardrail tests.
 
 ## Now
 
-### Public Beta Hardening
+### First App Skeleton Hardening
 
-Harden the public-facing surfaces now that the repository is public:
+Harden the first generated app-skeleton slice:
 
-- homepage and public HTML pages
-- README first screen
-- install and first-run language
-- stale pre-public wording that can confuse first-time visitors
-- package publication state, including `"private": true`
-- clean-checkout first-run verification
+- keep `examples/customer-support-action/generated/app-skeleton.test.mjs` representative
+- add one route-skeleton target only after broker, approval, and audit guard tests stay stable
+- keep manual implementation escape hatches obvious
+- do not claim full application generation until auth, persistence, transport, and UI contracts exist
 
 ## Later
 
