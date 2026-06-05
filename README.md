@@ -30,6 +30,16 @@ Prerequisite: Node.js 20 or newer.
 
 The open-source flow is designed for a human who installs Axiom and an AI coding agent that uses it inside a project.
 
+For the shortest local try:
+
+```bash
+git clone https://github.com/Tranz007/Axiom.git
+cd Axiom
+node ./bin/axiom.mjs try --out /tmp/axiom-starter
+```
+
+That creates a starter project, runs `doctor`, runs starter simulations, and prints the next useful command for the agent.
+
 ![Single agent Axiom workflow](docs/assets/single-agent-workflow.png)
 
 For a guided template picker:
@@ -66,11 +76,14 @@ To inspect the bundled examples:
 
 ```bash
 node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax
+node ./bin/axiom.mjs validate examples/customer-support-action/axiom.ax
 node ./bin/axiom.mjs matrix examples/agent-capability-gateway/axiom.ax
 node ./bin/axiom.mjs diff examples/local-private-notes/axiom.ax templates/apps/local-private-app.ax
 node ./bin/axiom.mjs simulate examples/agent-capability-gateway/axiom.ax --capability fill_tax_identity_fields --fact standing_policy_absent=true
+node ./bin/axiom.mjs simulate examples/customer-support-action/axiom.ax --capability issue_refund_credit --fact refund_requested=true
 node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
 node ./bin/axiom.mjs generate templates/apps/local-private-app.ax --target python --out /tmp/axiom-python-generated
+node examples/customer-support-action/app/policy-demo.mjs
 node examples/local-private-notes/app/policy-demo.mjs
 python3 examples/local-private-notes-python/app/policy_demo.py
 node --test
@@ -109,6 +122,7 @@ The current CLI can:
 - inspect project readiness with `axiom doctor`
 - recommend the next useful agent action with `axiom next`, including generation, generated tests, stale artifacts, and compact policy test runs
 - run starter policy simulations with `axiom simulate-examples`
+- run a complete two-minute local walkthrough with `axiom try`
 - generate runnable policy tests from starter simulations with `axiom generate-tests`
 - parse the MVP indentation-based `.ax` format
 - validate that capabilities declare purpose, policy, disclosure, broker, approval, and audit obligations where required
@@ -282,6 +296,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [TRADEMARKS.md](TRADEMARKS.md): project name and brand-use guidance
 - [examples/receipt-archive.ax](examples/receipt-archive.ax): small app example
 - [examples/receipt-archive](examples/receipt-archive): runnable receipt archive example with generated artifacts
+- [examples/customer-support-action](examples/customer-support-action): support reply and approval-gated refund example
 - [examples/local-private-notes](examples/local-private-notes): tiny runnable app example that imports a generated policy evaluator
 - [examples/local-private-notes-python](examples/local-private-notes-python): tiny runnable Python example that imports a generated policy evaluator
 - [examples/agent-capabilities.ax](examples/agent-capabilities.ax): generic agent capability gateway example

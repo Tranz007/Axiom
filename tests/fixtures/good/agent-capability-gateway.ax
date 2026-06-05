@@ -2,22 +2,22 @@ app AgentCapabilityGateway
   intent:
     allow external agents to request sensitive actions without broad raw data access
 
-  invariant capability_not_retrieval
-    forbid:
-      agent_route returns raw_sensitive_record
-      agent_route lists all_records
-      agent_route searches decrypted_payload
-      model decides policy_outcome
+invariant capability_not_retrieval
+  forbid:
+    agent_route returns raw_sensitive_record
+    agent_route lists all_records
+    agent_route searches decrypted_payload
+    model decides policy
 
-  invariant broker_only_decryption
-    require:
-      decrypted_sensitive_payload exists only inside broker_boundary
+invariant broker_only_decryption
+  require:
+    decrypted_sensitive_payload exists only inside broker_boundary
 
-  invariant no_raw_secret_logging
-    forbid:
-      audit_event contains decrypted_payload
-      audit_event contains auth_header
-      audit_event contains approval_token
+invariant no_raw_secret_logging
+  forbid:
+    audit_event contains decrypted_payload
+    audit_event contains auth_header
+    audit_event contains approval_token
 
 actor AccountOwner
   trust owner

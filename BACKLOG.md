@@ -11,7 +11,9 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - `axiom simulate-examples` now fails when an expected decision does not match the policy result.
 - Validation errors for sensitive-data risks now include plain-language guidance.
 - `axiom init --guided` provides a small template and agent-instruction picker.
+- `axiom try` provides a one-command local walkthrough for first-time users.
 - `examples/local-private-notes` shows app code importing a generated policy evaluator.
+- `examples/customer-support-action` shows a business-facing support action with approval-gated refund behavior.
 - Private package readiness is in place with a package allowlist, local install docs, and CI `npm pack --dry-run`.
 - `axiom diff old.ax new.ax` reports added, removed, and changed capabilities and data classes.
 - Agent templates now tell agents to keep external-model context small and use focused Axiom commands.

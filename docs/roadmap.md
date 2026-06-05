@@ -81,6 +81,7 @@ Current status:
 - static agent instruction templates exist
 - starter app templates exist
 - `axiom init` can generate `app.ax`, agent instructions, and simulation hints
+- `axiom try` can run the first local walkthrough in one command
 - `axiom doctor` can explain whether a project has the first Axiom files in place
 - `axiom next` can recommend the next useful action for a human or coding agent
 - `axiom simulate-examples` can run starter policy scenarios and save results

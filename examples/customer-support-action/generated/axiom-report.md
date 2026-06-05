@@ -1,11 +1,11 @@
 # Axiom Verification Report
 
-App: AgentCapabilityGateway
+App: CustomerSupportAction
 Target: typescript
 
 ## Summary
 
-- Capabilities checked: 3
+- Capabilities checked: 2
 - Actors checked: 2
 - Data classes checked: 3
 - Errors: 0
@@ -17,23 +17,16 @@ Target: typescript
 
 ## Generated Contracts
 
-### use_approved_address
+### draft_customer_reply
 
-- Reads: identity.address
-- Disclosure: task_fields
+- Reads: customer.profile, support.ticket
+- Disclosure: summary, masked_contact, task_fields
 - Decisions: allow, require_approval, deny
 - Approval path: yes
 
-### fill_tax_identity_fields
+### issue_refund_credit
 
-- Reads: tax.identity
-- Disclosure: task_fields
-- Decisions: allow, require_approval, deny
-- Approval path: yes
-
-### return_masked_payment_method
-
-- Reads: payment.method_reference
+- Reads: customer.profile, billing.refund_method
 - Disclosure: masked_value, tokenized_reference
 - Decisions: allow, require_approval, deny
 - Approval path: yes

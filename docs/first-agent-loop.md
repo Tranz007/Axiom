@@ -6,6 +6,14 @@ A human installs Axiom. The coding agent runs small commands and follows the nex
 
 ## Fresh Project
 
+For the shortest local walkthrough:
+
+```bash
+axiom try --out my-axiom-app
+```
+
+That initializes a starter project, runs `doctor`, runs the starter simulations, saves simulation results, and prints the next useful command.
+
 Start with a guided template:
 
 ```bash
@@ -21,6 +29,7 @@ axiom init --template local-private-app --agent codex --out my-axiom-app
 Then let Axiom drive the agent:
 
 ```bash
+axiom doctor --cwd my-axiom-app
 axiom next --cwd my-axiom-app
 axiom simulate-examples --cwd my-axiom-app
 axiom next --cwd my-axiom-app
@@ -35,6 +44,7 @@ node --test my-axiom-app/generated-tests/axiom-policy.test.mjs
 
 - Run `axiom next` before guessing.
 - Run the command Axiom recommends.
+- Prefer `axiom try` for first-time local evaluation, then switch to the explicit loop once the project exists.
 - Summarize only the result and the changed capability, policy, or generated artifact.
 - Keep `app.ax` as the source of truth.
 - If `app.ax` changes, run `axiom next` again.

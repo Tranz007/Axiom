@@ -172,6 +172,28 @@ describe("axiom cli", () => {
     }
   });
 
+  it("runs a two-minute try path", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-try-"));
+    try {
+      const result = await axiom(["try", "--out", dir]);
+
+      assert.match(result.stdout, /Axiom two-minute try/);
+      assert.match(result.stdout, /Axiom project health/);
+      assert.match(result.stdout, /Axiom simulation examples/);
+      assert.match(result.stdout, /Next: axiom generate .*app\.ax --target typescript --out generated/);
+
+      const app = await readFile(join(dir, "app.ax"), "utf8");
+      const instructions = await readFile(join(dir, "AGENTS.md"), "utf8");
+      const simulationResults = await readFile(join(dir, "axiom", "simulation-results.json"), "utf8");
+
+      assert.match(app, /app LocalPrivateApp/);
+      assert.match(instructions, /First Agent Loop/);
+      assert.match(simulationResults, /summarize_private_document/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
   it("initializes a starter project through guided init", async () => {
     const dir = await mkdtemp(join(tmpdir(), "axiom-guided-init-"));
     try {
@@ -214,10 +236,12 @@ describe("axiom cli", () => {
       const result = await axiom(["doctor", "--cwd", dir]);
 
       assert.match(result.stdout, /Axiom project health/);
+      assert.match(result.stdout, /Contract: AgentGateway/);
       assert.match(result.stdout, /OK\s+app\.ax found/);
       assert.match(result.stdout, /OK\s+agent instructions found/);
       assert.match(result.stdout, /OK\s+simulation hints found/);
       assert.match(result.stdout, /INFO\s+generated artifacts not found/);
+      assert.match(result.stdout, /Next: Run one command from axiom\/simulations\.json/);
       assert.match(result.stdout, /Result: ready|Result: usable/);
     } finally {
       await rm(dir, { recursive: true, force: true });
@@ -410,6 +434,21 @@ describe("axiom cli", () => {
     assert.match(validation.stdout, /0 errors/);
 
     const result = await run(process.execPath, ["examples/local-private-notes/app/policy-demo.mjs"], {
+      cwd: new URL("..", import.meta.url).pathname,
+      env: childProcessEnv(),
+    });
+    const decisions = JSON.parse(result.stdout);
+    assert.deepEqual(
+      decisions.map((item) => item.decision),
+      ["allow", "require_approval", "deny"],
+    );
+  });
+
+  it("runs the customer support action example app", async () => {
+    const validation = await axiom(["validate", "examples/customer-support-action/axiom.ax"]);
+    assert.match(validation.stdout, /0 errors/);
+
+    const result = await run(process.execPath, ["examples/customer-support-action/app/policy-demo.mjs"], {
       cwd: new URL("..", import.meta.url).pathname,
       env: childProcessEnv(),
     });

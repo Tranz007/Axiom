@@ -1,0 +1,181 @@
+app CustomerSupportAction
+  intent:
+    support agents can draft customer replies
+    support agents can request approval-gated refunds
+    private customer data is summarized or masked before leaving the broker
+    irreversible customer actions require deterministic approval checks
+
+invariant no_model_decided_support_policy
+  forbid:
+    model decides policy
+    model approves refund
+
+invariant no_raw_customer_export
+  forbid:
+    agent_route returns full_customer_profile
+    agent_route exports raw_ticket_history
+    audit_event contains raw_payment_method
+
+actor SupportLead
+  trust internal_approver
+  may:
+    approve_refund
+    review_audit
+    configure_refund_policy
+
+actor SupportAgent
+  trust authenticated_but_untrusted
+  may:
+    request capability
+    draft_reply
+  may_not:
+    retrieve raw customer records
+    decide policy
+    approve own refund
+
+data_class customer.profile
+  domain customer
+  sensitivity high
+  allowed_disclosure:
+    summary
+    masked_contact
+    task_fields
+
+data_class support.ticket
+  domain support
+  sensitivity moderate
+  allowed_disclosure:
+    summary
+    task_fields
+
+data_class billing.refund_method
+  domain billing
+  sensitivity high
+  allowed_disclosure:
+    masked_value
+    tokenized_reference
+
+capability draft_customer_reply
+  purpose:
+    draft one support reply using only the assigned ticket and approved customer context
+
+  input:
+    ticket_id
+    customer_id
+    support_agent_id
+    reply_goal
+
+  data:
+    requires customer.profile
+    requires support.ticket
+
+  disclosure:
+    mode summary | masked_contact | task_fields
+    forbidden full_customer_profile
+    forbidden raw_ticket_history
+    forbidden unrelated_customer_fields
+
+  policy:
+    allow if agent_assigned_to_ticket
+      and customer_matches_ticket
+      and reply_goal_in_scope
+
+    require_approval if reply_includes_sensitive_account_details
+      or customer_requested_external_destination
+
+    deny if ticket_scope_invalid
+      or requests_full_customer_profile
+      or agent_not_assigned
+      or schema_malformed
+
+  approval:
+    one_time_default
+    binds request_hash, customer_id, ticket_id, capability_key, support_agent_id, expiry
+
+  broker:
+    may_decrypt customer.profile
+    may_read support.ticket
+    may_return summary
+    may_return masked_contact
+    forbidden full_customer_profile
+    forbidden raw_ticket_history
+
+  audit:
+    invocation
+    policy_decision
+    broker_execution
+    disclosure_mode
+    never log full_customer_profile
+    never log raw_ticket_history
+
+capability issue_refund_credit
+  purpose:
+    issue a customer refund credit only when approval and policy limits match the request
+
+  input:
+    ticket_id
+    customer_id
+    support_agent_id
+    refund_amount
+    refund_reason
+    destination_identity
+
+  data:
+    requires customer.profile
+    requires billing.refund_method
+    reads support.ticket
+
+  disclosure:
+    mode masked_value | tokenized_reference
+    forbidden raw_payment_method
+    forbidden full_customer_profile
+
+  policy:
+    allow if approval_valid
+      and refund_amount_within_policy
+      and destination_matches_approval
+      and customer_matches_ticket
+
+    require_approval if refund_requested
+      or refund_amount_needs_review
+
+    deny if approval_missing
+      or approval_expired
+      or refund_amount_exceeds_limit
+      or destination_mismatch
+      or agent_approves_own_refund
+
+  approval:
+    support_lead_default
+    binds request_hash, customer_id, ticket_id, support_agent_id, refund_amount, destination_identity, expiry
+
+  broker:
+    may_decrypt billing.refund_method
+    may_return tokenized_reference
+    may_execute refund_credit
+    forbidden raw_payment_method
+
+  audit:
+    invocation
+    policy_decision
+    approval_state
+    broker_execution
+    refund_amount_bucket
+    never log raw_payment_method
+    never log full_customer_profile
+    never log approval_token
+
+target support_console
+  frontend:
+    support_case_ui
+    approval_review_ui
+
+  backend:
+    deterministic_policy_runtime
+    refund_broker
+    audit_service
+
+  tests:
+    assigned_ticket_reply
+    refund_requires_approval
+    no_raw_customer_export

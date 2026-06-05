@@ -11,6 +11,7 @@ import { doctorExitCode, formatDoctorReport, formatNextAction, inspectProject } 
 import { formatSimulationExampleResults, runSimulationExamples } from "../src/simulations.mjs";
 import { generateNodeTests } from "../src/testgen.mjs";
 import { diffGraphs, formatGraphDiff } from "../src/diff.mjs";
+import { formatTryProject, runTryProject } from "../src/try.mjs";
 
 const command = process.argv[2];
 const input = process.argv[3];
@@ -22,6 +23,7 @@ Usage:
   axiom init [--template local-private-app] [--agent codex] [--out .] [--force]
   axiom init --guided [--out .] [--force]
   axiom init --list
+  axiom try [--template local-private-app] [--agent codex] [--out axiom-starter] [--force]
   axiom doctor [--cwd .] [--app app.ax]
   axiom next [--cwd .] [--app app.ax]
   axiom simulate-examples [--cwd .] [--app app.ax]
@@ -183,6 +185,17 @@ try {
     for (const file of result.written) {
       console.log(`created ${file}`);
     }
+    process.exit(0);
+  }
+
+  if (command === "try") {
+    const result = await runTryProject({
+      template: optionValue("--template", "local-private-app"),
+      agent: optionValue("--agent", "codex"),
+      outDir: optionValue("--out", "axiom-starter"),
+      force: hasOption("--force"),
+    });
+    console.log(formatTryProject(result));
     process.exit(0);
   }
 

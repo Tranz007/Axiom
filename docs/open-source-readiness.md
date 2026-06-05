@@ -9,6 +9,12 @@ Axiom is useful only if a developer or advanced AI-assisted builder can run the 
 - Fresh-project flow works:
 
 ```bash
+node ./bin/axiom.mjs try --out /tmp/axiom-starter --force
+```
+
+- Explicit first-agent loop works:
+
+```bash
 node ./bin/axiom.mjs init --template local-private-app --agent codex --out /tmp/axiom-starter
 node ./bin/axiom.mjs doctor --cwd /tmp/axiom-starter
 node ./bin/axiom.mjs next --cwd /tmp/axiom-starter

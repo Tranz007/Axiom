@@ -204,6 +204,14 @@ async function findExisting(cwd, paths) {
 
 export function formatDoctorReport(report) {
   const lines = ["Axiom project health", ""];
+  if (report.graph) {
+    lines.push(
+      `Contract: ${report.graph.app?.name || "unnamed"} (${report.graph.capabilities.length} capabilities, ${report.graph.actors.length} actors, ${report.graph.dataClasses.length} data classes)`,
+    );
+    lines.push("");
+  }
+
+  lines.push("Checks:");
   for (const item of report.checks) {
     const label = item.status.toUpperCase().padEnd(5, " ");
     lines.push(`${label} ${item.label}`);
@@ -220,6 +228,13 @@ export function formatDoctorReport(report) {
     lines.push(`Result: usable, with ${warnings} thing(s) to improve.`);
   } else {
     lines.push("Result: ready.");
+  }
+
+  if (report.graph && !errors) {
+    const recommendation = recommendNextAction(report);
+    lines.push("");
+    lines.push(`Next: ${recommendation.action}`);
+    lines.push(`Why: ${recommendation.why}`);
   }
 
   return lines.join("\n");

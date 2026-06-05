@@ -15,6 +15,7 @@
     "examples/local-private-notes/",
     "examples/local-private-notes-python/",
     "examples/agent-capability-gateway/",
+    "examples/customer-support-action/",
     "examples/receipt-archive/",
     "docs/",
     "spec/",
@@ -30,8 +31,9 @@
   "scripts": {
     "axiom": "node ./bin/axiom.mjs",
     "test": "node --test",
-    "validate:examples": "node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax && node ./bin/axiom.mjs validate examples/receipt-archive/axiom.ax && node ./bin/axiom.mjs validate examples/local-private-notes/axiom.ax && node ./bin/axiom.mjs validate examples/local-private-notes-python/axiom.ax",
+    "validate:examples": "node ./bin/axiom.mjs validate examples/agent-capability-gateway/axiom.ax && node ./bin/axiom.mjs validate examples/customer-support-action/axiom.ax && node ./bin/axiom.mjs validate examples/receipt-archive/axiom.ax && node ./bin/axiom.mjs validate examples/local-private-notes/axiom.ax && node ./bin/axiom.mjs validate examples/local-private-notes-python/axiom.ax",
     "generate:example": "node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated",
+    "demo:customer-support-action": "node examples/customer-support-action/app/policy-demo.mjs",
     "demo:local-private-notes": "node examples/local-private-notes/app/policy-demo.mjs",
     "demo:local-private-notes-python": "python3 examples/local-private-notes-python/app/policy_demo.py"
   },

@@ -1,0 +1,128 @@
+[
+  {
+    "capability": "draft_customer_reply",
+    "purpose": [
+      "draft one support reply using only the assigned ticket and approved customer context"
+    ],
+    "reads": [
+      "customer.profile",
+      "support.ticket"
+    ],
+    "disclosureModes": [
+      "summary",
+      "masked_contact",
+      "task_fields"
+    ],
+    "forbiddenDisclosure": [
+      "full_customer_profile",
+      "raw_ticket_history",
+      "unrelated_customer_fields"
+    ],
+    "decisions": [
+      {
+        "kind": "allow",
+        "conditions": [
+          "agent_assigned_to_ticket",
+          "and customer_matches_ticket",
+          "and reply_goal_in_scope"
+        ]
+      },
+      {
+        "kind": "require_approval",
+        "conditions": [
+          "reply_includes_sensitive_account_details",
+          "or customer_requested_external_destination"
+        ]
+      },
+      {
+        "kind": "deny",
+        "conditions": [
+          "ticket_scope_invalid",
+          "or requests_full_customer_profile",
+          "or agent_not_assigned",
+          "or schema_malformed"
+        ]
+      }
+    ],
+    "approval": true,
+    "broker": [
+      "may_decrypt customer.profile",
+      "may_read support.ticket",
+      "may_return summary",
+      "may_return masked_contact",
+      "forbidden full_customer_profile",
+      "forbidden raw_ticket_history"
+    ],
+    "audit": [
+      "invocation",
+      "policy_decision",
+      "broker_execution",
+      "disclosure_mode",
+      "never log full_customer_profile",
+      "never log raw_ticket_history"
+    ]
+  },
+  {
+    "capability": "issue_refund_credit",
+    "purpose": [
+      "issue a customer refund credit only when approval and policy limits match the request"
+    ],
+    "reads": [
+      "customer.profile",
+      "billing.refund_method"
+    ],
+    "disclosureModes": [
+      "masked_value",
+      "tokenized_reference"
+    ],
+    "forbiddenDisclosure": [
+      "raw_payment_method",
+      "full_customer_profile"
+    ],
+    "decisions": [
+      {
+        "kind": "allow",
+        "conditions": [
+          "approval_valid",
+          "and refund_amount_within_policy",
+          "and destination_matches_approval",
+          "and customer_matches_ticket"
+        ]
+      },
+      {
+        "kind": "require_approval",
+        "conditions": [
+          "refund_requested",
+          "or refund_amount_needs_review"
+        ]
+      },
+      {
+        "kind": "deny",
+        "conditions": [
+          "approval_missing",
+          "or approval_expired",
+          "or refund_amount_exceeds_limit",
+          "or destination_mismatch",
+          "or agent_approves_own_refund"
+        ]
+      }
+    ],
+    "approval": true,
+    "broker": [
+      "may_decrypt billing.refund_method",
+      "may_return tokenized_reference",
+      "may_execute refund_credit",
+      "forbidden raw_payment_method"
+    ],
+    "audit": [
+      "invocation",
+      "policy_decision",
+      "approval_state",
+      "broker_execution",
+      "refund_amount_bucket",
+      "never log raw_payment_method",
+      "never log full_customer_profile",
+      "never log approval_token"
+    ]
+  }
+]

@@ -10,6 +10,7 @@ The project is experimental and pre-release.
 
 - MVP `.ax` parser and validator.
 - CLI commands:
+  - `axiom try`
   - `axiom validate`
   - `axiom explain`
   - `axiom matrix`
@@ -44,6 +45,7 @@ The project is experimental and pre-release.
 - Public Axiom OS page.
 - Public workflow diagrams for the README, landing page, and Axiom OS page.
 - SVG brand assets for light and dark public surfaces.
+- Customer support action example with approval-gated refund behavior.
 - Developer rationale and comparison docs.
 - Bad fixtures for unsafe patterns such as raw sensitive export, missing approval paths, model-decided policy, and unsafe audit logging.
 - Generated Node policy tests from `axiom/simulations.json`.
@@ -67,6 +69,7 @@ The project is experimental and pre-release.
 - Generated artifacts now include `policy-evaluator.mjs` for plain Node examples.
 - README and comparison copy now separate the current open-source core from the future compiler vision.
 - Open-source readiness wording now reads as public release status.
+- `axiom doctor` now prints contract shape and the next useful agent action.
 
 ### Fixed
 
