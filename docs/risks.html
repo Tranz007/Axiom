@@ -19,7 +19,6 @@
         --soft: #f4f8f8;
         --accent: #0f766e;
         --accent-dark: #104f4a;
-        --warn: #9f4f18;
         --code: #101820;
       }
 
@@ -32,7 +31,6 @@
         --soft: rgba(114, 214, 200, 0.1);
         --accent: #72d6c8;
         --accent-dark: #72d6c8;
-        --warn: #f2aa72;
         --code: #091014;
       }
 
@@ -128,19 +126,19 @@
         background:
           linear-gradient(180deg, color-mix(in srgb, var(--panel) 76%, transparent), var(--bg)),
           radial-gradient(circle at 16% 12%, #d8f0eb, transparent 32%),
-          radial-gradient(circle at 82% 8%, #f5e4d8, transparent 30%);
+          radial-gradient(circle at 82% 8%, #e4edf5, transparent 30%);
       }
 
       [data-theme="dark"] header {
         background:
           linear-gradient(180deg, rgba(22, 36, 44, 0.96), var(--bg)),
           radial-gradient(circle at 16% 12%, rgba(114, 214, 200, 0.16), transparent 34%),
-          radial-gradient(circle at 82% 8%, rgba(242, 170, 114, 0.12), transparent 30%);
+          radial-gradient(circle at 82% 8%, rgba(143, 183, 201, 0.12), transparent 30%);
       }
 
       .eyebrow {
         margin: 0 0 14px;
-        color: var(--warn);
+        color: var(--accent-dark);
         font-size: 13px;
         font-weight: 850;
         letter-spacing: 0.08em;
@@ -218,7 +216,7 @@
         margin-bottom: 12px;
         border-radius: 999px;
         padding: 4px 9px;
-        color: var(--warn);
+        color: var(--accent-dark);
         background: var(--soft);
         font-size: 12px;
         font-weight: 850;
