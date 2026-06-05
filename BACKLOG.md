@@ -20,6 +20,7 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - Agent templates now tell agents to keep external-model context small and use focused Axiom commands.
 - `axiom next` now stays compact while recognizing generated tests and stale generated artifacts.
 - `docs/first-agent-loop.md` documents the compact Axiom OS golden path and tests cover it.
+- Public pages now include a short risks entry point and model-agnostic language for Codex, Claude, Cursor, Copilot, DeepSeek, Qwen, Mistral, internal models, and custom agents.
 - `axiom generate --target python` creates Pydantic contract models, a policy evaluator, audit stubs, and reports.
 - `examples/local-private-notes-python` shows Python app code importing a generated policy evaluator.
 - Open-source hygiene now includes contribution guidance, security policy, issue templates, pull request template, code of conduct, and release checklist.

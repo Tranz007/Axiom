@@ -45,6 +45,7 @@ The project is experimental and pre-release.
   - generic `instructions.md`
 - Public Axiom landing page.
 - Public Axiom OS page.
+- Public risks page explaining why agent guardrails matter and how Axiom helps without overpromising.
 - Public workflow diagrams for the README, landing page, and Axiom OS page.
 - SVG brand assets for light and dark public surfaces.
 - Customer support action example with approval-gated refund behavior.
@@ -64,6 +65,7 @@ The project is experimental and pre-release.
 ### Changed
 
 - Public copy now leads with builder-friendly language before developer/security terms.
+- Public pages now state that Axiom works with any coding agent that can read project files and run local commands, not only GPT/Codex.
 - Starter templates validate with zero errors and zero warnings.
 - `axiom next` now recommends policy simulation before generation.
 - `axiom next` now recommends generated policy tests, compact policy test runs, and stale artifact regeneration when applicable.

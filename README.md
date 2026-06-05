@@ -286,6 +286,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/first-agent-loop.md](docs/first-agent-loop.md): compact golden path for agent use
 - [docs/setting-axiom-rules.md](docs/setting-axiom-rules.md): how users create and update the contract
 - [docs/setting-axiom-rules.html](docs/setting-axiom-rules.html): public-facing page for setting the contract
+- [docs/risks.html](docs/risks.html): plain-language page explaining agent failure modes and where Axiom helps
 - [docs/compiler-and-targets.md](docs/compiler-and-targets.md): how Axiom compiles to real software
 - [docs/axiom-os.html](docs/axiom-os.html): public-facing open-source edition page
 - [docs/editions.html](docs/editions.html): public-facing edition strategy page

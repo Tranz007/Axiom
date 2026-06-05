@@ -269,6 +269,26 @@
         font-weight: 800;
       }
 
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0 12px;
+        color: var(--accent-dark);
+        background: #ffffff;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
       .card h3 {
         margin: 0 0 10px;
         font-size: 19px;
@@ -481,9 +501,8 @@
         </a>
         <div class="links">
           <a href="docs/axiom-os.html">Axiom OS</a>
-          <a href="#flow">Flow</a>
-          <a href="#why">Why</a>
-          <a href="#complexity">Complexity</a>
+          <a href="docs/risks.html">Risks</a>
+          <a href="docs/setting-axiom-rules.html">Rules</a>
           <a href="docs/comparison-matrix.html">Matrix</a>
         </div>
       </div>
@@ -495,14 +514,14 @@
           <p class="eyebrow">Contracts for AI coding agents</p>
           <h1>Give the agent rules before it builds.</h1>
           <p class="lead">
-            Axiom tells an AI coding agent what the app can access, what actions need
-            approval, and what must never be exposed. Under the hood, those rules become
-            capabilities, policy, broker checks, and audit obligations.
+            Axiom lets you write down what an AI coding agent can access, what actions
+            need approval, and what must never be exposed before code gets written.
+            It works with any coding agent that can read files and run local commands.
           </p>
           <div class="actions">
             <a class="button primary" href="docs/axiom-os.html">Development preview</a>
-            <a class="button" href="docs/comparison-matrix.html">View the matrix</a>
-            <a class="button" href="#why">Why it matters</a>
+            <a class="button" href="docs/risks.html">Why guardrails matter</a>
+            <a class="button" href="docs/setting-axiom-rules.html">Set the rules</a>
           </div>
         </div>
         <div class="code-card" aria-label="Axiom code example">
@@ -517,6 +536,27 @@
     </header>
 
     <main>
+      <section id="agents">
+        <div class="wrap">
+          <h2>Works with your coding agent.</h2>
+          <p class="section-lead">
+            Axiom is not tied to one model or vendor. It is a repo-local contract and CLI
+            workflow for agents that can read project files and run local commands.
+          </p>
+          <div class="pill-row" aria-label="Compatible agent examples">
+            <span class="pill">Codex</span>
+            <span class="pill">Claude</span>
+            <span class="pill">Cursor</span>
+            <span class="pill">Copilot</span>
+            <span class="pill">DeepSeek</span>
+            <span class="pill">Qwen</span>
+            <span class="pill">Mistral</span>
+            <span class="pill">Internal models</span>
+            <span class="pill">Custom agents</span>
+          </div>
+        </div>
+      </section>
+
       <section id="why">
         <div class="wrap">
           <h2>Why Axiom exists</h2>
@@ -545,6 +585,38 @@
         </div>
       </section>
 
+      <section id="risks">
+        <div class="wrap split">
+          <div>
+            <h2>The failure mode Axiom is built for</h2>
+            <p class="section-lead">
+              AI agents do not only make syntax mistakes. They can touch the wrong
+              environment, use credentials too broadly, delete data, bypass approvals,
+              or claim success without proving it. A prompt saying "do not do that" is
+              not the same as a checked contract.
+            </p>
+            <div class="actions">
+              <a class="button primary" href="docs/risks.html">Read the risks</a>
+              <a class="button" href="docs/setting-axiom-rules.html">Set the rules</a>
+            </div>
+          </div>
+          <div class="steps">
+            <div class="step">
+              <span class="num">1</span>
+              <div><strong>Without a contract</strong><span>Dangerous instructions live in chat, memory, or scattered docs.</span></div>
+            </div>
+            <div class="step">
+              <span class="num">2</span>
+              <div><strong>With Axiom</strong><span>Capabilities, data, approvals, deny paths, brokers, and audit are written down and checked.</span></div>
+            </div>
+            <div class="step">
+              <span class="num">3</span>
+              <div><strong>Still not magic</strong><span>Axiom reduces overreach risk; it does not replace backups, sandboxing, reviews, or deployment controls.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="flow">
         <div class="wrap split">
           <div>
@@ -557,7 +629,7 @@
             </p>
             <div class="actions">
               <a class="button primary" href="docs/axiom-os.html">Explore Axiom OS</a>
-              <a class="button" href="docs/first-agent-loop.md">First agent loop</a>
+              <a class="button" href="docs/axiom-os.html#flow">First flow</a>
               <a class="button" href="docs/why-axiom.html">Why Axiom</a>
             </div>
           </div>
@@ -671,7 +743,7 @@
           <p class="lightbox-title" data-lightbox-title></p>
           <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close expanded diagram">X</button>
         </div>
-        <img data-lightbox-image src="" alt="" />
+        <img data-lightbox-image src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="" />
         <p class="lightbox-caption" data-lightbox-caption></p>
       </div>
     </div>

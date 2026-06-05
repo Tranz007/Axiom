@@ -86,6 +86,12 @@
         font-weight: 750;
       }
 
+      .nav-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+      }
+
       header {
         background:
           linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.96)),
@@ -391,6 +397,17 @@
           width: min(100vw - 28px, 1180px);
         }
 
+        .page-nav-inner {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 10px;
+          padding: 12px 0;
+        }
+
+        .nav-actions {
+          flex-wrap: wrap;
+        }
+
         .summary-grid,
         .split,
         .cards {
@@ -410,7 +427,11 @@
           <span class="mark" aria-hidden="true"><img src="assets/svg/axiom-mark.svg" alt="" /></span>
           <span>Axiom</span>
         </a>
-        <a class="back-link" href="../index.html">Back to home</a>
+        <div class="nav-actions">
+          <a class="back-link" href="../index.html">Home</a>
+          <a class="back-link" href="risks.html">Risks</a>
+          <a class="back-link" href="setting-axiom-rules.html">Rules</a>
+        </div>
       </div>
     </nav>
 

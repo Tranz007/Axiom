@@ -467,6 +467,17 @@
           width: min(100vw - 28px, 1100px);
         }
 
+        .page-nav-inner {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 10px;
+          padding: 12px 0;
+        }
+
+        .nav-actions {
+          flex-wrap: wrap;
+        }
+
         .content,
         .matrix,
         .row {
@@ -487,8 +498,10 @@
           <span>Axiom</span>
         </a>
         <div class="nav-actions">
+          <a class="back-link" href="../index.html">Home</a>
+          <a class="back-link" href="risks.html">Risks</a>
+          <a class="back-link" href="setting-axiom-rules.html">Rules</a>
           <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode">☾</button>
-          <a class="back-link" href="../index.html">Back to home</a>
         </div>
       </div>
     </nav>
@@ -659,7 +672,7 @@ invariant no_raw_identity_to_agent
           </div>
 
           <div class="footer-actions">
-            <a class="button primary" href="../index.html">Back to home</a>
+            <a class="button primary" href="../index.html">Home</a>
             <a class="button" href="why-axiom.html">Why Axiom</a>
             <a class="button" href="comparison-matrix.html">View the matrix</a>
           </div>

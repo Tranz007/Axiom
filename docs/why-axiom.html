@@ -402,11 +402,21 @@
           width: min(100vw - 28px, 1080px);
         }
 
+        .page-nav-inner {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 10px;
+          padding: 12px 0;
+        }
+
+        .nav-actions {
+          flex-wrap: wrap;
+        }
+
         .content,
         .decision {
           grid-template-columns: 1fr;
         }
-
       }
     </style>
   </head>
@@ -418,8 +428,10 @@
           <span>Axiom</span>
         </a>
         <div class="nav-actions">
+          <a class="back-link" href="../index.html">Home</a>
+          <a class="back-link" href="risks.html">Risks</a>
+          <a class="back-link" href="setting-axiom-rules.html">Rules</a>
           <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode">☾</button>
-          <a class="back-link" href="../index.html">Back to home</a>
         </div>
       </div>
     </nav>
@@ -601,7 +613,7 @@ Axiom describes what the system is allowed to do</pre>
           <p>If it cannot answer those clearly, it should not be added.</p>
 
           <div class="footer-actions">
-            <a class="button primary" href="../index.html">Back to home</a>
+            <a class="button primary" href="../index.html">Home</a>
             <a class="button" href="comparison-matrix.html">View the matrix</a>
             <a class="button" href="skills-vs-axiom.html">Skills vs Axiom</a>
           </div>
