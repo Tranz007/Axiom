@@ -93,6 +93,7 @@ node ./bin/axiom.mjs simulate examples/customer-support-action/axiom.ax --capabi
 node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
 node ./bin/axiom.mjs verify examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
 node --test examples/customer-support-action/generated/app-skeleton.test.mjs
+node --test examples/customer-support-action/generated/route-skeleton.test.mjs
 node ./bin/axiom.mjs generate templates/apps/local-private-app.ax --target python --out /tmp/axiom-python-generated
 node examples/customer-support-action/app/policy-demo.mjs
 node examples/local-private-notes/app/policy-demo.mjs
@@ -146,6 +147,7 @@ The current CLI can:
 - simulate deterministic policy decisions from boolean request facts
 - generate TypeScript artifacts for capabilities, data classes, broker boundaries, approval payloads, audit guards, runtime guards, and generation reports
 - generate a minimal Node app skeleton that gates policy, approval, broker, and audit behavior
+- generate framework-neutral route skeletons with manual auth, broker, audit, persistence, and transport hooks
 - generate Python artifacts for Pydantic contract models, deterministic policy evaluation, audit obligation stubs, and generation reports
 - run tiny Node and Python examples that import generated policy evaluators from ordinary app code
 

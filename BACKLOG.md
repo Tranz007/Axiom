@@ -26,15 +26,17 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - Open-source hygiene now includes contribution guidance, security policy, issue templates, pull request template, code of conduct, and release checklist.
 - `axiom verify` checks generated artifacts against `app.ax`, reports graph and artifact hashes, and writes verification evidence when requested.
 - The TypeScript generator now emits broker contracts, approval contracts, audit guards, and a minimal app skeleton with generated Node guardrail tests.
+- The TypeScript generator now emits framework-neutral route skeletons and generated route guardrail tests.
 
 ## Now
 
-### First App Skeleton Hardening
+### First Approval UI Slice
 
-Harden the first generated app-skeleton slice:
+Build the first generated approval UI slice:
 
-- keep `examples/customer-support-action/generated/app-skeleton.test.mjs` representative
-- add one route-skeleton target only after broker, approval, and audit guard tests stay stable
+- keep `examples/customer-support-action` as the representative proof target
+- generate a small approval review component or adapter contract
+- prove approval binding fields are visible before a human approves
 - keep manual implementation escape hatches obvious
 - do not claim full application generation until auth, persistence, transport, and UI contracts exist
 

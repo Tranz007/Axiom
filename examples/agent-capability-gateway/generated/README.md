@@ -14,6 +14,8 @@ These files were generated from an Axiom source graph.
 - `runtime-guards.ts`: minimal TypeScript runtime assertions
 - `app-skeleton.mjs`: minimal app skeleton that gates policy, approval, broker, and audit behavior
 - `app-skeleton.test.mjs`: generated Node tests for the app skeleton guardrails
+- `route-skeleton.mjs`: framework-neutral route skeleton with manual auth, broker, audit, persistence, and transport hooks
+- `route-skeleton.test.mjs`: generated Node tests proving route guardrails before broker execution
 - `axiom-report.md`: validation and generation report
 
 Regenerate with:

@@ -140,6 +140,9 @@ describe("axiom cli", () => {
       const approvalContracts = await readFile(join(dir, "approval-contracts.mjs"), "utf8");
       const appSkeleton = await readFile(join(dir, "app-skeleton.mjs"), "utf8");
       const appSkeletonTest = await readFile(join(dir, "app-skeleton.test.mjs"), "utf8");
+      const routeSkeleton = await readFile(join(dir, "route-skeleton.mjs"), "utf8");
+      const routeSkeletonTest = await readFile(join(dir, "route-skeleton.test.mjs"), "utf8");
+      const readme = await readFile(join(dir, "README.md"), "utf8");
       const report = await readFile(join(dir, "axiom-report.md"), "utf8");
       assert.match(capabilities, /fill_tax_identity_fields/);
       assert.match(evaluator, /evaluateAxiomPolicy/);
@@ -148,6 +151,10 @@ describe("axiom cli", () => {
       assert.match(approvalContracts, /validateApprovalPayload/);
       assert.match(appSkeleton, /handleAxiomCapabilityRequest/);
       assert.match(appSkeletonTest, /Axiom generated app skeleton/);
+      assert.match(routeSkeleton, /handleAxiomRoute/);
+      assert.match(routeSkeleton, /Manual broker implementation required/);
+      assert.match(routeSkeletonTest, /Axiom generated route skeleton/);
+      assert.match(readme, /route-skeleton\.mjs/);
       assert.match(report, /Axiom Verification Report/);
     } finally {
       await rm(dir, { recursive: true, force: true });
@@ -162,7 +169,7 @@ describe("axiom cli", () => {
 
       const result = await axiom(["verify", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated"), "--write"]);
       assert.match(result.stdout, /Axiom verification/);
-      assert.match(result.stdout, /Result: verified 17 artifact\(s\)/);
+      assert.match(result.stdout, /Result: verified 19 artifact\(s\)/);
       assert.match(result.stdout, /wrote .*verification-manifest\.json/);
 
       const manifest = JSON.parse(await readFile(join(dir, "axiom", "verification-manifest.json"), "utf8"));
@@ -190,6 +197,14 @@ describe("axiom cli", () => {
     } finally {
       await rm(dir, { recursive: true, force: true });
     }
+  });
+
+  it("runs generated route skeleton tests for the support example", async () => {
+    const result = await run(process.execPath, ["--test", "examples/customer-support-action/generated/route-skeleton.test.mjs"], {
+      cwd: new URL("..", import.meta.url).pathname,
+      env: childProcessEnv(),
+    });
+    assert.match(result.stdout, /pass 12/);
   });
 
   it("generates Python policy artifacts", async () => {

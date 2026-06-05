@@ -21,6 +21,7 @@ node ./bin/axiom.mjs simulate examples/customer-support-action/axiom.ax --capabi
 node ./bin/axiom.mjs simulate examples/customer-support-action/axiom.ax --capability issue_refund_credit --fact refund_requested=true
 node examples/customer-support-action/app/policy-demo.mjs
 node --test examples/customer-support-action/generated/app-skeleton.test.mjs
+node --test examples/customer-support-action/generated/route-skeleton.test.mjs
 ```
 
 The demo prints three deterministic decisions: allow, require approval, and deny.
@@ -31,3 +32,10 @@ The generated skeleton test proves that the contract also produces app-facing gu
 - audit payloads reject forbidden sensitive fields
 - approval payloads must include the bound request context
 - approval-required policy paths do not execute without valid approval
+
+The generated route skeleton test proves the same guardrails at the route boundary:
+
+- deny decisions return before broker execution
+- approval-required decisions return before broker execution
+- approval payloads must carry required binding fields
+- broker responses and audit payloads reject forbidden sensitive fields
