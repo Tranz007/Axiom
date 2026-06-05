@@ -14,6 +14,12 @@ axiom try --out my-axiom-app
 
 That initializes a starter project, runs `doctor`, runs the starter simulations, saves simulation results, and prints the next useful command.
 
+To describe the app-specific rules before editing syntax:
+
+```bash
+axiom define --guided --cwd my-axiom-app
+```
+
 Start with a guided template:
 
 ```bash
@@ -45,6 +51,7 @@ node --test my-axiom-app/generated-tests/axiom-policy.test.mjs
 - Run `axiom next` before guessing.
 - Run the command Axiom recommends.
 - Prefer `axiom try` for first-time local evaluation, then switch to the explicit loop once the project exists.
+- Use `axiom define --guided` when the human needs to create or update the contract rules in plain language.
 - Summarize only the result and the changed capability, policy, or generated artifact.
 - Keep `app.ax` as the source of truth.
 - If `app.ax` changes, run `axiom next` again.

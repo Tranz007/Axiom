@@ -26,6 +26,7 @@ node --test /tmp/axiom-starter/generated-tests/axiom-policy.test.mjs
 ```
 
 - `axiom init --guided` gives a small template and agent-instruction picker.
+- `axiom define --guided` creates a plain-language worksheet for creating or updating `app.ax`.
 - `axiom next` gives one compact next action for an agent.
 - TypeScript and Python targets generate policy artifacts.
 - Node and Python examples import generated policy evaluators from ordinary app code.

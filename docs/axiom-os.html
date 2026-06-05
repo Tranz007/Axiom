@@ -464,6 +464,7 @@
         </p>
         <div class="actions">
           <a class="button primary" href="#flow">See the first flow</a>
+          <a class="button" href="setting-axiom-rules.html">Set the rules</a>
           <a class="button" href="why-axiom.html">Why Axiom</a>
         </div>
       </div>
@@ -507,6 +508,10 @@
               enough that a serious developer can see what gets checked.
             </p>
             <pre>axiom try --out /tmp/axiom-starter</pre>
+            <p class="section-lead">
+              To set the app-specific rules, generate a plain-language outline:
+            </p>
+            <pre>axiom define --guided --cwd /tmp/axiom-starter</pre>
             <p class="section-lead">
               The explicit loop stays available when the agent is already inside a project:
             </p>

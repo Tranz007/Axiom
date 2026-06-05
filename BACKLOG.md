@@ -12,6 +12,7 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - Validation errors for sensitive-data risks now include plain-language guidance.
 - `axiom init --guided` provides a small template and agent-instruction picker.
 - `axiom try` provides a one-command local walkthrough for first-time users.
+- `axiom define` creates a plain-language contract outline for initial setup and later updates.
 - `examples/local-private-notes` shows app code importing a generated policy evaluator.
 - `examples/customer-support-action` shows a business-facing support action with approval-gated refund behavior.
 - Private package readiness is in place with a package allowlist, local install docs, and CI `npm pack --dry-run`.

@@ -40,6 +40,14 @@ node ./bin/axiom.mjs try --out /tmp/axiom-starter
 
 That creates a starter project, runs `doctor`, runs starter simulations, and prints the next useful command for the agent.
 
+To describe or update the rules Axiom should follow:
+
+```bash
+node ./bin/axiom.mjs define --guided --cwd /tmp/axiom-starter
+```
+
+That writes `axiom/contract-outline.md`, a plain-language worksheet the human and coding agent can use to create or update `app.ax`.
+
 ![Single agent Axiom workflow](docs/assets/single-agent-workflow.png)
 
 For a guided template picker:
@@ -123,6 +131,7 @@ The current CLI can:
 - recommend the next useful agent action with `axiom next`, including generation, generated tests, stale artifacts, and compact policy test runs
 - run starter policy simulations with `axiom simulate-examples`
 - run a complete two-minute local walkthrough with `axiom try`
+- create a plain-language contract worksheet with `axiom define`
 - generate runnable policy tests from starter simulations with `axiom generate-tests`
 - parse the MVP indentation-based `.ax` format
 - validate that capabilities declare purpose, policy, disclosure, broker, approval, and audit obligations where required
@@ -275,6 +284,8 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/security-model.md](docs/security-model.md): security posture, threats, capability isolation
 - [docs/token-budget.md](docs/token-budget.md): context and token-budget constraints for agent use
 - [docs/first-agent-loop.md](docs/first-agent-loop.md): compact golden path for agent use
+- [docs/setting-axiom-rules.md](docs/setting-axiom-rules.md): how users create and update the contract
+- [docs/setting-axiom-rules.html](docs/setting-axiom-rules.html): public-facing page for setting the contract
 - [docs/compiler-and-targets.md](docs/compiler-and-targets.md): how Axiom compiles to real software
 - [docs/axiom-os.html](docs/axiom-os.html): public-facing open-source edition page
 - [docs/editions.html](docs/editions.html): public-facing edition strategy page

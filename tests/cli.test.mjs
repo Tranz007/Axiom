@@ -194,6 +194,66 @@ describe("axiom cli", () => {
     }
   });
 
+  it("creates a contract definition outline for a new project", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-define-new-"));
+    try {
+      const result = await axiom(["define", "--cwd", dir]);
+
+      assert.match(result.stdout, /Axiom contract definition/);
+      assert.match(result.stdout, /Mode: new contract/);
+
+      const outline = await readFile(join(dir, "axiom", "contract-outline.md"), "utf8");
+      assert.match(outline, /No `app\.ax` was found/);
+      assert.match(outline, /What is this app for/);
+      assert.match(outline, /Next Step For The Coding Agent/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("creates a guided contract definition outline for an existing project", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-define-guided-"));
+    try {
+      await axiom(["init", "--template", "local-private-app", "--agent", "codex", "--out", dir]);
+      const result = await axiomWithInput(
+        ["define", "--guided", "--cwd", dir, "--force"],
+        [
+          "A private support console.",
+          "Support agent, support lead",
+          "A support agent can request reply drafts.",
+          "customer profile, support ticket",
+          "draft customer reply, request refund",
+          "refund request",
+          "raw customer export, model decides policy",
+          "policy decision, approval state, never raw customer profile",
+        ].join("\n"),
+      );
+
+      assert.match(result.stdout, /Mode: update/);
+
+      const outline = await readFile(join(dir, "axiom", "contract-outline.md"), "utf8");
+      assert.match(outline, /Existing app: LocalPrivateApp/);
+      assert.match(outline, /A private support console/);
+      assert.match(outline, /Support agent/);
+      assert.match(outline, /draft customer reply/);
+      assert.match(outline, /raw customer export/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("prints help for define without writing files", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-define-help-"));
+    try {
+      const result = await axiom(["define", "--help"], { cwd: dir });
+      assert.match(result.stdout, /axiom define/);
+
+      await assert.rejects(readFile(join(dir, "axiom", "contract-outline.md"), "utf8"), /ENOENT/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
   it("initializes a starter project through guided init", async () => {
     const dir = await mkdtemp(join(tmpdir(), "axiom-guided-init-"));
     try {

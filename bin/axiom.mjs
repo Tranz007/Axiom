@@ -12,6 +12,7 @@ import { formatSimulationExampleResults, runSimulationExamples } from "../src/si
 import { generateNodeTests } from "../src/testgen.mjs";
 import { diffGraphs, formatGraphDiff } from "../src/diff.mjs";
 import { formatTryProject, runTryProject } from "../src/try.mjs";
+import { createContractOutline, formatDefineResult } from "../src/define.mjs";
 
 const command = process.argv[2];
 const input = process.argv[3];
@@ -24,6 +25,7 @@ Usage:
   axiom init --guided [--out .] [--force]
   axiom init --list
   axiom try [--template local-private-app] [--agent codex] [--out axiom-starter] [--force]
+  axiom define [--cwd .] [--app app.ax] [--out axiom/contract-outline.md] [--guided] [--force]
   axiom doctor [--cwd .] [--app app.ax]
   axiom next [--cwd .] [--app app.ax]
   axiom simulate-examples [--cwd .] [--app app.ax]
@@ -126,6 +128,59 @@ async function guidedInitOptions() {
   }
 }
 
+function printQuestion(question) {
+  process.stdout.write(`${question}\n> `);
+}
+
+async function guidedDefineAnswers() {
+  const questions = [
+    ["purpose", "What is this app for?"],
+    ["users", "Who uses it or requests actions? Separate multiple answers with commas."],
+    ["agentUse", "Will an AI agent act inside this app? What should it be allowed to request?"],
+    ["sensitiveData", "What private, sensitive, or business-critical data may it touch? Separate with commas."],
+    ["capabilities", "What narrow actions should the app or agent be allowed to request? Separate with commas."],
+    ["approvals", "Which actions should require approval? Separate with commas."],
+    ["forbidden", "What must never happen? Separate with commas."],
+    ["audit", "What should be audited? Separate with commas."],
+  ];
+
+  if (!process.stdin.isTTY) {
+    let input = "";
+    for await (const chunk of process.stdin) {
+      input += chunk;
+    }
+    const lines = input.split(/\r?\n/);
+    console.log("Axiom contract definition");
+    console.log("");
+    const answers = {};
+    questions.forEach(([key, question], index) => {
+      printQuestion(question);
+      console.log("");
+      answers[key] = (lines[index] || "").trim();
+    });
+    return answers;
+  }
+
+  const reader = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  try {
+    console.log("Axiom contract definition");
+    console.log("");
+    const answers = {};
+    for (const [key, question] of questions) {
+      printQuestion(question);
+      answers[key] = (await reader.question("")).trim();
+      console.log("");
+    }
+    return answers;
+  } finally {
+    reader.close();
+  }
+}
+
 async function loadGraph(file) {
   if (!file) {
     usage();
@@ -162,7 +217,7 @@ function printSummary(graph, diagnostics) {
 }
 
 try {
-  if (!command || command === "help" || command === "--help" || command === "-h") {
+  if (!command || command === "help" || command === "--help" || command === "-h" || hasOption("--help") || hasOption("-h")) {
     usage();
     process.exit(0);
   }
@@ -196,6 +251,19 @@ try {
       force: hasOption("--force"),
     });
     console.log(formatTryProject(result));
+    process.exit(0);
+  }
+
+  if (command === "define") {
+    const answers = hasOption("--guided") ? await guidedDefineAnswers() : {};
+    const result = await createContractOutline({
+      cwd: optionValue("--cwd", "."),
+      app: optionValue("--app", "app.ax"),
+      out: optionValue("--out", "axiom/contract-outline.md"),
+      force: hasOption("--force"),
+      answers,
+    });
+    console.log(formatDefineResult(result));
     process.exit(0);
   }
 

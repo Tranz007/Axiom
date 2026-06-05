@@ -11,6 +11,7 @@ The project is experimental and pre-release.
 - MVP `.ax` parser and validator.
 - CLI commands:
   - `axiom try`
+  - `axiom define`
   - `axiom validate`
   - `axiom explain`
   - `axiom matrix`
@@ -23,6 +24,7 @@ The project is experimental and pre-release.
   - `axiom generate-tests`
   - `axiom diff`
 - Guided `axiom init --guided` setup for selecting a starter app and agent instruction target.
+- Guided `axiom define --guided` setup for writing a plain-language contract outline.
 - TypeScript artifact generation:
   - `policy-matrix.json`
   - `capabilities.ts`

@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Setting Axiom Rules</title>
+    <meta
+      name="description"
+      content="How Axiom users create and update app.ax using a plain-language contract outline."
+    />
+    <link rel="icon" type="image/svg+xml" href="assets/svg/axiom-mark.svg" />
+    <style>
+      :root {
+        --ink: #172027;
+        --muted: #5c6871;
+        --line: #d7e0e5;
+        --panel: #ffffff;
+        --soft: #f4f8f8;
+        --accent: #0f766e;
+        --accent-dark: #104f4a;
+        --code: #101820;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: #f8fafb;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.55;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        width: min(1040px, calc(100vw - 40px));
+        margin: 0 auto;
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid var(--line);
+        background: rgba(248, 250, 251, 0.94);
+        backdrop-filter: blur(12px);
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 64px;
+        gap: 18px;
+      }
+
+      .brand,
+      .nav-links a {
+        text-decoration: none;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 850;
+      }
+
+      .mark {
+        display: block;
+        width: 34px;
+        height: 34px;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+
+      .mark img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      header {
+        padding: 68px 0 42px;
+        border-bottom: 1px solid var(--line);
+        background: linear-gradient(180deg, #ffffff, #f8fafb);
+      }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--accent-dark);
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 900px;
+        margin-bottom: 18px;
+        font-size: clamp(42px, 7vw, 76px);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 780px;
+        color: var(--muted);
+        font-size: 20px;
+      }
+
+      section {
+        padding: 46px 0;
+      }
+
+      h2 {
+        margin-bottom: 12px;
+        font-size: clamp(28px, 4vw, 42px);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 28px;
+        align-items: start;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 20px;
+        background: var(--panel);
+      }
+
+      .card p,
+      li {
+        color: var(--muted);
+      }
+
+      pre {
+        overflow: auto;
+        margin: 0;
+        border-radius: 8px;
+        padding: 18px;
+        color: #e7f3f1;
+        background: var(--code);
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 13px;
+        line-height: 1.62;
+      }
+
+      footer {
+        padding: 30px 0 42px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      @media (max-width: 840px) {
+        .split {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-links a:not(:first-child) {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav" aria-label="Primary navigation">
+      <div class="wrap nav-inner">
+        <a class="brand" href="../index.html">
+          <span class="mark" aria-hidden="true"><img src="assets/svg/axiom-mark.svg" alt="" /></span>
+          <span>Axiom</span>
+        </a>
+        <div class="nav-links">
+          <a href="axiom-os.html">Axiom OS</a>
+          <a href="first-agent-loop.md">First loop</a>
+          <a href="why-axiom.html">Why</a>
+        </div>
+      </div>
+    </nav>
+
+    <header>
+      <div class="wrap">
+        <p class="eyebrow">Set the contract</p>
+        <h1>Describe the rules before the agent edits code.</h1>
+        <p class="lead">
+          Axiom is set through `app.ax`. The easiest first step is a plain-language outline
+          that a human can review and a coding agent can turn into the contract.
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <div class="wrap split">
+          <div>
+            <h2>The short path</h2>
+            <p class="lead">
+              Use `axiom define --guided` to create or update `axiom/contract-outline.md`.
+              The outline captures purpose, users, agent actions, sensitive data, approvals,
+              forbidden behavior, and audit needs.
+            </p>
+          </div>
+          <pre>axiom init --template local-private-app --agent codex
+axiom define --guided
+
+# Then ask the agent:
+# Update app.ax from axiom/contract-outline.md
+# Run axiom validate app.ax, axiom doctor, and axiom next.</pre>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap split">
+          <div class="card">
+            <h2>Initial contract</h2>
+            <p>
+              For a new project, the outline helps the user describe what the app is for,
+              what data exists, which narrow capabilities are allowed, and what must never happen.
+            </p>
+          </div>
+          <div class="card">
+            <h2>Later updates</h2>
+            <p>
+              When `app.ax` already exists, the outline includes a current-contract summary
+              so the user can describe only what changed.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap split">
+          <div>
+            <h2>Why not auto-merge?</h2>
+            <p class="lead">
+              Contract changes can expand what an agent or app is allowed to do. The open-source
+              version starts with a safer workflow: human outline, agent update, deterministic
+              validation, simulations, and generated tests.
+            </p>
+          </div>
+          <pre>capability issue_refund_credit
+  policy:
+    allow if approval_valid
+      and refund_amount_within_policy
+
+    require_approval if refund_requested
+
+    deny if approval_missing
+      or agent_approves_own_refund</pre>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        The contract is `app.ax`. The outline is the human-friendly way to decide what belongs there.
+      </div>
+    </footer>
+  </body>
+</html>
