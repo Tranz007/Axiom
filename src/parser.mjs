@@ -16,6 +16,10 @@ function emptyGraph(sourcePath) {
   };
 }
 
+function emptyFields() {
+  return Object.create(null);
+}
+
 function pushSectionValue(node, section, value) {
   if (!node.sections[section]) node.sections[section] = [];
   if (value) node.sections[section].push(value.trim());
@@ -110,8 +114,8 @@ export function parseAxiom(source, sourcePath = "<memory>") {
       current = {
         kind: topLevel[1],
         name: topLevel[2].trim(),
-        sections: {},
-        inline: {},
+        sections: emptyFields(),
+        inline: emptyFields(),
         loc: { line: index + 1 },
       };
       currentSection = null;

@@ -80,6 +80,48 @@ describe("axiom cli", () => {
     await expectAxiomFailure(["validate", "tests/fixtures/bad/model-decides-policy.ax"], /cannot delegate access decisions/);
   });
 
+  it("does not crash on prototype-shaped section names", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-parser-"));
+    const appPath = join(dir, "app.ax");
+    await writeFile(
+      appPath,
+      [
+        "app ParserSafety",
+        "",
+        "capability demo",
+        "  constructor: inherited property collision should be plain data",
+        "",
+      ].join("\n"),
+      "utf8",
+    );
+
+    try {
+      await axiom(["validate", appPath]);
+      assert.fail("Expected invalid contract to fail validation");
+    } catch (error) {
+      const output = `${error.stdout}\n${error.stderr}\n${error.message}`;
+      assert.doesNotMatch(output, /node\.sections\[section\]\.push|TypeError/);
+      assert.match(output, /must declare purpose|must declare policy/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("does not write generated artifacts for invalid contracts", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-invalid-generate-"));
+    const outDir = join(dir, "generated");
+    try {
+      await expectAxiomFailure(
+        ["generate", "tests/fixtures/bad/model-decides-policy.ax", "--target", "typescript", "--out", outDir],
+        /Cannot generate artifacts from a graph with validation errors/,
+      );
+
+      await assert.rejects(readFile(join(outDir, "policy-evaluator.mjs"), "utf8"), /ENOENT/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
   it("generates TypeScript artifacts", async () => {
     const dir = await mkdtemp(join(tmpdir(), "axiom-test-"));
     try {

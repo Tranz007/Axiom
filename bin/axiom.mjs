@@ -380,6 +380,11 @@ try {
   if (command === "generate") {
     const target = optionValue("--target", "typescript");
     const outDir = resolve(optionValue("--out", "generated"));
+    if (diagnostics.some((item) => item.severity === "error")) {
+      printDiagnostics(diagnostics);
+      throw new Error("Cannot generate artifacts from a graph with validation errors.");
+    }
+
     const artifacts = generateArtifacts(graph, diagnostics, { sourcePath, target });
     await mkdir(outDir, { recursive: true });
     for (const artifact of artifacts) {
@@ -388,7 +393,7 @@ try {
       await writeFile(artifactPath, artifact.contents, "utf8");
       console.log(`generated ${artifactPath}`);
     }
-    process.exit(diagnostics.some((item) => item.severity === "error") ? 1 : 0);
+    process.exit(0);
   }
 
   usage();
