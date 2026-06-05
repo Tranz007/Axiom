@@ -261,6 +261,15 @@
         background: var(--panel);
       }
 
+      .visual-trigger {
+        display: block;
+        width: 100%;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        cursor: zoom-in;
+      }
+
       .visual img {
         display: block;
         width: 100%;
@@ -272,6 +281,73 @@
         border-top: 1px solid var(--line);
         color: var(--muted);
         font-size: 13px;
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        display: none;
+        place-items: center;
+        padding: 28px;
+        background: rgba(3, 8, 10, 0.86);
+      }
+
+      .lightbox[open] {
+        display: grid;
+      }
+
+      .lightbox-panel {
+        width: min(1280px, 100%);
+        max-height: calc(100vh - 56px);
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+      }
+
+      .lightbox-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .lightbox-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 850;
+      }
+
+      .lightbox-close {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        background: transparent;
+        cursor: pointer;
+        font-weight: 850;
+      }
+
+      .lightbox img {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: #ffffff;
+      }
+
+      .lightbox-caption {
+        margin: 0;
+        padding: 12px 14px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
       }
 
       .step {
@@ -350,6 +426,10 @@
       @media (max-width: 520px) {
         .wrap {
           width: min(100vw - 28px, 1040px);
+        }
+
+        .lightbox {
+          padding: 14px;
         }
       }
     </style>
@@ -431,10 +511,20 @@ axiom next
 axiom generate app.ax --target typescript --out generated</pre>
           </div>
           <figure class="visual">
-            <img
-              src="assets/single-agent-workflow.png"
-              alt="Axiom single-agent workflow showing install, contract inspection, doctor, next, simulations, generation, and implementation."
-            />
+            <button
+              class="visual-trigger"
+              type="button"
+              data-lightbox-src="assets/single-agent-workflow.png"
+              data-lightbox-alt="Axiom single-agent workflow showing install, contract inspection, doctor, next, simulations, generation, and implementation."
+              data-lightbox-title="Axiom single-agent workflow"
+              data-lightbox-caption="The shortest useful loop: initialize the contract, check it, simulate policy, then generate artifacts for ordinary code."
+              aria-label="Open Axiom single-agent workflow diagram"
+            >
+              <img
+                src="assets/single-agent-workflow.png"
+                alt="Axiom single-agent workflow showing install, contract inspection, doctor, next, simulations, generation, and implementation."
+              />
+            </button>
             <figcaption>The shortest useful loop: initialize the contract, check it, simulate policy, then generate artifacts for ordinary code.</figcaption>
           </figure>
         </div>
@@ -516,6 +606,17 @@ axiom generate app.ax --target typescript --out generated</pre>
       </div>
     </footer>
 
+    <div class="lightbox" data-lightbox aria-modal="true" role="dialog" aria-label="Expanded diagram">
+      <div class="lightbox-panel" role="document">
+        <div class="lightbox-bar">
+          <p class="lightbox-title" data-lightbox-title></p>
+          <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close expanded diagram">X</button>
+        </div>
+        <img data-lightbox-image src="" alt="" />
+        <p class="lightbox-caption" data-lightbox-caption></p>
+      </div>
+    </div>
+
     <script>
       const root = document.documentElement;
       const toggle = document.querySelector("[data-theme-toggle]");
@@ -535,6 +636,39 @@ axiom generate app.ax --target typescript --out generated</pre>
       });
 
       syncThemeButton();
+
+      const lightbox = document.querySelector("[data-lightbox]");
+      const lightboxImage = lightbox.querySelector("[data-lightbox-image]");
+      const lightboxTitle = lightbox.querySelector("[data-lightbox-title]");
+      const lightboxCaption = lightbox.querySelector("[data-lightbox-caption]");
+      const lightboxClose = lightbox.querySelector("[data-lightbox-close]");
+      let lastLightboxTrigger = null;
+
+      function closeLightbox() {
+        lightbox.removeAttribute("open");
+        lightboxImage.setAttribute("src", "");
+        if (lastLightboxTrigger) lastLightboxTrigger.focus();
+      }
+
+      document.querySelectorAll("[data-lightbox-src]").forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          lastLightboxTrigger = trigger;
+          lightboxImage.setAttribute("src", trigger.dataset.lightboxSrc);
+          lightboxImage.setAttribute("alt", trigger.dataset.lightboxAlt || "");
+          lightboxTitle.textContent = trigger.dataset.lightboxTitle || "Diagram";
+          lightboxCaption.textContent = trigger.dataset.lightboxCaption || "";
+          lightbox.setAttribute("open", "");
+          lightboxClose.focus();
+        });
+      });
+
+      lightboxClose.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) closeLightbox();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && lightbox.hasAttribute("open")) closeLightbox();
+      });
     </script>
   </body>
 </html>

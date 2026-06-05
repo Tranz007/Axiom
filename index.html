@@ -297,6 +297,15 @@
         box-shadow: 0 10px 28px rgba(23, 32, 39, 0.06);
       }
 
+      .visual-trigger {
+        display: block;
+        width: 100%;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        cursor: zoom-in;
+      }
+
       .visual img {
         display: block;
         width: 100%;
@@ -308,6 +317,71 @@
         border-top: 1px solid var(--line);
         color: var(--muted);
         font-size: 13px;
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        display: none;
+        place-items: center;
+        padding: 28px;
+        background: rgba(10, 16, 20, 0.82);
+      }
+
+      .lightbox[open] {
+        display: grid;
+      }
+
+      .lightbox-panel {
+        width: min(1280px, 100%);
+        max-height: calc(100vh - 56px);
+        overflow: auto;
+        border-radius: 8px;
+        background: #ffffff;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+      }
+
+      .lightbox-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .lightbox-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .lightbox-close {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        background: #ffffff;
+        cursor: pointer;
+        font-weight: 850;
+      }
+
+      .lightbox img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .lightbox-caption {
+        margin: 0;
+        padding: 12px 14px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
       }
 
       .step {
@@ -387,6 +461,10 @@
 
         .hero {
           padding-top: 48px;
+        }
+
+        .lightbox {
+          padding: 14px;
         }
       }
     </style>
@@ -485,10 +563,20 @@
           </div>
           <div class="steps">
             <figure class="visual">
-              <img
-                src="docs/assets/agent-first-workflow.png"
-                alt="Axiom workflow showing a human installing Axiom, an agent reading the contract, and generated artifacts flowing back into the app."
-              />
+              <button
+                class="visual-trigger"
+                type="button"
+                data-lightbox-src="docs/assets/agent-first-workflow.png"
+                data-lightbox-alt="Axiom workflow showing a human installing Axiom, an agent reading the contract, and generated artifacts flowing back into the app."
+                data-lightbox-title="Axiom agent-first workflow"
+                data-lightbox-caption="The human sets up Axiom. The coding agent uses the contract, checks, simulations, and generated artifacts while building the app."
+                aria-label="Open Axiom agent-first workflow diagram"
+              >
+                <img
+                  src="docs/assets/agent-first-workflow.png"
+                  alt="Axiom workflow showing a human installing Axiom, an agent reading the contract, and generated artifacts flowing back into the app."
+                />
+              </button>
               <figcaption>The human sets up Axiom. The coding agent uses the contract, checks, simulations, and generated artifacts while building the app.</figcaption>
             </figure>
           </div>
@@ -576,5 +664,51 @@
         generated tests, and tiny runnable examples.
       </div>
     </footer>
+
+    <div class="lightbox" data-lightbox aria-modal="true" role="dialog" aria-label="Expanded diagram">
+      <div class="lightbox-panel" role="document">
+        <div class="lightbox-bar">
+          <p class="lightbox-title" data-lightbox-title></p>
+          <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close expanded diagram">X</button>
+        </div>
+        <img data-lightbox-image src="" alt="" />
+        <p class="lightbox-caption" data-lightbox-caption></p>
+      </div>
+    </div>
+
+    <script>
+      const lightbox = document.querySelector("[data-lightbox]");
+      const lightboxImage = lightbox.querySelector("[data-lightbox-image]");
+      const lightboxTitle = lightbox.querySelector("[data-lightbox-title]");
+      const lightboxCaption = lightbox.querySelector("[data-lightbox-caption]");
+      const lightboxClose = lightbox.querySelector("[data-lightbox-close]");
+      let lastLightboxTrigger = null;
+
+      function closeLightbox() {
+        lightbox.removeAttribute("open");
+        lightboxImage.setAttribute("src", "");
+        if (lastLightboxTrigger) lastLightboxTrigger.focus();
+      }
+
+      document.querySelectorAll("[data-lightbox-src]").forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          lastLightboxTrigger = trigger;
+          lightboxImage.setAttribute("src", trigger.dataset.lightboxSrc);
+          lightboxImage.setAttribute("alt", trigger.dataset.lightboxAlt || "");
+          lightboxTitle.textContent = trigger.dataset.lightboxTitle || "Diagram";
+          lightboxCaption.textContent = trigger.dataset.lightboxCaption || "";
+          lightbox.setAttribute("open", "");
+          lightboxClose.focus();
+        });
+      });
+
+      lightboxClose.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) closeLightbox();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && lightbox.hasAttribute("open")) closeLightbox();
+      });
+    </script>
   </body>
 </html>
