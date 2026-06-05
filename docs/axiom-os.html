@@ -8,6 +8,7 @@
       name="description"
       content="Axiom OS is the local open-source-oriented edition of Axiom for humans building with AI coding agents. It focuses on contracts, simulations, generated artifacts, and tiny runnable examples."
     />
+    <link rel="icon" type="image/svg+xml" href="assets/svg/axiom-mark.svg" />
     <style>
       :root {
         --bg: #101820;
@@ -92,15 +93,17 @@
       }
 
       .mark {
-        display: grid;
+        display: block;
         width: 34px;
         height: 34px;
-        place-items: center;
         border-radius: 8px;
-        color: #07110f;
-        background: var(--accent);
-        font-family:
-          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        overflow: hidden;
+      }
+
+      .mark img {
+        display: block;
+        width: 100%;
+        height: 100%;
       }
 
       .nav-links {
@@ -135,6 +138,25 @@
         font-weight: 850;
         letter-spacing: 0.08em;
         text-transform: uppercase;
+      }
+
+      .hero-lockup {
+        display: block;
+        width: min(400px, 74vw);
+        height: auto;
+        margin: 0 0 22px;
+      }
+
+      .hero-lockup.light {
+        display: none;
+      }
+
+      [data-theme="light"] .hero-lockup.dark {
+        display: none;
+      }
+
+      [data-theme="light"] .hero-lockup.light {
+        display: block;
       }
 
       h1,
@@ -438,7 +460,7 @@
     <nav class="nav" aria-label="Primary navigation">
       <div class="wrap nav-inner">
         <a class="brand" href="../index.html">
-          <span class="mark">A</span>
+          <span class="mark" aria-hidden="true"><img src="assets/svg/axiom-mark.svg" alt="" /></span>
           <span>Axiom OS</span>
         </a>
         <div class="nav-links">
@@ -452,6 +474,8 @@
 
     <header class="hero">
       <div class="wrap">
+        <img class="hero-lockup dark" src="assets/svg/axiom-lockup-dark.svg" alt="Axiom OS" />
+        <img class="hero-lockup light" src="assets/svg/axiom-lockup-light.svg" alt="Axiom OS" />
         <p class="eyebrow">Development preview</p>
         <h1>Install Axiom for the human. Use Axiom for the agent.</h1>
         <p class="lead">

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/svg/axiom-lockup-light.svg" alt="Axiom" width="520" />
+</p>
+
 # Axiom
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)

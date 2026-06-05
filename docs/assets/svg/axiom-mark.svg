@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none" role="img" aria-label="Axiom logo">
+
+<defs>
+  <g id="axiom-mark-core">
+    <!-- outer shield halves -->
+    <polygon points="256,42 84,118 84,315 145,430 256,42" fill="#062B66"/>
+    <polygon points="256,42 428,118 428,315 367,430 256,42" fill="#0A5C67"/>
+
+    <!-- inner top triangle -->
+    <polygon points="256,144 200,282 256,282" fill="#062B66"/>
+    <polygon points="256,144 312,282 256,282" fill="#0A5C67"/>
+
+    <!-- lower diamond halves -->
+    <polygon points="256,318 180,318 154,360 256,430" fill="#0C606C"/>
+    <polygon points="256,318 332,318 358,360 256,430" fill="#12BFD0"/>
+
+    <!-- stylized A, drawn with thick strokes -->
+    <path d="M256 56 L144 404" stroke="#FFFFFF" stroke-width="52" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+    <path d="M256 56 L368 404" stroke="#FFFFFF" stroke-width="52" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+    <path d="M172 300 L340 300" stroke="#FFFFFF" stroke-width="46" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+  </g>
+</defs>
+
+
+<use href="#axiom-mark-core" transform="translate(0,0) scale(1)"/>
+</svg>

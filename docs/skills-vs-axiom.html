@@ -8,6 +8,7 @@
       name="description"
       content="How Axiom differs from Markdown agent skills, AGENTS.md files, and reusable AI guidance."
     />
+    <link rel="icon" type="image/svg+xml" href="assets/svg/axiom-mark.svg" />
     <style>
       :root {
         --ink: #172027;
@@ -71,15 +72,17 @@
       }
 
       .mark {
-        display: grid;
+        display: block;
         width: 32px;
         height: 32px;
-        place-items: center;
         border-radius: 8px;
-        color: #fff;
-        background: var(--accent);
-        font-family:
-          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        overflow: hidden;
+      }
+
+      .mark img {
+        display: block;
+        width: 100%;
+        height: 100%;
       }
 
       .back-link {
@@ -480,7 +483,7 @@
     <nav class="page-nav" aria-label="Page navigation">
       <div class="wrap page-nav-inner">
         <a class="brand" href="../index.html">
-          <span class="mark">A</span>
+          <span class="mark" aria-hidden="true"><img src="assets/svg/axiom-mark.svg" alt="" /></span>
           <span>Axiom</span>
         </a>
         <div class="nav-actions">

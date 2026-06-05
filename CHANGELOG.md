@@ -43,6 +43,7 @@ The project is experimental and pre-release.
 - Public Axiom landing page.
 - Public Axiom OS page.
 - Public workflow diagrams for the README, landing page, and Axiom OS page.
+- SVG brand assets for light and dark public surfaces.
 - Developer rationale and comparison docs.
 - Bad fixtures for unsafe patterns such as raw sensitive export, missing approval paths, model-decided policy, and unsafe audit logging.
 - Generated Node policy tests from `axiom/simulations.json`.

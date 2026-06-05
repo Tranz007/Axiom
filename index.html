@@ -8,6 +8,7 @@
       name="description"
       content="Axiom gives AI coding agents a contract before they build: what the app can access, what it can do, what needs approval, and what must never be exposed."
     />
+    <link rel="icon" type="image/svg+xml" href="docs/assets/svg/axiom-mark.svg" />
     <style>
       :root {
         --ink: #172027;
@@ -73,15 +74,17 @@
       }
 
       .mark {
-        display: grid;
+        display: block;
         width: 34px;
         height: 34px;
-        place-items: center;
         border-radius: 8px;
-        color: #fff;
-        background: var(--accent);
-        font-family:
-          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        overflow: hidden;
+      }
+
+      .mark img {
+        display: block;
+        width: 100%;
+        height: 100%;
       }
 
       .links {
@@ -119,6 +122,13 @@
         font-weight: 800;
         letter-spacing: 0.08em;
         text-transform: uppercase;
+      }
+
+      .hero-lockup {
+        display: block;
+        width: min(420px, 72vw);
+        height: auto;
+        margin: 0 0 22px;
       }
 
       h1 {
@@ -473,7 +483,7 @@
     <nav class="nav" aria-label="Primary navigation">
       <div class="wrap nav-inner">
         <a class="brand" href="#">
-          <span class="mark">A</span>
+          <span class="mark" aria-hidden="true"><img src="docs/assets/svg/axiom-mark.svg" alt="" /></span>
           <span>Axiom</span>
         </a>
         <div class="links">
@@ -489,6 +499,7 @@
     <header class="hero">
       <div class="wrap hero-grid">
         <div>
+          <img class="hero-lockup" src="docs/assets/svg/axiom-lockup-light.svg" alt="Axiom" />
           <p class="eyebrow">Contracts for AI coding agents</p>
           <h1>Give the agent rules before it builds.</h1>
           <p class="lead">
