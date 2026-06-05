@@ -1,6 +1,6 @@
 # Open Source Readiness
 
-This page tracks the current release status for Axiom OS as an experimental open-source project.
+This page tracks the current public-beta status for Axiom OS as an experimental open-source project.
 
 Axiom is useful only if a developer or advanced AI-assisted builder can run the first loop, inspect the generated artifacts, understand the limits, and see enough proof that the contract model is real.
 
@@ -31,14 +31,14 @@ node --test /tmp/axiom-starter/generated-tests/axiom-policy.test.mjs
 - TypeScript and Python targets generate policy artifacts.
 - Node and Python examples import generated policy evaluators from ordinary app code.
 - CI validates examples, runs demos, runs tests, and checks package contents with `npm pack --dry-run`.
-- Public copy says the repo is a development preview and does not claim production security guarantees.
+- Public copy says the repo is public, experimental, and not a production security guarantee.
 
-## Pre-Release Checks
+## Public Beta Checks
 
 - Keep `"private": true` until npm publication is intentional.
-- Confirm public GitHub URLs in README and site links before announcing a public repository.
+- Confirm public GitHub URLs in README and site links after public access changes.
 - Re-run `npm pack --dry-run` in CI or an npm-capable shell before npm publication.
-- Review public HTML pages whenever the project status changes from private development to public repository.
+- Review public HTML pages whenever the project status changes.
 
 ## Project Hygiene
 
@@ -56,4 +56,4 @@ node --test /tmp/axiom-starter/generated-tests/axiom-policy.test.mjs
 
 ## Status Summary
 
-Axiom OS is close to release-ready as an experimental developer tool. The remaining work is mostly release hygiene and public-surface accuracy, not core architecture.
+Axiom OS is public as an experimental developer tool. The remaining near-term work is mostly first-user verification, release hygiene, and public-surface accuracy, not core architecture.

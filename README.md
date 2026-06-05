@@ -1,13 +1,11 @@
 <p align="center">
-  <img src="docs/assets/svg/axiom-lockup-light.svg" alt="Axiom" width="520" />
+  <img src="docs/assets/svg/axiom-lockup-dark.svg" alt="Axiom" width="520">
 </p>
-
-# Axiom
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 ![Status: experimental](https://img.shields.io/badge/status-experimental-0f766e)
 ![Node: 20+](https://img.shields.io/badge/node-20%2B-315f7b)
-![Package: private for now](https://img.shields.io/badge/npm-private_for_now-5c6871)
+![Package: not yet published](https://img.shields.io/badge/npm-not_yet_published-5c6871)
 
 **Status:** Experimental CLI prototype and concept specification  
 **Purpose:** AI-native language and runtime model for building capability-bound, policy-verifiable applications.  
@@ -20,9 +18,9 @@ The repo now includes a first usable MVP: a dependency-light Node CLI that parse
 
 ## Current Status
 
-Axiom OS is in release preparation as an experimental developer tool. The public site is a development preview while the CLI, examples, packaging, and docs are hardened.
+Axiom OS is public now as an experimental developer tool. The CLI, examples, and docs are usable from a checkout while packaging and the npm release path are hardened.
 
-The package is intentionally still marked `"private": true`. Packaging work in this repo is for dry runs and local install testing, not npm publication yet.
+The package is intentionally still marked `"private": true`. Packaging work in this repo is for dry runs and local install testing until npm publication is intentional.
 
 ## Start Here
 

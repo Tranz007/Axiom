@@ -27,15 +27,16 @@ The roadmap explains phases. This file lists concrete next work that contributor
 
 ## Now
 
-### Final Public Surface Pass
+### Public Beta Hardening
 
-Review the public-facing surfaces before announcing or opening wider access:
+Harden the public-facing surfaces now that the repository is public:
 
 - homepage and public HTML pages
 - README first screen
 - install and first-run language
-- private-development wording that may need to change when the repo becomes public
+- stale pre-public wording that can confuse first-time visitors
 - package publication state, including `"private": true`
+- clean-checkout first-run verification
 
 ## Later
 

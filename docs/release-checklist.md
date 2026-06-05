@@ -1,6 +1,6 @@
 # Release Checklist
 
-This checklist is for preparing Axiom OS for a public repository or future npm release.
+This checklist is for maintaining the public Axiom OS repository and preparing any future npm release.
 
 ## Public Repository
 
@@ -10,7 +10,7 @@ This checklist is for preparing Axiom OS for a public repository or future npm r
 - Run all local checks that do not depend on unavailable system tools.
 - Confirm GitHub Actions passes on `main`.
 - Confirm `npm pack --dry-run` passes in CI or an npm-capable shell.
-- Review public HTML pages for private-development language that no longer applies.
+- Review public HTML pages for stale pre-public language.
 - Confirm issue templates, contribution guidance, security policy, and code of conduct are present.
 
 ## npm Publication
