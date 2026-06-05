@@ -523,7 +523,9 @@ axiom doctor
 axiom next
 axiom simulate-examples
 axiom next
-axiom generate app.ax --target typescript --out generated</pre>
+axiom generate app.ax --target typescript --out generated
+axiom next
+axiom verify app.ax --target typescript --out generated --write</pre>
           </div>
           <figure class="visual">
             <button
@@ -551,8 +553,9 @@ axiom generate app.ax --target typescript --out generated</pre>
             <h2>What the agent gets</h2>
             <p class="section-lead">
               Axiom does not replace the coding agent. It gives the agent a contract, checks,
-              simulation examples, and generated artifacts so implementation work does not
-              quietly add new data access or actions outside the rules.
+              simulation examples, generated artifacts, and verification evidence so
+              implementation work does not quietly add new data access or actions outside
+              the rules.
             </p>
           </div>
           <div class="steps">

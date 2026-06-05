@@ -13,6 +13,7 @@ import { generateNodeTests } from "../src/testgen.mjs";
 import { diffGraphs, formatGraphDiff } from "../src/diff.mjs";
 import { formatTryProject, runTryProject } from "../src/try.mjs";
 import { createContractOutline, formatDefineResult } from "../src/define.mjs";
+import { formatVerifyReport, verifyExitCode, verifyGeneratedArtifacts } from "../src/verify.mjs";
 
 const command = process.argv[2];
 const input = process.argv[3];
@@ -35,6 +36,7 @@ Usage:
   axiom simulate <file.ax> --capability <key> [--fact name=true ...]
   axiom diff <old.ax> <new.ax>
   axiom generate <file.ax> [--target typescript|python] [--out generated]
+  axiom verify <file.ax> [--target typescript|python] [--out generated] [--write]
   axiom generate-tests <file.ax> [--examples axiom/simulations.json] [--target node] [--out generated-tests]
 `);
 }
@@ -308,6 +310,24 @@ try {
     });
     console.log(`generated ${result.testPath}`);
     process.exit(0);
+  }
+
+  if (command === "verify") {
+    if (!input) {
+      usage();
+      process.exit(2);
+    }
+
+    const report = await verifyGeneratedArtifacts({
+      appPath: input,
+      target: optionValue("--target", "typescript"),
+      outDir: hasOption("--out") ? optionValue("--out", null) : null,
+      manifestPath: hasOption("--manifest") ? optionValue("--manifest", null) : null,
+      reportPath: hasOption("--report") ? optionValue("--report", null) : null,
+      write: hasOption("--write"),
+    });
+    console.log(formatVerifyReport(report));
+    process.exit(verifyExitCode(report));
   }
 
   if (command === "diff") {

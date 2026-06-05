@@ -21,6 +21,7 @@ node ./bin/axiom.mjs next --cwd /tmp/axiom-starter
 node ./bin/axiom.mjs simulate-examples --cwd /tmp/axiom-starter
 node ./bin/axiom.mjs next --cwd /tmp/axiom-starter
 node ./bin/axiom.mjs generate /tmp/axiom-starter/app.ax --target typescript --out /tmp/axiom-starter/generated
+node ./bin/axiom.mjs verify /tmp/axiom-starter/app.ax --target typescript --out /tmp/axiom-starter/generated --write
 node ./bin/axiom.mjs generate-tests /tmp/axiom-starter/app.ax --examples /tmp/axiom-starter/axiom/simulations.json --out /tmp/axiom-starter/generated-tests
 node --test /tmp/axiom-starter/generated-tests/axiom-policy.test.mjs
 ```
@@ -29,6 +30,7 @@ node --test /tmp/axiom-starter/generated-tests/axiom-policy.test.mjs
 - `axiom define --guided` creates a plain-language worksheet for creating or updating `app.ax`.
 - `axiom next` gives one compact next action for an agent.
 - TypeScript and Python targets generate policy artifacts.
+- `axiom verify` checks generated artifacts against `app.ax` and can write a manifest and report.
 - Node and Python examples import generated policy evaluators from ordinary app code.
 - CI validates examples, runs demos, runs tests, and checks package contents with `npm pack --dry-run`.
 - Public copy says the repo is public, experimental, and not a production security guarantee.
@@ -50,10 +52,10 @@ node --test /tmp/axiom-starter/generated-tests/axiom-policy.test.mjs
 ## Explicit Non-Blockers
 
 - FastAPI scaffolding is not required for the current experimental release.
-- `axiom verify` bundles are not required for the current experimental release.
+- Rich signed verification bundles are not required for the current experimental release.
 - Hosted services, dashboards, org policy packs, and enterprise/government controls are not part of the open-source release bar.
 - Axiom does not need to generate full applications before it can be useful as a contract and policy artifact tool.
 
 ## Status Summary
 
-Axiom OS is public as an experimental developer tool. The remaining near-term work is mostly first-user verification, release hygiene, and public-surface accuracy, not core architecture.
+Axiom OS is public as an experimental developer tool. The remaining near-term work is mostly first-user feedback, release hygiene, and public-surface accuracy, not core architecture.

@@ -19,6 +19,7 @@ const GENERATED_HINT_PATHS = [
 
 const SIMULATION_RESULTS_PATH = "axiom/simulation-results.json";
 const GENERATED_TEST_PATH = "generated-tests/axiom-policy.test.mjs";
+const VERIFICATION_MANIFEST_PATH = "axiom/verification-manifest.json";
 
 async function exists(path) {
   try {
@@ -157,6 +158,30 @@ export async function inspectProject(options = {}) {
         "generated artifacts not found",
         "This is fine for a new project.",
         graph ? `Run: axiom generate ${appPath} --target typescript --out generated` : null,
+      ),
+    );
+  }
+
+  const verificationManifestPath = join(cwd, VERIFICATION_MANIFEST_PATH);
+  if (generated.length && (await exists(verificationManifestPath))) {
+    checks.push(check("ok", "verification manifest found", verificationManifestPath));
+    if (await newerThan(appPath, verificationManifestPath)) {
+      checks.push(
+        check(
+          "info",
+          "verification manifest may be stale",
+          "app.ax is newer than the verification manifest.",
+          graph ? `Run: axiom verify ${appPath} --target typescript --out generated --write` : null,
+        ),
+      );
+    }
+  } else if (generated.length && graph) {
+    checks.push(
+      check(
+        "info",
+        "verification manifest not found",
+        "Generated artifacts exist, but no verification manifest was found.",
+        `Run: axiom verify ${appPath} --target typescript --out generated --write`,
       ),
     );
   }
@@ -320,6 +345,24 @@ export function recommendNextAction(report) {
     return {
       action: `axiom generate ${report.appPath} --target typescript --out generated`,
       why: "app.ax changed after generated artifacts. Regenerate before implementation code relies on them.",
+      after: "Then run axiom next again.",
+    };
+  }
+
+  const missingVerification = firstCheck(report, "info", "verification manifest not found");
+  if (missingVerification) {
+    return {
+      action: `axiom verify ${report.appPath} --target typescript --out generated --write`,
+      why: "Generated artifacts exist, but Axiom has not recorded that they match app.ax.",
+      after: "Then run axiom next again.",
+    };
+  }
+
+  const staleVerification = firstCheck(report, "info", "verification manifest may be stale");
+  if (staleVerification) {
+    return {
+      action: `axiom verify ${report.appPath} --target typescript --out generated --write`,
+      why: "app.ax changed after the last verification manifest. Re-check generated artifacts before trusting them.",
       after: "Then run axiom next again.",
     };
   }

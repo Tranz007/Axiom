@@ -41,6 +41,8 @@ axiom simulate-examples --cwd my-axiom-app
 axiom next --cwd my-axiom-app
 axiom generate my-axiom-app/app.ax --target typescript --out my-axiom-app/generated
 axiom next --cwd my-axiom-app
+axiom verify my-axiom-app/app.ax --target typescript --out my-axiom-app/generated --write
+axiom next --cwd my-axiom-app
 axiom generate-tests my-axiom-app/app.ax --examples my-axiom-app/axiom/simulations.json --out my-axiom-app/generated-tests
 axiom next --cwd my-axiom-app
 node --test my-axiom-app/generated-tests/axiom-policy.test.mjs

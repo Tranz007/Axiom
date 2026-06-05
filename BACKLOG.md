@@ -24,6 +24,7 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - `axiom generate --target python` creates Pydantic contract models, a policy evaluator, audit stubs, and reports.
 - `examples/local-private-notes-python` shows Python app code importing a generated policy evaluator.
 - Open-source hygiene now includes contribution guidance, security policy, issue templates, pull request template, code of conduct, and release checklist.
+- `axiom verify` checks generated artifacts against `app.ax`, reports graph and artifact hashes, and writes verification evidence when requested.
 
 ## Now
 
@@ -40,21 +41,15 @@ Harden the public-facing surfaces now that the repository is public:
 
 ## Later
 
-### Bundle Verification
+### Stronger Verification Bundles
 
-Expected shape:
+Extend `axiom verify` beyond local hash checks:
 
-```bash
-axiom verify
-```
-
-Should eventually include:
-
-- graph hash
-- generated artifact hashes
-- policy manifest
-- verification report
-- CI-friendly exit codes
+- signed manifests
+- generated policy manifest export
+- generated test hash coverage
+- CI examples for GitHub Actions
+- optional release bundle metadata
 
 ## Product Guardrails
 

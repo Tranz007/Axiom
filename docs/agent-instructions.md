@@ -54,7 +54,7 @@ Models may help draft code and summaries, but models must not make final allow, 
 
 Run Axiom validation and explain any errors before continuing.
 
-Keep Axiom usage token-aware. Use `axiom next`, `axiom doctor`, `axiom diff`, and targeted simulations instead of pasting full contracts, generated artifacts, or reports. Summarize only the changed capability, data class, policy decision, or approval path needed for the task.
+Keep Axiom usage token-aware. Use `axiom next`, `axiom doctor`, `axiom verify`, `axiom diff`, and targeted simulations instead of pasting full contracts, generated artifacts, or reports. Summarize only the changed capability, data class, policy decision, or approval path needed for the task.
 ```
 
 ## Codex-Oriented Project Instruction
@@ -94,7 +94,7 @@ Implementation code may be hand-written, but it must satisfy the Axiom contract.
 
 Keep Axiom usage token-aware:
 
-- Prefer `axiom next`, `axiom doctor`, `axiom diff`, and targeted `axiom simulate` output over pasting full Axiom files into chat.
+- Prefer `axiom next`, `axiom doctor`, `axiom verify`, `axiom diff`, and targeted `axiom simulate` output over pasting full Axiom files into chat.
 - Do not paste generated artifacts, full reports, or long policy matrices unless the user asks for them.
 - Summarize only the changed capability, data class, policy decision, or approval path needed for the task.
 - Reference file paths and commands so the agent can re-check locally instead of carrying the whole contract in context.
@@ -188,9 +188,9 @@ axiom simulate my-axiom-app/app.ax --capability summarize_private_document --fac
 - agent instructions
 - a valid `app.ax`
 - simulation hints
-- generated artifacts or a next command to create them
+- generated artifacts, verification evidence, or a next command to create them
 
-`axiom next` is the agent-facing companion command. A human installs Axiom, but an AI coding agent often needs to decide what to do next inside the repo. `axiom next` returns one recommended action, why it matters, and what should happen afterward. It should prefer compact next steps such as generation, generated policy tests, stale artifact regeneration, and targeted test runs.
+`axiom next` is the agent-facing companion command. A human installs Axiom, but an AI coding agent often needs to decide what to do next inside the repo. `axiom next` returns one recommended action, why it matters, and what should happen afterward. It should prefer compact next steps such as generation, generated artifact verification, generated policy tests, stale artifact regeneration, and targeted test runs.
 
 `axiom simulate-examples` runs the generated policy examples and writes `axiom/simulation-results.json`. This keeps the first agent workflow honest: validate the contract, simulate at least one policy path, then generate artifacts.
 

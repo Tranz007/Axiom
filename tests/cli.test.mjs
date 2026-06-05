@@ -146,6 +146,44 @@ describe("axiom cli", () => {
     }
   });
 
+  it("verifies generated artifacts and writes verification evidence", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-verify-"));
+    try {
+      await axiom(["init", "--template", "local-private-app", "--agent", "codex", "--out", dir]);
+      await axiom(["generate", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated")]);
+
+      const result = await axiom(["verify", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated"), "--write"]);
+      assert.match(result.stdout, /Axiom verification/);
+      assert.match(result.stdout, /Result: verified 9 artifact\(s\)/);
+      assert.match(result.stdout, /wrote .*verification-manifest\.json/);
+
+      const manifest = JSON.parse(await readFile(join(dir, "axiom", "verification-manifest.json"), "utf8"));
+      const report = await readFile(join(dir, "axiom", "verification-report.md"), "utf8");
+      assert.equal(manifest.axiom.target, "typescript");
+      assert.match(manifest.axiom.graphHash, /^[a-f0-9]{64}$/);
+      assert.equal(manifest.artifacts.every((item) => item.status === "ok"), true);
+      assert.match(report, /Axiom Verification Report/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("fails verification when generated artifacts drift", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-verify-drift-"));
+    try {
+      await axiom(["init", "--template", "local-private-app", "--agent", "codex", "--out", dir]);
+      await axiom(["generate", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated")]);
+      await writeFile(join(dir, "generated", "capabilities.ts"), "/* drifted */\n", "utf8");
+
+      await expectAxiomFailure(
+        ["verify", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated")],
+        /DRIFTED capabilities\.ts[\s\S]*Result: 0 missing, 1 drifted/,
+      );
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
   it("generates Python policy artifacts", async () => {
     const dir = await mkdtemp(join(tmpdir(), "axiom-python-target-"));
     try {
@@ -446,6 +484,22 @@ describe("axiom cli", () => {
       await axiom(["generate", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated")]);
 
       const next = await axiom(["next", "--cwd", dir]);
+      assert.match(next.stdout, /Next: axiom verify .*app\.ax --target typescript --out generated --write/);
+      assert.match(next.stdout, /recorded that they match app\.ax/);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("recommends generated policy tests after artifacts are verified", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "axiom-next-tests-after-verify-"));
+    try {
+      await axiom(["init", "--template", "local-private-app", "--agent", "codex", "--out", dir]);
+      await axiom(["simulate-examples", "--cwd", dir]);
+      await axiom(["generate", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated")]);
+      await axiom(["verify", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated"), "--write"]);
+
+      const next = await axiom(["next", "--cwd", dir]);
       assert.match(next.stdout, /Next: axiom generate-tests .*app\.ax --examples axiom\/simulations\.json --out generated-tests/);
       assert.match(next.stdout, /without loading the whole contract into context/);
     } finally {
@@ -459,6 +513,7 @@ describe("axiom cli", () => {
       await axiom(["init", "--template", "local-private-app", "--agent", "codex", "--out", dir]);
       await axiom(["simulate-examples", "--cwd", dir]);
       await axiom(["generate", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated")]);
+      await axiom(["verify", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated"), "--write"]);
       await axiom([
         "generate-tests",
         join(dir, "app.ax"),
@@ -507,6 +562,10 @@ describe("axiom cli", () => {
       assert.match(generationNext.stdout, /Next: axiom generate .*app\.ax --target typescript --out generated/);
 
       await axiom(["generate", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated")]);
+      const verifyNext = await axiom(["next", "--cwd", dir]);
+      assert.match(verifyNext.stdout, /Next: axiom verify .*app\.ax --target typescript --out generated --write/);
+
+      await axiom(["verify", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated"), "--write"]);
       const testGenerationNext = await axiom(["next", "--cwd", dir]);
       assert.match(testGenerationNext.stdout, /Next: axiom generate-tests .*app\.ax --examples axiom\/simulations\.json --out generated-tests/);
 

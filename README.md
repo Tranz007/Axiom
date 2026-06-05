@@ -65,6 +65,7 @@ node ./bin/axiom.mjs next --cwd /tmp/axiom-starter
 node ./bin/axiom.mjs simulate-examples --cwd /tmp/axiom-starter
 node ./bin/axiom.mjs next --cwd /tmp/axiom-starter
 node ./bin/axiom.mjs generate /tmp/axiom-starter/app.ax --target typescript --out /tmp/axiom-starter/generated
+node ./bin/axiom.mjs verify /tmp/axiom-starter/app.ax --target typescript --out /tmp/axiom-starter/generated --write
 node ./bin/axiom.mjs generate-tests /tmp/axiom-starter/app.ax --examples /tmp/axiom-starter/axiom/simulations.json --out /tmp/axiom-starter/generated-tests
 node --test /tmp/axiom-starter/generated-tests/axiom-policy.test.mjs
 ```
@@ -76,6 +77,8 @@ That creates:
 - `axiom/simulations.json`: starter policy scenarios
 - `axiom/simulation-results.json`: saved simulation output after `simulate-examples`
 - `generated/`: TypeScript policy and contract artifacts after `generate`
+- `axiom/verification-manifest.json`: graph and generated artifact hashes after `verify --write`
+- `axiom/verification-report.md`: compact verification report after `verify --write`
 - `generated-tests/`: runnable Node policy tests after `generate-tests`
 
 To inspect the bundled examples:
@@ -88,6 +91,7 @@ node ./bin/axiom.mjs diff examples/local-private-notes/axiom.ax templates/apps/l
 node ./bin/axiom.mjs simulate examples/agent-capability-gateway/axiom.ax --capability fill_tax_identity_fields --fact standing_policy_absent=true
 node ./bin/axiom.mjs simulate examples/customer-support-action/axiom.ax --capability issue_refund_credit --fact refund_requested=true
 node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
+node ./bin/axiom.mjs verify examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
 node ./bin/axiom.mjs generate templates/apps/local-private-app.ax --target python --out /tmp/axiom-python-generated
 node examples/customer-support-action/app/policy-demo.mjs
 node examples/local-private-notes/app/policy-demo.mjs
@@ -126,11 +130,12 @@ The current CLI can:
 - initialize starter `app.ax` projects with AI coding agent instructions
 - guide first-time setup with `axiom init --guided`
 - inspect project readiness with `axiom doctor`
-- recommend the next useful agent action with `axiom next`, including generation, generated tests, stale artifacts, and compact policy test runs
+- recommend the next useful agent action with `axiom next`, including generation, verification, generated tests, stale artifacts, and compact policy test runs
 - run starter policy simulations with `axiom simulate-examples`
 - run a complete two-minute local walkthrough with `axiom try`
 - create a plain-language contract worksheet with `axiom define`
 - generate runnable policy tests from starter simulations with `axiom generate-tests`
+- verify generated artifacts against `app.ax` with graph and artifact hashes using `axiom verify`
 - parse the MVP indentation-based `.ax` format
 - validate that capabilities declare purpose, policy, disclosure, broker, approval, and audit obligations where required
 - explain common sensitive-data validation failures with concrete next steps
@@ -138,8 +143,8 @@ The current CLI can:
 - print a policy matrix as JSON
 - diff two `.ax` contracts for capability and data-class changes
 - simulate deterministic policy decisions from boolean request facts
-- generate TypeScript artifacts for capabilities, data classes, audit obligations, runtime guards, and verification reports
-- generate Python artifacts for Pydantic contract models, deterministic policy evaluation, audit obligation stubs, and verification reports
+- generate TypeScript artifacts for capabilities, data classes, audit obligations, runtime guards, and generation reports
+- generate Python artifacts for Pydantic contract models, deterministic policy evaluation, audit obligation stubs, and generation reports
 - run tiny Node and Python examples that import generated policy evaluators from ordinary app code
 
 The current CLI cannot yet:
