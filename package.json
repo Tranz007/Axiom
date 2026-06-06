@@ -18,6 +18,7 @@
     "examples/customer-support-action/",
     "examples/receipt-archive/",
     "docs/",
+    "assets/",
     "spec/",
     "index.html",
     "README.md",

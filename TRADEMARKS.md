@@ -8,7 +8,7 @@ The following names identify this project and planned related editions:
 
 - Axiom
 - Axiom OS
-- Axiom Business
+- Axiom Enterprise
 - Axiom Government
 
 ## Acceptable Use
@@ -28,7 +28,7 @@ Examples to avoid:
 
 - publishing a modified project as "Axiom" without clear fork naming
 - naming a hosted service "Axiom Cloud" without permission
-- using "Axiom Business" or "Axiom Government" for unofficial commercial editions
+- using "Axiom Enterprise" or "Axiom Government" for unofficial commercial editions
 - using Axiom branding in a way that hides that a project is a fork or third-party integration
 
 ## Forks And Modified Versions
@@ -37,16 +37,16 @@ Forks are allowed under the Apache License 2.0. Forks should use clear naming th
 
 ## Commercial And Enterprise Work
 
-The open-source license does not prevent commercial use of the code. Official Axiom Business and Axiom Government editions may include proprietary features, integrations, support, deployment options, or assurance workflows outside this repository.
+The open-source license does not prevent commercial use of the code. Official Axiom Enterprise and Axiom Government editions may include proprietary features, integrations, support, deployment options, or assurance workflows outside this repository.
 
 ## Brand Assets
 
-This repository includes basic Axiom brand assets under `docs/assets/`:
+This repository includes basic Axiom brand assets under `assets/`:
 
-- `svg/axiom-lockup-light.svg`: primary public lockup for light backgrounds
-- `svg/axiom-lockup-dark.svg`: primary public lockup for dark backgrounds
-- `svg/axiom-mark.svg`: square mark for favicons and compact identity use
-- `svg/axiom-wordmark.svg`: name-only wordmark for cases where the shield mark would be too heavy
+- `assets/svg/axiom-lockup-light.svg`: primary public lockup for light backgrounds
+- `assets/svg/axiom-lockup-dark.svg`: primary public lockup for dark backgrounds
+- `assets/svg/axiom-mark.svg`: square mark for favicons and compact identity use
+- `assets/svg/axiom-wordmark.svg`: name-only wordmark for cases where the shield mark would be too heavy
 
 Use these assets in ways that preserve the official project identity and avoid implying endorsement of forks, unofficial services, or unrelated commercial editions.
 

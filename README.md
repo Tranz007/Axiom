@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/svg/axiom-lockup-dark.svg" alt="Axiom" width="520">
+  <img src="assets/svg/axiom-lockup-dark.svg" alt="Axiom" width="520">
 </p>
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
@@ -14,7 +14,7 @@ Axiom is an experimental language concept for building software with AI agents w
 
 The repo now includes a first usable MVP: a dependency-light Node CLI that parses `.ax` files, validates capability contracts, reports permission and disclosure problems, and generates initial TypeScript and Python policy artifacts.
 
-![Axiom agent-first workflow](docs/assets/agent-first-workflow.png)
+![Axiom agent-first workflow](assets/png/agent-first-workflow.png)
 
 ## Current Status
 
@@ -46,7 +46,7 @@ node ./bin/axiom.mjs define --guided --cwd /tmp/axiom-starter
 
 That writes `axiom/contract-outline.md`, a plain-language worksheet the human and coding agent can use to create or update `app.ax`.
 
-![Single agent Axiom workflow](docs/assets/single-agent-workflow.png)
+![Single agent Axiom workflow](assets/png/single-agent-workflow.png)
 
 For a guided template picker:
 

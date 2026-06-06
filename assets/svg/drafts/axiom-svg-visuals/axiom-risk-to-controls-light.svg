@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" fill="none" role="img" aria-labelledby="title desc">
+<title id="title">Axiom risk to controls map</title>
+<desc id="desc">A diagram mapping AI agent risks to Axiom controls like sensitive data, approvals, denied paths, brokers, and audit obligations.</desc>
+
+  <style>
+    .bg { fill: transparent; }
+    .title { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 54px; font-weight: 760; letter-spacing: -1.2px; }
+    .subtitle { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 24px; font-weight: 450; line-height: 1.4; }
+    .label { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 25px; font-weight: 700; }
+    .small { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 18px; font-weight: 500; }
+    .tiny { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; font-weight: 500; }
+    .mono { font-family: 'SF Mono', 'Cascadia Code', 'Roboto Mono', monospace; font-size: 17px; font-weight: 600; }
+    .card { rx: 28; }
+    .shadow { filter: drop-shadow(0px 18px 32px rgba(15, 23, 42, 0.13)); }
+  </style>
+
+<rect width="1440" height="820" fill="transparent"/>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#64748B"/></marker></defs>
+<text x="100" y="104" class="title" fill="#0F172A">From agent risk to project controls</text>
+<text x="102" y="151" class="subtitle" fill="#475569">Use this in the “What Axiom controls” section.</text>
+<rect x="110" y="225" width="445" height="450" rx="36" fill="#FFF7ED" stroke="#FED7AA"/>
+<rect x="885" y="225" width="445" height="450" rx="36" fill="#F0FDFA" stroke="#99F6E4"/>
+<circle cx="720" cy="450" r="102" fill="#F8FAFC" stroke="#D8E1EA" stroke-width="2"/>
+<text x="664" y="440" class="label" fill="#0F172A">Axiom</text>
+<text x="631" y="472" class="small" fill="#475569">contract layer</text>
+<text x="150" y="285" class="label" fill="#9A3412">Common risks</text>
+<text x="925" y="285" class="label" fill="#0F766E">Axiom controls</text>
+<g class="small" fill="#7C2D12">
+<text x="150" y="345">Wrong environment</text>
+<text x="150" y="405">Too much access</text>
+<text x="150" y="465">Sensitive data exposure</text>
+<text x="150" y="525">Missing approval</text>
+<text x="150" y="585">No evidence trail</text>
+</g>
+<g class="small" fill="#134E4A">
+<text x="925" y="345">Allowed brokers</text>
+<text x="925" y="405">Narrow capabilities</text>
+<text x="925" y="465">Declared data classes</text>
+<text x="925" y="525">Approval requirements</text>
+<text x="925" y="585">Audit obligations</text>
+</g>
+<g stroke="#64748B" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)">
+<path d="M555 345C610 345 635 384 652 415"/>
+<path d="M555 405C602 405 624 425 647 445"/>
+<path d="M555 465C602 465 624 460 647 456"/>
+<path d="M555 525C610 525 635 492 652 474"/>
+<path d="M555 585C630 575 650 520 675 490"/>
+<path d="M788 415C820 370 840 345 885 345"/>
+<path d="M793 445C824 420 848 405 885 405"/>
+<path d="M793 456C828 456 850 465 885 465"/>
+<path d="M788 474C822 505 848 525 885 525"/>
+<path d="M765 490C805 550 838 585 885 585"/>
+</g>
+</svg>

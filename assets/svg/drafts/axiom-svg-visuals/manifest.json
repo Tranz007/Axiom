@@ -1,0 +1,33 @@
+{
+  "assets": [
+    {
+      "file": "axiom-governance-flow-light.svg",
+      "use": "Homepage hero or How It Works intro. Shows intent \u2192 contract \u2192 agent \u2192 checks/artifacts \u2192 evidence."
+    },
+    {
+      "file": "axiom-governance-flow-dark.svg",
+      "use": "Dark-background version of the governance flow."
+    },
+    {
+      "file": "axiom-without-with-light.svg",
+      "use": "Problem section. Explains prompts/guidance versus checked project boundaries."
+    },
+    {
+      "file": "axiom-product-paths-light.svg",
+      "use": "AxiomOS / Enterprise / Government section."
+    },
+    {
+      "file": "axiom-risk-to-controls-light.svg",
+      "use": "What Axiom controls section. Maps risks to controls."
+    },
+    {
+      "file": "axiom-governance-loop-light.svg",
+      "use": "How It Works page or reusable section visual."
+    },
+    {
+      "file": "axiom-control-layer-mark.svg",
+      "use": "Small icon/mark for cards, docs, or favicon exploration. Not a replacement logo unless desired."
+    }
+  ],
+  "notes": "All SVGs are transparent-background, self-contained, and use system fonts only. They are editable in code or vector tools."
+}
