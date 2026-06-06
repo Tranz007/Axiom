@@ -142,6 +142,10 @@ describe("axiom cli", () => {
       const appSkeletonTest = await readFile(join(dir, "app-skeleton.test.mjs"), "utf8");
       const routeSkeleton = await readFile(join(dir, "route-skeleton.mjs"), "utf8");
       const routeSkeletonTest = await readFile(join(dir, "route-skeleton.test.mjs"), "utf8");
+      const approvalUi = await readFile(join(dir, "approval-ui.mjs"), "utf8");
+      const approvalUiTest = await readFile(join(dir, "approval-ui.test.mjs"), "utf8");
+      const integrationContracts = await readFile(join(dir, "integration-contracts.mjs"), "utf8");
+      const integrationContractsTest = await readFile(join(dir, "integration-contracts.test.mjs"), "utf8");
       const readme = await readFile(join(dir, "README.md"), "utf8");
       const report = await readFile(join(dir, "axiom-report.md"), "utf8");
       assert.match(capabilities, /fill_tax_identity_fields/);
@@ -154,6 +158,10 @@ describe("axiom cli", () => {
       assert.match(routeSkeleton, /handleAxiomRoute/);
       assert.match(routeSkeleton, /Manual broker implementation required/);
       assert.match(routeSkeletonTest, /Axiom generated route skeleton/);
+      assert.match(approvalUi, /createApprovalReviewModel/);
+      assert.match(approvalUiTest, /approval binding fields for review/);
+      assert.match(integrationContracts, /validateIntegrationHooks/);
+      assert.match(integrationContractsTest, /manual route integration hooks/);
       assert.match(readme, /route-skeleton\.mjs/);
       assert.match(report, /Axiom Verification Report/);
     } finally {
@@ -169,7 +177,7 @@ describe("axiom cli", () => {
 
       const result = await axiom(["verify", join(dir, "app.ax"), "--target", "typescript", "--out", join(dir, "generated"), "--write"]);
       assert.match(result.stdout, /Axiom verification/);
-      assert.match(result.stdout, /Result: verified 19 artifact\(s\)/);
+      assert.match(result.stdout, /Result: verified 23 artifact\(s\)/);
       assert.match(result.stdout, /wrote .*verification-manifest\.json/);
 
       const manifest = JSON.parse(await readFile(join(dir, "axiom", "verification-manifest.json"), "utf8"));
@@ -177,7 +185,15 @@ describe("axiom cli", () => {
       assert.equal(manifest.axiom.target, "typescript");
       assert.match(manifest.axiom.graphHash, /^[a-f0-9]{64}$/);
       assert.equal(manifest.artifacts.every((item) => item.status === "ok"), true);
+      assert.equal(manifest.coverage.generatedTestCount, 4);
+      assert.deepEqual(manifest.coverage.generatedTestArtifacts, [
+        "app-skeleton.test.mjs",
+        "route-skeleton.test.mjs",
+        "approval-ui.test.mjs",
+        "integration-contracts.test.mjs",
+      ]);
       assert.match(report, /Axiom Verification Report/);
+      assert.match(report, /Generated Test Coverage/);
     } finally {
       await rm(dir, { recursive: true, force: true });
     }
@@ -205,6 +221,22 @@ describe("axiom cli", () => {
       env: childProcessEnv(),
     });
     assert.match(result.stdout, /pass 12/);
+  });
+
+  it("runs generated approval UI tests for the support example", async () => {
+    const result = await run(process.execPath, ["--test", "examples/customer-support-action/generated/approval-ui.test.mjs"], {
+      cwd: new URL("..", import.meta.url).pathname,
+      env: childProcessEnv(),
+    });
+    assert.match(result.stdout, /pass 4/);
+  });
+
+  it("runs generated integration contract tests for the support example", async () => {
+    const result = await run(process.execPath, ["--test", "examples/customer-support-action/generated/integration-contracts.test.mjs"], {
+      cwd: new URL("..", import.meta.url).pathname,
+      env: childProcessEnv(),
+    });
+    assert.match(result.stdout, /pass 4/);
   });
 
   it("generates Python policy artifacts", async () => {
@@ -652,6 +684,27 @@ describe("axiom cli", () => {
       env: childProcessEnv(),
     });
     assert.match(`${generatedTest.stdout}\n${generatedTest.stderr}`, /pass 8/);
+  });
+
+  it("runs the customer support approval mini app", async () => {
+    const validation = await axiom(["validate", "examples/customer-support-action/axiom.ax"]);
+    assert.match(validation.stdout, /0 errors/);
+
+    const generatedTest = await run(process.execPath, ["--test", "examples/customer-support-action/app/support-mini-app.test.mjs"], {
+      cwd: new URL("..", import.meta.url).pathname,
+      env: childProcessEnv(),
+    });
+    assert.match(`${generatedTest.stdout}\n${generatedTest.stderr}`, /pass 1/);
+
+    const result = await run(process.execPath, ["examples/customer-support-action/app/support-mini-app.mjs"], {
+      cwd: new URL("..", import.meta.url).pathname,
+      env: childProcessEnv(),
+    });
+    const flow = JSON.parse(result.stdout);
+    assert.equal(flow.approvalRequired.status, 409);
+    assert.equal(flow.approved.status, 200);
+    assert.equal(flow.denied.status, 403);
+    assert.equal(flow.brokerCalls, 1);
   });
 
   it("runs the local private notes Python example app", async () => {

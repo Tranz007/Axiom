@@ -94,8 +94,11 @@ node ./bin/axiom.mjs generate examples/agent-capability-gateway/axiom.ax --targe
 node ./bin/axiom.mjs verify examples/agent-capability-gateway/axiom.ax --target typescript --out examples/agent-capability-gateway/generated
 node --test examples/customer-support-action/generated/app-skeleton.test.mjs
 node --test examples/customer-support-action/generated/route-skeleton.test.mjs
+node --test examples/customer-support-action/generated/approval-ui.test.mjs
+node --test examples/customer-support-action/generated/integration-contracts.test.mjs
 node ./bin/axiom.mjs generate templates/apps/local-private-app.ax --target python --out /tmp/axiom-python-generated
 node examples/customer-support-action/app/policy-demo.mjs
+node examples/customer-support-action/app/support-mini-app.mjs
 node examples/local-private-notes/app/policy-demo.mjs
 python3 examples/local-private-notes-python/app/policy_demo.py
 node --test
@@ -148,6 +151,10 @@ The current CLI can:
 - generate TypeScript artifacts for capabilities, data classes, broker boundaries, approval payloads, audit guards, runtime guards, and generation reports
 - generate a minimal Node app skeleton that gates policy, approval, broker, and audit behavior
 - generate framework-neutral route skeletons with manual auth, broker, audit, persistence, and transport hooks
+- generate approval review models that expose required binding fields before a human approves
+- generate explicit manual integration contracts for auth, broker, audit, approval persistence, and transport adapters
+- run a tiny customer-support mini app that proves approval review, approved broker execution, deny-before-broker behavior, and audit capture
+- write verification manifests with generated test artifact coverage metadata
 - generate Python artifacts for Pydantic contract models, deterministic policy evaluation, audit obligation stubs, and generation reports
 - run tiny Node and Python examples that import generated policy evaluators from ordinary app code
 
@@ -156,7 +163,7 @@ The current CLI cannot yet:
 - generate a full application
 - replace framework code
 - execute policies against real request context
-- generate polished UI screens or complete persistence/auth layers
+- generate polished UI screens or complete production persistence/auth layers
 - parse rich expressions beyond simple boolean facts
 - guarantee security by itself
 - parse every future Axiom syntax idea in the docs
@@ -178,7 +185,7 @@ The source of truth is an executable intent graph:
 - what must be audited
 - what invariants must never be violated
 
-Axiom should eventually compile that graph into ordinary software artifacts: TypeScript, Python, FastAPI routes, React UI, policy rules, tests, audit schemas, deployment manifests, and runtime guards. Today, this repo implements the smaller open-source core: contract validation, policy simulation, TypeScript and Python policy artifacts, generated policy tests, and runnable examples.
+Axiom should eventually compile that graph into ordinary software artifacts: TypeScript, Python, FastAPI routes, React UI, policy rules, tests, audit schemas, deployment manifests, and runtime guards. Today, this repo implements the smaller open-source core: contract validation, policy simulation, TypeScript and Python policy artifacts, generated policy tests, generated Node route/approval/integration contracts, and runnable examples.
 
 The goal is not prettier syntax. The goal is safer agency.
 

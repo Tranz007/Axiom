@@ -16,6 +16,10 @@ These files were generated from an Axiom source graph.
 - `app-skeleton.test.mjs`: generated Node tests for the app skeleton guardrails
 - `route-skeleton.mjs`: framework-neutral route skeleton with manual auth, broker, audit, persistence, and transport hooks
 - `route-skeleton.test.mjs`: generated Node tests proving route guardrails before broker execution
+- `approval-ui.mjs`: generated approval review model for hand-written UI
+- `approval-ui.test.mjs`: generated tests proving approval binding fields are visible before approval
+- `integration-contracts.mjs`: generated manual integration hook contracts for auth, broker, audit, persistence, and transport
+- `integration-contracts.test.mjs`: generated tests proving required manual integration hooks are explicit
 - `axiom-report.md`: validation and generation report
 
 Regenerate with:

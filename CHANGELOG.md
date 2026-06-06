@@ -61,6 +61,10 @@ The project is experimental and pre-release.
 - Open-source readiness review with current blockers and non-blockers.
 - Open-source contribution, security, issue template, pull request, conduct, and release checklist docs.
 - Trademark and brand-use guidance for Axiom project names.
+- Generated approval review models and tests that expose required approval binding fields before approval.
+- Generated manual integration contracts and tests for auth, broker, audit, approval persistence, and transport hooks.
+- Customer support mini app proving approval review, approved broker execution, deny-before-broker behavior, and audit capture.
+- Verification manifest and report coverage for generated test artifacts.
 
 ### Changed
 

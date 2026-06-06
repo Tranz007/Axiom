@@ -27,18 +27,22 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - `axiom verify` checks generated artifacts against `app.ax`, reports graph and artifact hashes, and writes verification evidence when requested.
 - The TypeScript generator now emits broker contracts, approval contracts, audit guards, and a minimal app skeleton with generated Node guardrail tests.
 - The TypeScript generator now emits framework-neutral route skeletons and generated route guardrail tests.
+- The TypeScript generator now emits approval review models and manual integration contracts with generated guardrail tests.
+- `examples/customer-support-action/app/support-mini-app.mjs` proves the first approval-backed route flow with broker and audit hooks.
+- `axiom verify --write` now records generated test artifact coverage in the verification manifest and report.
 
 ## Now
 
-### First Approval UI Slice
+### First Mini App Hardening
 
-Build the first generated approval UI slice:
+Harden the first approval-backed mini app slice:
 
 - keep `examples/customer-support-action` as the representative proof target
-- generate a small approval review component or adapter contract
-- prove approval binding fields are visible before a human approves
+- keep the generated approval and integration tests representative
+- add one real framework adapter only after the plain Node flow stays stable
+- prove auth failures, audit write failures, and approval persistence failures explicitly
 - keep manual implementation escape hatches obvious
-- do not claim full application generation until auth, persistence, transport, and UI contracts exist
+- do not claim full application generation until auth, persistence, transport, and UI contracts are production-shaped
 
 ## Later
 
@@ -48,7 +52,6 @@ Extend `axiom verify` beyond local hash checks:
 
 - signed manifests
 - generated policy manifest export
-- generated test hash coverage
 - CI examples for GitHub Actions
 - optional release bundle metadata
 

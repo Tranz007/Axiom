@@ -47,6 +47,18 @@ async function readIfExists(path) {
 }
 
 function manifestFor({ appPath, outDir, target, graph, artifacts, results }) {
+  const generatedTests = artifacts
+    .filter((artifact) => artifact.path.endsWith(".test.mjs"))
+    .map((artifact) => {
+      const result = results.find((item) => item.path === artifact.path);
+      return {
+        path: artifact.path,
+        status: result?.status || "missing",
+        expectedHash: sha256(artifact.contents),
+        actualHash: result?.actualHash || null,
+      };
+    });
+
   return {
     axiom: {
       manifestVersion: 1,
@@ -64,6 +76,11 @@ function manifestFor({ appPath, outDir, target, graph, artifacts, results }) {
         status: result?.status || "missing",
       };
     }),
+    generatedTests,
+    coverage: {
+      generatedTestCount: generatedTests.length,
+      generatedTestArtifacts: generatedTests.map((item) => item.path),
+    },
   };
 }
 
@@ -83,12 +100,20 @@ function reportMarkdown(manifest, results) {
     `- Verified artifacts: ${verified.length}`,
     `- Missing artifacts: ${missing.length}`,
     `- Drifted artifacts: ${drifted.length}`,
+    `- Generated test artifacts: ${manifest.coverage.generatedTestCount}`,
     "",
     "## Artifacts",
     "",
   ];
 
   for (const item of results) {
+    lines.push(`- ${item.status.toUpperCase()} ${item.path}`);
+  }
+
+  lines.push("");
+  lines.push("## Generated Test Coverage");
+  lines.push("");
+  for (const item of manifest.generatedTests) {
     lines.push(`- ${item.status.toUpperCase()} ${item.path}`);
   }
 
