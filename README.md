@@ -185,7 +185,7 @@ The goal is not prettier syntax. The goal is safer agency.
 ## Editions
 
 - **Axiom OS:** the open-source local core in this repo.
-- **Axiom Business:** future commercial tooling for teams, managed workflows, stronger reports, and organizational governance.
+- **Axiom Enterprise:** future commercial tooling for teams, managed workflows, stronger reports, and organizational governance.
 - **Axiom Government:** future private/government-focused edition for stricter deployment, audit, and compliance environments.
 
 The open-source version needs to be useful by itself. The future editions should add operational depth, not make the public core a teaser.
@@ -298,7 +298,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/compiler-and-targets.md](docs/compiler-and-targets.md): how Axiom compiles to real software
 - [docs/axiom-os.html](docs/axiom-os.html): public-facing open-source edition page
 - [docs/editions.html](docs/editions.html): public-facing edition strategy page
-- [docs/editions.md](docs/editions.md): Axiom OS, Axiom Business, and Axiom Government distribution strategy
+- [docs/editions.md](docs/editions.md): Axiom OS, Axiom Enterprise, and Axiom Government distribution strategy
 - [docs/agent-instructions.md](docs/agent-instructions.md): instructions layer for AI coding agents and non-expert builders
 - [docs/why-axiom.html](docs/why-axiom.html): developer-facing rationale for the added layer
 - [docs/skills-vs-axiom.html](docs/skills-vs-axiom.html): how Axiom differs from Markdown agent skills and reusable AI guidance

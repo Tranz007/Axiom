@@ -2,7 +2,7 @@
 
 Axiom can serve different audiences without becoming three different languages.
 
-The right model is one shared Axiom core with separate distributions for Axiom OS, businesses, and government environments. Each distribution should have its own defaults, packaging, documentation, and trust posture, but the language primitives should stay compatible.
+The right model is one shared Axiom core with separate paths for Axiom OS, enterprise teams, and government environments. Each path should have its own defaults, packaging, documentation, and trust posture, but the language primitives should stay compatible.
 
 ```text
 Axiom Core
@@ -54,11 +54,11 @@ The planned public promise:
 
 > Open-source AI-native capability contracts for safer agent-built software.
 
-## Axiom Business
+## Axiom Enterprise
 
-Axiom Business is the enterprise governance edition.
+Axiom Enterprise is the future enterprise governance direction.
 
-Its job is to help companies use LLMs and agents around business systems without giving those agents ambient authority.
+Its job would be to help companies use AI coding agents around business systems without giving those agents broad, unchecked authority.
 
 It should add:
 
@@ -142,13 +142,13 @@ All editions should share the same core concepts:
 
 This matters because Axiom should not become a family of incompatible products.
 
-A capability written for Axiom OS should be understandable by Axiom Business and Axiom Government, even if those editions require stricter policy, approval, audit, or deployment evidence.
+A capability written for Axiom OS should be understandable by Axiom Enterprise and Axiom Government, even if those editions require stricter policy, approval, audit, or deployment evidence.
 
 ## What Changes By Edition
 
 The editions should vary by defaults and integrations:
 
-| Area | Axiom OS | Axiom Business | Axiom Government |
+| Area | Axiom OS | Axiom Enterprise | Axiom Government |
 | --- | --- | --- | --- |
 | Primary user | developers and builders | platform, security, compliance, product teams | agencies, contractors, regulated teams |
 | Deployment | local, open-source-oriented | SaaS, private cloud, on-prem | GovCloud, on-prem, restricted networks |

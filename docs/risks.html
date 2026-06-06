@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Axiom Risks | Why Agent Guardrails Matter</title>
+    <title>Why Axiom | AI Agent Governance</title>
     <meta
       name="description"
-      content="What can go wrong when AI coding agents have too much freedom, and how Axiom helps make dangerous actions explicit before code is written."
+      content="Why AI coding agents need project-level rules for access, approval, denied actions, and evidence before software is built or changed."
     />
     <link rel="icon" type="image/svg+xml" href="assets/svg/axiom-mark.svg" />
     <style>
@@ -273,9 +273,10 @@
           <span>Axiom</span>
         </a>
         <div class="nav-links">
-          <a href="../index.html">Home</a>
+          <a href="risks.html">Why Axiom</a>
+          <a href="how-it-works.html">How It Works</a>
           <a href="axiom-os.html">Axiom OS</a>
-          <a href="setting-axiom-rules.html">Rules</a>
+          <a href="editions.html">Enterprise &amp; Gov</a>
           <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode">☾</button>
         </div>
       </div>
@@ -283,12 +284,12 @@
 
     <header>
       <div class="wrap">
-        <p class="eyebrow">Agent risk</p>
-        <h1>AI agents fail differently than scripts.</h1>
+        <p class="eyebrow">Why Axiom</p>
+        <h1>AI agents fail differently than traditional tools.</h1>
         <p class="lead">
-          They can misunderstand intent, use the wrong environment, find credentials,
-          take irreversible actions, or claim success without proof. Axiom exists to make
-          dangerous capabilities explicit before an agent builds.
+          AI coding agents can interpret intent, generate implementation paths, connect
+          tools, and make assumptions about access, data, approvals, or side effects.
+          A prompt saying "do not do that" is not the same as a checked project contract.
         </p>
       </div>
     </header>
@@ -302,7 +303,7 @@
             <p>An agent may touch production when the human expected a dev, staging, or local environment.</p>
           </article>
           <article class="card">
-            <span class="tag">Authority</span>
+            <span class="tag">Access</span>
             <h3>Too much access</h3>
             <p>A token or API key may allow more than the agent actually needs for the task.</p>
           </article>
@@ -317,21 +318,20 @@
       <section>
         <div class="wrap split">
           <div>
-            <h2>Real incidents show the shape of the risk.</h2>
+            <h2>Prompts are not governance.</h2>
             <p class="lead">
-              Public reports have described AI coding agents deleting production data,
-              acting during code freezes, using broad credentials, and fabricating or
-              misreporting recovery state. Axiom should not sensationalize those stories,
-              but it should learn from the pattern.
+              Prompts, README files, AGENTS.md files, and team instructions are useful,
+              but they are guidance. They can be ignored, contradicted, forgotten, or
+              interpreted differently by different models.
             </p>
           </div>
           <div class="callout">
-            <h3>The common pattern</h3>
+            <h3>The common problem</h3>
             <ul>
-              <li>The agent had a goal but not a durable contract.</li>
-              <li>Dangerous actions were possible from the available environment.</li>
-              <li>Approval, environment, and data boundaries were not enforced at the application contract level.</li>
-              <li>The human saw the damage after the action, not before.</li>
+              <li>Rules live in chat, comments, docs, middleware, tests, and memory.</li>
+              <li>The agent sees a goal, but not always the real boundary around that goal.</li>
+              <li>Approval and data rules are discovered too late in the build process.</li>
+              <li>The human reviews the result after the risky path has already been created.</li>
             </ul>
           </div>
         </div>
@@ -340,11 +340,11 @@
       <section>
         <div class="wrap split">
           <div>
-            <h2>How Axiom helps</h2>
+            <h2>Axiom moves key rules into the project.</h2>
             <p class="lead">
-              Axiom moves risky behavior out of chat instructions and into a checked contract:
-              what the app can touch, what actions exist, when approval is required,
-              what brokers may execute, what is denied, and what must be audited.
+              Axiom gives teams a durable place to define what the app can touch, what
+              actions exist, when approval is required, what external tools may run,
+              what is denied, and what evidence must be captured.
             </p>
           </div>
           <pre>capability delete_customer_data
