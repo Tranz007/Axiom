@@ -694,7 +694,7 @@ describe("axiom cli", () => {
       cwd: new URL("..", import.meta.url).pathname,
       env: childProcessEnv(),
     });
-    assert.match(`${generatedTest.stdout}\n${generatedTest.stderr}`, /pass 1/);
+    assert.match(`${generatedTest.stdout}\n${generatedTest.stderr}`, /pass 5/);
 
     const result = await run(process.execPath, ["examples/customer-support-action/app/support-mini-app.mjs"], {
       cwd: new URL("..", import.meta.url).pathname,

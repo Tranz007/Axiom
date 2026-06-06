@@ -35,24 +35,49 @@ function approvedRefundRequest() {
   };
 }
 
-export async function runSupportRefundMiniApp() {
+function statusSummary(result) {
+  return {
+    status: result.status,
+    bodyStatus: result.body?.status,
+  };
+}
+
+export async function runSupportRefundMiniApp(options = {}) {
   const state = {
     brokerCalls: 0,
     approvalsStored: [],
     auditEvents: [],
+    auditReservations: [],
   };
 
   const hooks = {
-    authorize: async ({ capability }) => capability === "issue_refund_credit",
-    storeApprovalDecision: async (approval) => state.approvalsStored.push(approval),
+    authorize: async ({ capability }) => capability === "issue_refund_credit" && options.authorized !== false,
+    reserveAudit: async (reservation) => {
+      if (options.failAuditReservation) {
+        throw new Error("audit_unavailable");
+      }
+      state.auditReservations.push(reservation);
+    },
+    storeApprovalDecision: async (approval) => {
+      if (options.failApprovalPersistence) {
+        throw new Error("approval_persistence_failed");
+      }
+      state.approvalsStored.push(approval);
+    },
     executeBroker: async () => {
       state.brokerCalls += 1;
+      options.onBroker?.();
       return {
         tokenized_reference: "refund_token_123",
         disclosureMode: "tokenized_reference",
       };
     },
-    writeAudit: async (event) => state.auditEvents.push(event),
+    writeAudit: async (event) => {
+      if (options.failAuditWrite) {
+        throw new Error("audit_write_failed");
+      }
+      state.auditEvents.push(event);
+    },
   };
 
   const integration = validateIntegrationHooks("issue_refund_credit", hooks);
@@ -69,6 +94,16 @@ export async function runSupportRefundMiniApp() {
     hooks,
   );
   const brokerCallsBeforeApproval = state.brokerCalls;
+  if (approvalRequired.status !== 409) {
+    return {
+      approvalRequired: statusSummary(approvalRequired),
+      brokerCalls: state.brokerCalls,
+      approvalsStored: state.approvalsStored.length,
+      auditReservations: state.auditReservations.length,
+      auditEvents: state.auditEvents.length,
+    };
+  }
+
   const review = createApprovalReviewModel("issue_refund_credit", {
     input: refundRequest,
     approval: refundRequest,
@@ -78,6 +113,12 @@ export async function runSupportRefundMiniApp() {
     capability: "issue_refund_credit",
     fields: review.fields,
     valid: true,
+  });
+
+  await hooks.reserveAudit({
+    capability: "issue_refund_credit",
+    request_hash: refundRequest.request_hash,
+    mode: "fail_closed_before_broker",
   });
 
   const approved = await handleAxiomRoute("issue_refund_credit", approvedRefundRequest(), hooks);
@@ -90,8 +131,7 @@ export async function runSupportRefundMiniApp() {
 
   return {
     approvalRequired: {
-      status: approvalRequired.status,
-      bodyStatus: approvalRequired.body.status,
+      ...statusSummary(approvalRequired),
       brokerCallsBeforeApproval,
     },
     review: {
@@ -100,16 +140,13 @@ export async function runSupportRefundMiniApp() {
       missing: review.missing,
     },
     approved: {
-      status: approved.status,
-      bodyStatus: approved.body.status,
+      ...statusSummary(approved),
       brokerResponse: approved.body.brokerResponse,
     },
-    denied: {
-      status: denied.status,
-      bodyStatus: denied.body.status,
-    },
+    denied: statusSummary(denied),
     brokerCalls: state.brokerCalls,
     approvalsStored: state.approvalsStored.length,
+    auditReservations: state.auditReservations.length,
     auditEvents: state.auditEvents.length,
   };
 }

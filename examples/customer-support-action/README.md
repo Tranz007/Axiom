@@ -37,6 +37,10 @@ The mini app runs one approval-backed refund path:
 - a valid approval resumes the route and executes the broker once
 - a deny decision still returns before broker execution
 - the hand-written audit hook receives the generated audit event
+- unauthorized requests stop before broker execution
+- approval persistence failures stop before broker execution
+- audit-unavailable failures stop before broker execution
+- a tiny HTTP-shaped adapter maps generated route results to `{ statusCode, headers, body }`
 
 The generated skeleton test proves that the contract also produces app-facing guardrails:
 

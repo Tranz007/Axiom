@@ -30,17 +30,20 @@ The roadmap explains phases. This file lists concrete next work that contributor
 - The TypeScript generator now emits approval review models and manual integration contracts with generated guardrail tests.
 - `examples/customer-support-action/app/support-mini-app.mjs` proves the first approval-backed route flow with broker and audit hooks.
 - `axiom verify --write` now records generated test artifact coverage in the verification manifest and report.
+- The customer-support mini app now proves unauthorized, approval-persistence-failure, and audit-unavailable paths stop before broker execution.
+- `examples/customer-support-action/app/support-route-adapter.mjs` provides the first HTTP-shaped adapter around the generated route skeleton.
 
 ## Now
 
-### First Mini App Hardening
+### First Adapter Hardening
 
-Harden the first approval-backed mini app slice:
+Harden the first HTTP-shaped adapter slice:
 
 - keep `examples/customer-support-action` as the representative proof target
 - keep the generated approval and integration tests representative
-- add one real framework adapter only after the plain Node flow stays stable
-- prove auth failures, audit write failures, and approval persistence failures explicitly
+- add request parsing and response-shape tests around the HTTP adapter
+- prove malformed JSON, missing body fields, and unauthorized adapter calls explicitly
+- keep framework-specific work to one adapter until this stays boring
 - keep manual implementation escape hatches obvious
 - do not claim full application generation until auth, persistence, transport, and UI contracts are production-shaped
 

@@ -65,6 +65,8 @@ The project is experimental and pre-release.
 - Generated manual integration contracts and tests for auth, broker, audit, approval persistence, and transport hooks.
 - Customer support mini app proving approval review, approved broker execution, deny-before-broker behavior, and audit capture.
 - Verification manifest and report coverage for generated test artifacts.
+- Customer support mini app hardening for unauthorized, approval persistence failure, and audit-unavailable failure paths.
+- First HTTP-shaped support route adapter around the generated route skeleton.
 
 ### Changed
 

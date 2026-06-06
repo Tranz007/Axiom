@@ -163,7 +163,8 @@ Success:
 Current status:
 
 - TypeScript generation emits minimal Node app skeletons, framework-neutral route skeletons, approval review models, integration contracts, and generated guardrail tests.
-- `examples/customer-support-action` includes a tiny approval-backed Node mini app that wires generated approval, route, broker, and audit boundaries.
+- `examples/customer-support-action` includes a tiny approval-backed Node mini app that wires generated approval, route, broker, and audit boundaries, including failure-before-broker paths.
+- The same example includes one HTTP-shaped adapter around the generated route skeleton.
 - This is not yet full app generation; production auth, persistence, transport adapters, and polished UI remain manual.
 
 ## Phase 5: Deployment And Bundle Verification

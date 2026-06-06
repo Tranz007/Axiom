@@ -153,7 +153,7 @@ The current CLI can:
 - generate framework-neutral route skeletons with manual auth, broker, audit, persistence, and transport hooks
 - generate approval review models that expose required binding fields before a human approves
 - generate explicit manual integration contracts for auth, broker, audit, approval persistence, and transport adapters
-- run a tiny customer-support mini app that proves approval review, approved broker execution, deny-before-broker behavior, and audit capture
+- run a tiny customer-support mini app that proves approval review, approved broker execution, failure-before-broker paths, audit capture, and one HTTP-shaped route adapter
 - write verification manifests with generated test artifact coverage metadata
 - generate Python artifacts for Pydantic contract models, deterministic policy evaluation, audit obligation stubs, and generation reports
 - run tiny Node and Python examples that import generated policy evaluators from ordinary app code
