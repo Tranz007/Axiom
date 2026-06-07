@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Axiom OS | Local contracts for AI coding agents</title>
+    <title>Axiom OS | Local generated guardrails for AI-assisted apps</title>
     <meta
       name="description"
-      content="Axiom OS is the local open-source-oriented edition of Axiom for humans building with AI coding agents. It focuses on contracts, simulations, generated artifacts, and tiny runnable examples."
+      content="Axiom OS is the local open-source-oriented edition of Axiom for AI-assisted builders. It focuses on contracts, simulations, generated enforcement artifacts, and tiny runnable examples."
     />
     <link rel="icon" type="image/svg+xml" href="../assets/svg/axiom-mark.svg" />
     <style>
@@ -457,11 +457,12 @@
     <header class="hero">
       <div class="wrap">
         <p class="eyebrow">Public experimental tool</p>
-        <h1>Install Axiom for the human. Use Axiom for the agent.</h1>
+        <h1>Install Axiom to generate guardrails before the agent ships code.</h1>
         <p class="lead">
           Axiom OS is the local, open-source-oriented path for AI-assisted builders.
-          Its job is to give coding agents a contract to inspect, policy paths to simulate,
-          and a next command to run before they write code that can access data or take action.
+          Its job is to turn `app.ax` into simulated policy paths, generated checks,
+          route skeletons, approval contracts, audit contracts, and a next command to run
+          before code can access data or take action.
           It is not tied to one model or vendor; it works with any coding agent that can read
           project files and run local commands.
         </p>
@@ -487,7 +488,7 @@
             <article class="card">
               <span class="tag">Builders</span>
               <h3>Advanced vibe coders</h3>
-              <p>Start with a template, let the agent follow `app.ax`, and keep the first workflow simple.</p>
+              <p>Start with a template, generate policy checks from `app.ax`, and keep the first workflow simple.</p>
             </article>
             <article class="card">
               <span class="tag">Developers</span>
@@ -551,26 +552,26 @@ axiom verify app.ax --target typescript --out generated --write</pre>
       <section>
         <div class="wrap split">
           <div>
-            <h2>What the agent gets</h2>
+            <h2>What the project gets</h2>
             <p class="section-lead">
-              Axiom does not replace the coding agent. It gives the agent a contract, checks,
-              simulation examples, generated artifacts, and verification evidence so
-              implementation work does not quietly add new data access or actions outside
-              the rules.
+              Axiom does not replace the coding agent or make the model obedient. It gives
+              the project a contract, deterministic checks, simulation examples, generated
+              artifacts, and verification evidence so implementation work does not quietly
+              add new data access or actions outside the rules.
             </p>
           </div>
           <div class="steps">
             <div class="step">
               <span class="num">1</span>
-              <div><strong>`app.ax`</strong><span>The source of truth for what the app is for, what it can access, what needs approval, and what must be audited.</span></div>
+              <div><strong>`app.ax`</strong><span>The readable source for what the app is for, what it can access, what needs approval, and what must be audited.</span></div>
             </div>
             <div class="step">
               <span class="num">2</span>
-              <div><strong>Agent instructions</strong><span>`AGENTS.md`, `CLAUDE.md`, Cursor rules, or generic instructions tell the agent to update the contract first.</span></div>
+              <div><strong>Generated artifacts</strong><span>Policy evaluators, route skeletons, approval contracts, broker guards, audit contracts, and tests make the rules executable.</span></div>
             </div>
             <div class="step">
               <span class="num">3</span>
-              <div><strong>Policy simulations</strong><span>Starter scenarios prove allow and approval paths before generated artifacts are used.</span></div>
+              <div><strong>Policy simulations</strong><span>Starter scenarios prove allow, deny, and approval paths before generated artifacts are used.</span></div>
             </div>
           </div>
         </div>
@@ -597,7 +598,7 @@ axiom verify app.ax --target typescript --out generated --write</pre>
             <article class="card">
               <span class="tag">No model policy</span>
               <h3>LLMs do not decide access</h3>
-              <p>Models can draft and explain, but final policy decisions must remain deterministic.</p>
+              <p>Models can draft and explain, but final policy decisions must be made by deterministic app code.</p>
             </article>
           </div>
         </div>

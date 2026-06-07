@@ -8,11 +8,11 @@
 ![Package: not yet published](https://img.shields.io/badge/npm-not_yet_published-5c6871)
 
 **Status:** Experimental CLI prototype and concept specification  
-**Purpose:** AI-native language and runtime model for building capability-bound, policy-verifiable applications.  
+**Purpose:** Generate deterministic guardrails for AI-assisted applications from readable capability contracts.
 
-Axiom is an experimental language concept for building software with AI agents without treating generated application code as the real source of truth.
+Axiom is an experimental CLI and language concept for building AI-assisted software where sensitive actions are checked by generated code, not by model obedience.
 
-The repo now includes a first usable MVP: a dependency-light Node CLI that parses `.ax` files, validates capability contracts, reports permission and disclosure problems, and generates initial TypeScript and Python policy artifacts.
+The repo now includes a first usable MVP: a dependency-light Node CLI that parses `.ax` files, validates capability contracts, reports permission and disclosure problems, simulates allow/deny/approval decisions, and generates TypeScript and Python policy artifacts, route gates, approval checks, audit contracts, runtime guards, and tests.
 
 ![Axiom agent-first workflow](assets/png/agent-first-workflow.png)
 
@@ -26,7 +26,7 @@ The package is intentionally still marked `"private": true`. Packaging work in t
 
 Prerequisite: Node.js 20 or newer.
 
-The open-source flow is designed for a human who installs Axiom and an AI coding agent that uses it inside a project.
+The open-source flow is designed for a human who installs Axiom and an AI coding agent that works inside a project, with generated checks available for ordinary app code to enforce.
 
 For the shortest local try:
 
@@ -170,9 +170,9 @@ The current CLI cannot yet:
 
 In ordinary development, a human or agent writes framework code first: React components, API routes, database models, middleware, tests, deployment config. Security and intent are scattered across comments, docs, auth checks, policy files, test suites, and memory.
 
-Axiom reverses that order.
+Axiom changes that order.
 
-The source of truth is an executable intent graph:
+The contract becomes an executable enforcement graph:
 
 - what the system is for
 - what actors may request
@@ -187,7 +187,7 @@ The source of truth is an executable intent graph:
 
 Axiom should eventually compile that graph into ordinary software artifacts: TypeScript, Python, FastAPI routes, React UI, policy rules, tests, audit schemas, deployment manifests, and runtime guards. Today, this repo implements the smaller open-source core: contract validation, policy simulation, TypeScript and Python policy artifacts, generated policy tests, generated Node route/approval/integration contracts, and runnable examples.
 
-The goal is not prettier syntax. The goal is safer agency.
+The goal is not prettier syntax or longer prompts. The goal is to put sensitive actions behind deterministic checks the model does not control.
 
 ## Editions
 
@@ -199,13 +199,13 @@ The open-source version needs to be useful by itself. The future editions should
 
 ## One-Sentence Definition
 
-Axiom is an AI-native programming model where applications are authored as constrained worlds of intent, capability, data sensitivity, policy, brokered effects, approval gates, and audit obligations, then compiled into ordinary deployable software.
+Axiom turns readable capability contracts into generated policy evaluators, approval gates, broker guards, audit contracts, runtime checks, and tests for ordinary application code.
 
 ## The Core Bet
 
 AI agents should not be trusted because they are authenticated, useful, convincing, or locally running in a developer tool.
 
-They should be able to act only through narrow, declared, policy-checked capabilities.
+They should be able to act only through narrow, declared, policy-checked capabilities, and the policy decision should happen outside the model.
 
 Axiom makes this pattern native.
 
@@ -213,13 +213,13 @@ Axiom makes this pattern native.
 
 Axiom is:
 
-- a source-of-truth layer above normal application frameworks
+- a readable contract layer above normal application frameworks
 - a capability definition language
 - a policy and approval contract language
 - a threat-model-aware compiler
-- a runtime enforcement layer
+- a generator for runtime enforcement artifacts
 - a semantic audit generator
-- a way for agents to build software without silently expanding their own authority
+- a way to keep AI-assisted software from silently expanding its own authority
 
 ## What Axiom Is Not
 
@@ -231,6 +231,7 @@ Axiom is not:
 - a general-purpose scripting language
 - a magical zero-day shield
 - a reason to skip ordinary security engineering
+- a way to make LLMs obey prompts
 - a way for models to decide policy
 - a broad memory or secret retrieval interface
 - a framework that should be used for every small website

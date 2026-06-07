@@ -4,7 +4,7 @@ Axiom OS needs to work for people who build with AI coding agents, not only for 
 
 Many users will not begin by reading the Axiom language spec. They will begin by asking Codex, Claude, Cursor, Copilot, or another agent to build an app. Axiom needs an instruction layer that tells those agents how to introduce capability contracts before implementation code drifts into unsafe authority.
 
-This instruction layer is not the source of truth. The `.ax` contract remains the source of truth.
+This instruction layer is not the enforcement boundary. The `.ax` contract remains the readable authority, and generated checks are what app code can enforce.
 
 The instruction layer is the bridge:
 
@@ -44,7 +44,7 @@ This is the minimum instruction a user should be able to paste into a coding age
 ```text
 Use Axiom before writing implementation code.
 
-Create or update app.ax as the source of truth for this app's intent, actors, sensitive data, capabilities, policy, approvals, external effects, broker behavior, and audit obligations.
+Create or update app.ax as the readable contract authority for this app's intent, actors, sensitive data, capabilities, policy, approvals, external effects, broker behavior, and audit obligations.
 
 Do not add routes, tools, background jobs, or UI actions that bypass app.ax.
 

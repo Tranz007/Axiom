@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Axiom | Governance for software built by AI agents</title>
+    <title>Axiom | Generated guardrails for AI-assisted apps</title>
     <meta
       name="description"
-      content="Axiom helps teams define what AI coding agents can access, what actions need approval, what must never be exposed, and what evidence must be captured before software is built or modified."
+      content="Axiom turns readable app rules into generated policy checks, approval gates, audit contracts, runtime guards, and tests for AI-assisted software."
     />
     <link rel="icon" type="image/svg+xml" href="assets/svg/axiom-mark.svg" />
     <style>
@@ -454,12 +454,12 @@
     <header class="hero">
       <div class="wrap">
         <div class="hero-copy">
-          <p class="eyebrow">Governance for AI-built software</p>
-          <h1>Control what AI coding agents are allowed to do.</h1>
+          <p class="eyebrow">Generated guardrails for AI-assisted apps</p>
+          <h1>Build with rules the model does not get to ignore.</h1>
           <p class="lead">
-            Axiom helps teams define what agents can access, what actions need approval,
-            what must never be exposed, and what evidence should be captured before software
-            is built or changed.
+            Axiom turns a readable app contract into generated policy checks, approval gates,
+            audit contracts, runtime guards, and tests. The LLM can propose actions, but
+            ordinary code decides what is allowed to execute.
           </p>
           <div class="actions">
             <a class="button primary" href="docs/axiom-os.html">Explore Axiom OS</a>
@@ -483,11 +483,11 @@
     <main>
       <section class="band" id="problem">
         <div class="wrap">
-          <h2>AI agents are changing how software gets built.</h2>
+          <h2>AI agents can write code faster than teams can review boundaries.</h2>
           <p class="section-lead">
             They do more than autocomplete code. They can create files, wire services,
-            connect APIs, change workflows, and touch data. That speed is useful, but it
-            can outrun the review and approval processes teams rely on.
+            connect APIs, change workflows, and touch data. Prompt instructions help,
+            but they are not an enforcement boundary.
           </p>
           <div class="grid">
             <article class="card">
@@ -512,11 +512,11 @@
       <section class="band" id="solution">
         <div class="wrap two-col">
           <div>
-            <h2>Axiom defines the rules before the agent builds.</h2>
+            <h2>Axiom generates the checks before risky code runs.</h2>
             <p class="section-lead">
-              Axiom gives a project a local contract: what the software is supposed to do,
-              what data it can touch, which actions need approval, which paths are denied,
-              and what evidence should be recorded.
+              Axiom gives a project a local contract and turns it into concrete artifacts:
+              policy evaluators, route gates, approval payload checks, broker guards,
+              audit requirements, and tests developers can wire into the app.
             </p>
             <div class="actions">
               <a class="button primary" href="docs/risks.html">Why Axiom</a>
@@ -534,15 +534,15 @@
             <article class="step">
               <span class="num">2</span>
               <div>
-                <h3>Agent reads the contract</h3>
-                <p>The coding agent uses project-level boundaries before making implementation choices.</p>
+                <h3>Axiom generates guardrails</h3>
+                <p>The contract becomes deterministic checks, runtime guards, route skeletons, and tests.</p>
               </div>
             </article>
             <article class="step">
               <span class="num">3</span>
               <div>
-                <h3>Project checks the result</h3>
-                <p>Axiom validates, simulates, generates artifacts, and verifies alignment with the contract.</p>
+                <h3>App code enforces the decision</h3>
+                <p>The model can draft an action, but generated policy code decides allow, deny, or approval.</p>
               </div>
             </article>
           </div>
@@ -551,10 +551,10 @@
 
       <section class="band" id="controls">
         <div class="wrap">
-          <h2>What Axiom helps teams define</h2>
+          <h2>What Axiom turns into code</h2>
           <p class="section-lead">
-            The first layer is plain language. The developer layer turns those decisions into
-            capabilities, policies, generated guards, tests, and reports.
+            The first layer is readable enough for a human to inspect. The developer layer
+            is generated enough for ordinary software to test and enforce.
           </p>
           <div class="grid">
             <article class="card">
@@ -589,8 +589,8 @@
               <span class="tag">Available now</span>
               <h3>Axiom OS</h3>
               <p>
-                The open-source foundation for builders and AI coding agents. Use it locally
-                to define contracts, validate rules, simulate policy behavior, and generate artifacts.
+                The open-source foundation for AI-assisted apps. Use it locally to define
+                contracts, validate rules, simulate policy behavior, and generate enforcement artifacts.
               </p>
               <a class="button primary" href="docs/axiom-os.html">Explore Axiom OS</a>
             </article>
@@ -629,9 +629,10 @@
           <div class="callout">
             <h2>What it is not yet</h2>
             <p>
-              It does not generate a full production application, replace framework code,
-              enforce every runtime request, or guarantee security by itself. It is a
-              foundation for safer agent-assisted development.
+              It does not make LLMs obedient, generate a full production application,
+              replace framework code, enforce every runtime request, or guarantee security
+              by itself. It is a foundation for wiring deterministic guardrails into
+              AI-assisted development.
             </p>
           </div>
         </div>
@@ -642,9 +643,9 @@
           <div>
             <h2>For builders, it stays concrete.</h2>
             <p class="section-lead">
-              The public story starts in plain English, but Axiom still has real local
-              mechanics underneath: contracts, validation, simulation, generated artifacts,
-              generated tests, and verification reports.
+              The public story starts in plain English, but the proof is local and runnable:
+              generated policy evaluators, route gates, approval checks, audit contracts,
+              tests, and verification reports.
             </p>
             <div class="actions">
               <a class="button primary" href="docs/axiom-os.html#flow">Run the first loop</a>

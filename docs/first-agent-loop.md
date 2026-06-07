@@ -55,7 +55,7 @@ node --test my-axiom-app/generated-tests/axiom-policy.test.mjs
 - Prefer `axiom try` for first-time local evaluation, then switch to the explicit loop once the project exists.
 - Use `axiom define --guided` when the human needs to create or update the contract rules in plain language.
 - Summarize only the result and the changed capability, policy, or generated artifact.
-- Keep `app.ax` as the source of truth.
+- Keep `app.ax` as the readable contract authority.
 - If `app.ax` changes, run `axiom next` again.
 
 ## Expected Shape

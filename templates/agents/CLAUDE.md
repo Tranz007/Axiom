@@ -2,7 +2,7 @@
 
 Use Axiom before writing implementation code.
 
-Create or update `app.ax` as the source of truth for this app's intent, actors, sensitive data, capabilities, policy, approvals, external effects, broker behavior, and audit obligations.
+Create or update `app.ax` as the readable contract authority for this app's intent, actors, sensitive data, capabilities, policy, approvals, external effects, broker behavior, and audit obligations.
 
 Do not add routes, tools, background jobs, or UI actions that bypass `app.ax`.
 

@@ -6,7 +6,7 @@
     <title>How Axiom Works | Axiom</title>
     <meta
       name="description"
-      content="How Axiom turns intent, access rules, approvals, denied actions, and audit needs into project-level contracts for AI coding agents."
+      content="How Axiom turns app rules into generated policy checks, approval gates, audit contracts, route skeletons, runtime guards, and tests."
     />
     <link rel="icon" type="image/svg+xml" href="../assets/svg/axiom-mark.svg" />
     <style>
@@ -339,11 +339,12 @@
     <header>
       <div class="wrap">
         <p class="eyebrow">How it works</p>
-        <h1>Turn intent into rules an agent can build against.</h1>
+        <h1>Turn app rules into checks the model does not control.</h1>
         <p class="lead">
           Axiom starts before implementation. A human defines the intended behavior and
-          boundaries. The coding agent reads those boundaries while building. The project
-          can validate, simulate, generate, and verify artifacts against the contract.
+          boundaries. Axiom validates and simulates those rules, then generates policy
+          evaluators, approval checks, audit contracts, route skeletons, guards, and tests
+          that developers can wire into ordinary code.
         </p>
       </div>
     </header>
@@ -361,8 +362,8 @@
           <article class="step">
             <span class="num">2</span>
             <div>
-              <h3>Let the agent read the rules</h3>
-              <p>The agent can inspect the contract before it chooses APIs, stores data, calls tools, or changes workflows.</p>
+              <h3>Generate enforcement artifacts</h3>
+              <p>Create policy evaluators, approval checks, broker guards, route skeletons, audit contracts, and tests.</p>
             </div>
           </article>
           <article class="step">
@@ -382,8 +383,8 @@
           <article class="step">
             <span class="num">5</span>
             <div>
-              <h3>Generate and verify artifacts</h3>
-              <p>Create policy evaluators, tests, reports, guards, and contract files developers can wire into the app.</p>
+              <h3>Wire the checks into app code</h3>
+              <p>The LLM can draft an action, but generated policy code should decide allow, deny, or approval before execution.</p>
             </div>
           </article>
         </div>
@@ -395,9 +396,9 @@
             <h2>Plain language first. Developer detail second.</h2>
             <p class="section-lead">
               Axiom is useful because the same decision can be understood by a product owner,
-              a security reviewer, and a coding agent. The public layer talks about access,
+              a security reviewer, and a developer. The public layer talks about access,
               approval, denied actions, and evidence. The developer layer turns those into
-              capabilities, policies, generated checks, and tests.
+              capabilities, policies, generated checks, route gates, and tests.
             </p>
           </div>
           <pre>capability send_customer_message
@@ -419,8 +420,9 @@
         <div class="wrap">
           <h2>What the contract covers</h2>
           <p class="section-lead">
-            The goal is not to replace every security tool. The goal is to make the most
-            important agent-facing boundaries visible before code is generated or changed.
+            The goal is not to replace every security tool, and it is not to make a model
+            obedient through longer prompts. The goal is to make the most important
+            agent-facing boundaries visible, generated, testable, and wired into the app.
           </p>
           <div class="cards">
             <article class="card">
@@ -449,7 +451,7 @@
 
     <footer>
       <div class="wrap">
-        Axiom turns project intent and boundaries into files that humans, agents, and build tools can inspect.
+        Axiom turns project intent and boundaries into generated checks that humans, developers, and build tools can inspect.
       </div>
     </footer>
 

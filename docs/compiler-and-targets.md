@@ -38,11 +38,11 @@ For a web application, Axiom may generate:
 - deployment manifests
 - CI checks
 
-## Source Of Truth
+## Contract Authority
 
-In an Axiom project, generated framework code is not the highest-level source of truth.
+In an Axiom project, generated framework code is not the highest-level authority.
 
-The source of truth is:
+The readable contract authority is:
 
 ```text
 app.ax

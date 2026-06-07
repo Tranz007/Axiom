@@ -484,8 +484,8 @@
         <h1><span>What Axiom adds</span> <span>beyond existing languages.</span></h1>
         <p class="lead">
           Axiom is not trying to replace Python, TypeScript, Rust, SQL, React, or policy engines.
-          It sits above them as an AI-native source of truth for intent, capability, policy,
-          sensitive disclosure, approval, brokered execution, audit, and deployment constraints.
+          It sits above them as a contract and enforcement layer for intent, capability,
+          policy, sensitive disclosure, approval, brokered execution, audit, and deployment constraints.
         </p>
         <div class="summary-grid">
           <div class="metric">
@@ -513,8 +513,8 @@
         <strong>Practical position:</strong>
         Axiom should be built as a layer, not a replacement. The ordinary stack can remain
         FastAPI, Pydantic, SQLAlchemy, Next.js, TypeScript, pytest, Docker, or equivalent tools. Axiom defines the
-        current capability contracts, policy simulation, generated policy artifacts, audit obligations,
-        and generated tests above that stack.
+        current capability contracts, policy simulation, generated route gates, approval checks,
+        policy artifacts, audit obligations, and generated tests above that stack.
       </section>
 
       <section>
@@ -523,10 +523,10 @@
           <div class="panel">
             <h3>Axiom Is</h3>
             <ul>
-              <li>A source-of-truth layer above normal application frameworks.</li>
+              <li>A readable contract layer above normal application frameworks.</li>
               <li>A capability, policy, approval, broker, and audit contract language.</li>
-              <li>A way for agents to build without silently expanding their own authority.</li>
-              <li>A current generator for TypeScript and Python policy artifacts, with broader compiler targets planned.</li>
+              <li>A way to keep AI-assisted apps from silently expanding their own authority.</li>
+              <li>A current generator for TypeScript and Python policy artifacts, route skeletons, approval checks, audit contracts, and tests.</li>
             </ul>
           </div>
           <div class="panel">
@@ -535,6 +535,7 @@
               <li>Not a replacement for Python, TypeScript, Rust, SQL, React, or browsers.</li>
               <li>Not JSON/YAML with grander naming.</li>
               <li>Not a magical zero-day shield.</li>
+              <li>Not a way to make LLMs obey prompts.</li>
               <li>Not useful for every simple app or static site.</li>
             </ul>
           </div>
@@ -741,11 +742,11 @@
           <p>
             The first credible Axiom OS release should stay small and practical:
             a structured capability spec format, policy simulation, generated policy artifacts,
-            runnable tests, and tiny examples. A full framework compiler can come later.
+            route gates, approval checks, runnable tests, and tiny examples. A full framework compiler can come later.
           </p>
           <p>
-            The point is not to make a beautiful theory. The point is to stop agent-built systems
-            from becoming broader, leakier, and less accountable than the human intended.
+            The point is not to make a beautiful theory or longer prompts. The point is to
+            put risky agent-proposed actions behind checks that ordinary app code can enforce.
           </p>
         </div>
       </section>

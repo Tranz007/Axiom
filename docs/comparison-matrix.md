@@ -10,7 +10,7 @@ Axiom is not meant to compete with Python, TypeScript, Rust, SQL, or React as a 
 
 Axiom sits above them.
 
-It is an AI-native application specification, verification, and enforcement language where the source of truth is not just code, but a graph of:
+It is a contract, verification, and enforcement layer where readable app rules become a graph of:
 
 - intent
 - actors
@@ -24,7 +24,7 @@ It is an AI-native application specification, verification, and enforcement lang
 - invariants
 - deployment constraints
 
-Axiom should eventually compile those contracts into ordinary code, tests, policy artifacts, UI requirements, runtime guards, and deployment manifests. The current open-source core starts smaller: contract validation, policy simulation, TypeScript and Python policy artifacts, generated tests, and runnable examples.
+Axiom should eventually compile those contracts into ordinary code, tests, policy artifacts, UI requirements, runtime guards, and deployment manifests. The current open-source core starts smaller: contract validation, policy simulation, TypeScript and Python policy artifacts, generated route and approval skeletons, generated tests, and runnable examples.
 
 ## What Axiom Is Best Compared To
 
@@ -39,9 +39,9 @@ Axiom is closest to a combination of:
 - state machines
 - audit schemas
 - capability security
-- AI-agent operating rules
+- generated guardrails for AI-assisted code
 
-But none of those alone makes agent authority, sensitive data disclosure, approval, brokered execution, and auditability the primary programming model.
+But none of those alone turns agent authority, sensitive data disclosure, approval, brokered execution, and auditability into generated checks that app code can enforce.
 
 That is Axiom's intended gap.
 

@@ -23,7 +23,7 @@ The editions should differ by audience and assurance requirements, not by fragme
 
 Axiom OS is the local open-source consumer and developer edition.
 
-Its job is to prove the language, earn trust, and give developers a useful local tool for building safer agent-facing software.
+Its job is to prove the language, earn trust, and give developers a useful local tool for generating enforceable guardrails around AI-assisted software.
 
 It should include:
 
@@ -52,7 +52,7 @@ inspect everything locally
 
 The planned public promise:
 
-> Open-source AI-native capability contracts for safer agent-built software.
+> Open-source capability contracts that generate guardrails for AI-assisted software.
 
 ## Axiom Enterprise
 
