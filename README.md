@@ -14,6 +14,12 @@ Axiom is an experimental CLI and language concept for building AI-assisted softw
 
 The repo now includes a first usable MVP: a dependency-light Node CLI that parses `.ax` files, validates capability contracts, reports permission and disclosure problems, simulates allow/deny/approval decisions, and generates TypeScript and Python policy artifacts, route gates, approval checks, audit contracts, runtime guards, and tests.
 
+Axiom itself does not connect to an LLM or spend model tokens. Token cost only
+appears when a human or coding agent chooses to put Axiom content into model
+context. The intended workflow is compact local commands, targeted simulations,
+diffs, generated tests, and short summaries instead of pasting full contracts,
+reports, or generated files into chat.
+
 ![Axiom agent-first workflow](assets/png/agent-first-workflow.png)
 
 ## Current Status
@@ -298,7 +304,7 @@ See [docs/why-axiom.md](docs/why-axiom.md).
 - [docs/language-overview.md](docs/language-overview.md): core concepts and syntax
 - [docs/runtime-model.md](docs/runtime-model.md): build-time, runtime, frontend, backend, deployment
 - [docs/security-model.md](docs/security-model.md): security posture, threats, capability isolation
-- [docs/token-budget.md](docs/token-budget.md): context and token-budget constraints for agent use
+- [docs/token-budget.md](docs/token-budget.md): why Axiom itself does not spend LLM tokens, plus context-budget constraints for agent use
 - [docs/first-agent-loop.md](docs/first-agent-loop.md): compact golden path for agent use
 - [docs/setting-axiom-rules.md](docs/setting-axiom-rules.md): how users create and update the contract
 - [docs/setting-axiom-rules.html](docs/setting-axiom-rules.html): public-facing page for setting the contract

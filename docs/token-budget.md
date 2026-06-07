@@ -2,6 +2,17 @@
 
 Axiom should reduce what an agent needs to keep in context.
 
+Axiom itself does not connect to an LLM and does not consume model tokens. The
+CLI runs locally: `validate`, `doctor`, `next`, `diff`, `simulate`, `generate`,
+`verify`, and generated tests are ordinary local commands.
+
+Token cost appears only when a human or coding agent chooses to put Axiom
+content into an LLM context window. That can be done well or badly. Pasting a
+full language spec, full `app.ax`, generated directory, verification report, or
+large docs bundle into chat will waste tokens. Running focused Axiom commands
+and summarizing the relevant result should save tokens compared with repeatedly
+explaining the same boundaries to a model.
+
 The default rule:
 
 ```text
@@ -18,8 +29,10 @@ For external models, Axiom should be token-frugal by default:
 - summarize changed capabilities, data classes, policy decisions, and approval paths
 - reference file paths instead of copying whole artifacts
 - use `axiom next` for one practical next step
+- use `axiom doctor` for compact project readiness
 - use `axiom diff` to show contract changes without dumping both contracts
 - use `axiom simulate` for targeted policy paths
+- use generated tests to verify behavior outside the model context
 
 Internal or deployed models may use richer context when the user controls the cost and context budget.
 
@@ -40,6 +53,17 @@ Agents should avoid:
 - pasting full verification reports unless requested
 - loading every Axiom doc for a local implementation task
 - treating Axiom as a human-facing governance manual
+
+## Public Claim
+
+The public claim should stay narrow:
+
+```text
+Axiom itself does not spend LLM tokens. It is a local CLI and generator.
+Token use depends on how a human or coding agent uses Axiom with a model.
+The intended workflow is compact local commands, targeted simulations, diffs,
+generated tests, and short summaries, not dumping Axiom files into chat.
+```
 
 The goal is a simple loop:
 
